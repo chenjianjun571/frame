@@ -45,7 +45,7 @@ namespace NAME_SPACE {
     _client_ip(inet_ntoa(sa->sin_addr)),
     _client_port(ntohs(sa->sin_port)),
     _bev(nullptr),
-    _heart_flg(false),
+    _heart_num(0),
     _heart_time(heart_time),
     _pTCPClientSignal(nullptr)
     {}
@@ -77,6 +77,9 @@ namespace NAME_SPACE {
             _bev = nullptr;
             return false;
         }
+
+        // 心跳计数
+        _heart_num = 0;
         
         _pTCPClientSignal = pTCPClientSignal;
         // 设置心跳检测时间
@@ -121,8 +124,8 @@ namespace NAME_SPACE {
     
     void PassiveTCPClient::PutRecvData(void* data, size_t len) {
         
-        // 置标志，表明有数据来往
-        _heart_flg = true;
+        // 有数据往来,心跳计数清零
+        _heart_num = 0;
 
         if (_pTCPClientSignal) {
             _pTCPClientSignal->SignalRecvData(_fd, data, len);
@@ -135,13 +138,13 @@ namespace NAME_SPACE {
             return;
         }
         
-        if (ENE_HEART_TIMEOUT == event) {
-            LOG(INFO)<<"心跳检测超时.";
-            //如果心跳超时，期间有数据接收，那么清标志
-            if (_heart_flg) {
-                _heart_flg = false;
-                return;
+        if (ENE_HEART == event) {
+
+            // 如果超过三次，说明服务器已经死了，这个时候需要关闭
+            if(++_heart_num > 2) {
+                event = ENE_HEART_TIMEOUT;
             }
+
         }
 
         _pTCPClientSignal->SignalEvent(_fd, event);

@@ -95,8 +95,8 @@ namespace NAME_SPACE {
         struct bufferevent *_bev;
         // 心跳事件器
         struct event *_event;
-        // 心跳标志
-        volatile bool _heart_flg;
+        // 心跳计数
+        unsigned char _heart_num;
     };
     
 }
