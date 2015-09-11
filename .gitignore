@@ -28,3 +28,11 @@
 *.app
 .DS_Store
 
+# QT
+*.config
+*.creator
+*.files
+*.includes
+debug
+release
+
