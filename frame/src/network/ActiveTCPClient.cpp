@@ -38,10 +38,7 @@ namespace NAME_SPACE {
             evbuffer_remove(bev->input, databuf+datalen, sizeof(databuf)-datalen);
             datalen += nbytes;
         }
-        
-        // 有数据往来，设置标志
-        pActiveTCPClient->SetHeartFlg(true);
-        
+
         // 数据接收回调
         pActiveTCPClient->PutRecvData(databuf, datalen);
         
@@ -53,7 +50,6 @@ namespace NAME_SPACE {
     _heart_time(heart_time),
     _bev(nullptr),
     _pTCPClientSignal(nullptr),
-    _heart_flg(false),
     _heart_num(0),
     _event(nullptr),
     _connect_flg(0),

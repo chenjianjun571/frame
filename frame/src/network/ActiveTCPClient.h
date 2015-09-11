@@ -54,8 +54,6 @@ namespace NAME_SPACE {
         int SendData(void* pdata, size_t len);
         
         SOCKET GetFd() { return _fd; }
-        void SetHeartFlg(bool flg) { _heart_flg = flg; }
-        bool GetHeartFlg() { return _heart_flg; }
         bool IsConnect() { return _connect_flg == 2;}
         
     public:
@@ -94,8 +92,6 @@ namespace NAME_SPACE {
         SOCKET _fd;
         // 心跳事件器
         struct event *_event;
-        // 心跳标志
-        volatile bool _heart_flg;
         // 心跳计数
         unsigned char _heart_num;
         // 读写锁
