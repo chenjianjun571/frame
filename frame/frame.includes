@@ -1,0 +1,9 @@
+src
+src/base
+src/config
+src/db
+src/memory_manager
+src/mempool
+src/network
+src/process_controll
+src/tools
