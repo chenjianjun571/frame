@@ -106,7 +106,7 @@ typedef struct stRecvData
 // 接受数据智能指针
 typedef std::shared_ptr<TRecvData> sRecvDataPage_ptr;
 
-struct stSendData
+typedef struct stSendData
 {
     char buf[10240];
     size_t len;
