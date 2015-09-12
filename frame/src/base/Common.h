@@ -85,6 +85,7 @@ typedef struct stRecvData
     /// 连接句柄
     int sock_handle;
 
+    /// TODO 编译有警告，后期需要处理
     /// 数据
     void* data;
 
@@ -104,5 +105,24 @@ typedef struct stRecvData
 }TRecvData;
 // 接受数据智能指针
 typedef std::shared_ptr<TRecvData> sRecvDataPage_ptr;
+
+struct stSendData
+{
+    char buf[10240];
+    size_t len;
+
+    /// 连接句柄
+    int sock_handle;
+
+    stSendData()
+    {
+        memset(buf, 0, sizeof(buf));
+        len = -1;
+        type = COMMUNI_INVALID;
+        handle = ACE_INVALID_HANDLE;
+    }
+}TSendData;
+// 发送数据智能指针
+typedef std::shared_ptr<TSendData> sSendDataPage_ptr;
 
 #endif
