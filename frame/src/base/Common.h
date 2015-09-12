@@ -22,13 +22,15 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
-#include <glog/logging.h>
 #include <string>
+#include <memory>
 #include <event.h>
 #include <event2/listener.h>
+#include <glog/logging.h>
 #include <mysql++/cpool.h>
 #include <mysql++/scopedconnection.h>
 #include <mysql++/connection.h>
+
 
 #define NAME_SPACE jsbn
 
@@ -69,5 +71,38 @@ typedef enum emNetEvent {
     ENE_CLOSE// 连接关闭
 }EM_NET_EVENT;
 
+
+
+// c++11特性不熟悉，先暂时使用boost的智能指针
+typedef struct stRecvData
+{
+    /// 消息ID：即消息的数据类型
+    int command_id;
+    /// 消息序列号(请求与应答一一对应)
+    int sequence_id;
+    /// 命令状态(应答包使用)
+    int status_id;
+    /// 连接句柄
+    int sock_handle;
+
+    /// 数据
+    void* data;
+
+    stRecvData()
+    {
+        sock_handle = -1;
+        status_id = -1;
+        data = nullptr;
+    }
+
+    ~stRecvData()
+    {
+        delete data;
+        data = nullptr;
+    }
+
+}TRecvData;
+// 接受数据智能指针
+typedef std::shared_ptr<TRecvData> sRecvDataPage_ptr;
 
 #endif
