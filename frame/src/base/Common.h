@@ -116,10 +116,8 @@ struct stSendData
 
     stSendData()
     {
-        memset(buf, 0, sizeof(buf));
+        ::memset(buf, 0, sizeof(buf));
         len = -1;
-        type = COMMUNI_INVALID;
-        handle = ACE_INVALID_HANDLE;
     }
 }TSendData;
 // 发送数据智能指针
