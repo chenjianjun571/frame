@@ -73,7 +73,7 @@ typedef enum emNetEvent {
 
 
 
-// c++11特性不熟悉，先暂时使用boost的智能指针
+// 智能指针
 typedef struct stRecvData
 {
     /// 消息ID：即消息的数据类型
@@ -84,40 +84,38 @@ typedef struct stRecvData
     int status_id;
     /// 连接句柄
     int sock_handle;
-
-    /// TODO 编译有警告，后期需要处理
-    /// 数据
-    void* data;
+    /// 接收数据数据
+    char recv_buf[5120];
 
     stRecvData()
     {
+        command_id = -1;
         sock_handle = -1;
         status_id = -1;
-        data = nullptr;
+        ::memset(recv_buf, 0, sizeof(recv_buf));
     }
 
     ~stRecvData()
     {
-        delete data;
-        data = nullptr;
     }
 
 }TRecvData;
-// 接受数据智能指针
+// 接收数据智能指针
 typedef std::shared_ptr<TRecvData> sRecvDataPage_ptr;
 
 typedef struct stSendData
 {
-    char buf[10240];
-    size_t len;
-
+    /// 发送数据缓冲区
+    char send_buf[5120];
+    /// 发送数据长度
+    size_t send_len;
     /// 连接句柄
     int sock_handle;
 
     stSendData()
     {
-        ::memset(buf, 0, sizeof(buf));
-        len = -1;
+        ::memset(send_buf, 0, sizeof(send_buf));
+        send_len = -1;
     }
 }TSendData;
 // 发送数据智能指针

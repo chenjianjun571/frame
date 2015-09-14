@@ -15,9 +15,14 @@
 
 namespace NAME_SPACE {
 
-    void delete_send_page(stSendData* p)//一个可执行任意功能的函数
+    void delete_send_page(stSendData* p)
     {
         CObjectAllocator<stSendData>::get_instance()->free(p);
+    }
+
+    void delete_recv_page(stRecvData* p)
+    {
+        CObjectAllocator<stRecvData>::get_instance()->free(p);
     }
 
     CMallocStructFactory& CMallocStructFactory::Instance()
@@ -27,17 +32,17 @@ namespace NAME_SPACE {
         return instance;
     }
 
-    CMallocStructFactory::CMallocStructFactory()
-    {
-    }
+    CMallocStructFactory::CMallocStructFactory() {}
 
-    CMallocStructFactory::~CMallocStructFactory()
-    {
-    }
+    CMallocStructFactory::~CMallocStructFactory() {}
 
     sSendDataPage_ptr CMallocStructFactory::get_send_page()
     {
         return sSendDataPage_ptr(CObjectAllocator<stSendData>::get_instance()->malloc(), delete_send_page);
     }
 
+    sRecvDataPage_ptr CMallocStructFactory::get_recv_page()
+    {
+        return sRecvDataPage_ptr(CObjectAllocator<stRecvData>::get_instance()->malloc(), delete_recv_page);
+    }
 }
