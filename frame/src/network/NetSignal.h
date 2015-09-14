@@ -33,7 +33,7 @@ namespace NAME_SPACE {
         ~TCPClientSignal() {}
         
         // 数据接收连接器
-        sigslot::signal3<SOCKET, void*, size_t> SignalRecvData;
+        sigslot::signal3<SOCKET, sRecvDataPage_ptr& > SignalRecvData;
         // 套接字事件处理器
         sigslot::signal2<SOCKET, EM_NET_EVENT> SignalEvent;
     };

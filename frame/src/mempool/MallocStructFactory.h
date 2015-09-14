@@ -16,7 +16,7 @@
 
 namespace NAME_SPACE {
 
-    class CMallocStructFactory
+    class MallocStructFactory
     {
     public:
         //////////////////////////////////////////////////////////////////////////
@@ -26,7 +26,7 @@ namespace NAME_SPACE {
         ///
         ///@return 本类的唯一实例
         //////////////////////////////////////////////////////////////////////////
-        static CMallocStructFactory& Instance();
+        static MallocStructFactory& Instance();
 
         //////////////////////////////////////////////////////////////////////////
         ///@brief 获取一个发送数据包区
@@ -47,11 +47,11 @@ namespace NAME_SPACE {
         sRecvDataPage_ptr get_recv_page();
 
     private:
-        CMallocStructFactory();
-        CMallocStructFactory(const CMallocStructFactory &other);
-        CMallocStructFactory& operator=(const CMallocStructFactory &other);
+        MallocStructFactory();
+        MallocStructFactory(const MallocStructFactory &other);
+        MallocStructFactory& operator=(const MallocStructFactory &other);
 
-        ~CMallocStructFactory();
+        ~MallocStructFactory();
     };
 
 }

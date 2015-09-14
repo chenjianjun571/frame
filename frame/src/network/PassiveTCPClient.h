@@ -66,7 +66,7 @@ namespace NAME_SPACE {
          *	@param 	void* 数据
          *	@param 	size_t 数据长度
          */
-        void PutRecvData(void*, size_t);
+        void PutRecvData(sRecvDataPage_ptr&);
 
         /**
          *	@brief	事件处理，此函数外部禁止调用，用于event事件回调函数调用

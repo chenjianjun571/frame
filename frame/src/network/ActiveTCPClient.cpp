@@ -8,6 +8,7 @@
 
 #include "ActiveTCPClient.h"
 #include "NetFrame.h"
+#include "../mempool/MallocStructFactory.h"
 
 namespace NAME_SPACE {
     
@@ -30,7 +31,6 @@ namespace NAME_SPACE {
         
         ActiveTCPClient* pActiveTCPClient = (ActiveTCPClient*)data;
 
-        static char databuf[RECV_DATA_MAX_PACKET_SIZE];
         PacketLength datalen = 0;
         PacketLength nbytes = 0;
 
@@ -58,9 +58,12 @@ namespace NAME_SPACE {
             }
 
             // 取出完整的数据包
-            evbuffer_remove(bev->input, databuf, datalen);
+            sRecvDataPage_ptr pData = MallocStructFactory::Instance().get_recv_page();
+            pData->recv_len = datalen;
+            evbuffer_remove(bev->input, pData->recv_buf, datalen);
+
             // 数据接收回调
-            pActiveTCPClient->PutRecvData(databuf+kPacketLenSize, datalen);
+            pActiveTCPClient->PutRecvData(pData);
 
         } while (true);
 
@@ -200,13 +203,13 @@ namespace NAME_SPACE {
         _pTCPClientSignal->SignalEvent(_fd, event);
     }
     
-    void ActiveTCPClient::PutRecvData(void* data, size_t len) {
+    void ActiveTCPClient::PutRecvData(sRecvDataPage_ptr& pdata) {
         
         // 有数据往来,心跳计数清零
         _heart_num = 0;
 
         if (_pTCPClientSignal) {
-            _pTCPClientSignal->SignalRecvData(_fd, data, len);
+            _pTCPClientSignal->SignalRecvData(_fd, pdata);
         }
         
     }

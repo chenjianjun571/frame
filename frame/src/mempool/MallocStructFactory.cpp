@@ -25,23 +25,23 @@ namespace NAME_SPACE {
         CObjectAllocator<stRecvData>::get_instance()->free(p);
     }
 
-    CMallocStructFactory& CMallocStructFactory::Instance()
+    MallocStructFactory& MallocStructFactory::Instance()
     {
-        static CMallocStructFactory instance;
+        static MallocStructFactory instance;
 
         return instance;
     }
 
-    CMallocStructFactory::CMallocStructFactory() {}
+    MallocStructFactory::MallocStructFactory() {}
 
-    CMallocStructFactory::~CMallocStructFactory() {}
+    MallocStructFactory::~MallocStructFactory() {}
 
-    sSendDataPage_ptr CMallocStructFactory::get_send_page()
+    sSendDataPage_ptr MallocStructFactory::get_send_page()
     {
         return sSendDataPage_ptr(CObjectAllocator<stSendData>::get_instance()->malloc(), delete_send_page);
     }
 
-    sRecvDataPage_ptr CMallocStructFactory::get_recv_page()
+    sRecvDataPage_ptr MallocStructFactory::get_recv_page()
     {
         return sRecvDataPage_ptr(CObjectAllocator<stRecvData>::get_instance()->malloc(), delete_recv_page);
     }
