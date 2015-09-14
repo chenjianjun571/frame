@@ -156,6 +156,7 @@ namespace NAME_SPACE {
         _heart_num = 0;
 
         if (_pTCPClientSignal) {
+            pdata->sock_handle = _fd;
             _pTCPClientSignal->SignalRecvData(pdata);
         }
     }

@@ -60,9 +60,9 @@ namespace NAME_SPACE {
         /**
          *	@brief	接收数据，此函数外部禁止调用，用于event事件回调函数调用
          *
-         *	@param 	sRecvDataPage_ptr 数据
+         *	@param 	data 数据
          */
-        void PutRecvData(sRecvDataPage_ptr&);
+        void PutRecvData(sRecvDataPage_ptr& pdata);
         
         /**
          *	@brief	事件处理，此函数外部禁止调用，用于event事件回调函数调用
