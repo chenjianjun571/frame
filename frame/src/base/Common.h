@@ -34,6 +34,8 @@
 
 #define NAME_SPACE jsbn
 
+namespace NAME_SPACE {
+
 #define DISALLOW_ASSIGN(TypeName) \
 void operator=(const TypeName&)
 
@@ -52,15 +54,61 @@ DISALLOW_EVIL_CONSTRUCTORS(TypeName)
 #define LIBJINGLE_DEFINE_STATIC_LOCAL(type, name, arguments) \
 static type& name = *new type arguments
 
+inline unsigned char Get8(const void* memory, size_t offset) {
+return static_cast<const unsigned char*>(memory)[offset];
+}
+
+inline void SetBE16(void* memory, unsigned short v) {
+Set8(memory, 0, static_cast<unsigned char>(v >> 8));
+Set8(memory, 1, static_cast<unsigned char>(v >> 0));
+}
+
+inline void SetBE32(void* memory, unsigned int v) {
+Set8(memory, 0, static_cast<unsigned char>(v >> 24));
+Set8(memory, 1, static_cast<unsigned char>(v >> 16));
+Set8(memory, 2, static_cast<unsigned char>(v >> 8));
+Set8(memory, 3, static_cast<unsigned char>(v >> 0));
+}
+
+inline unsigned short GetBE16(const void* memory) {
+return static_cast<unsigned short>((Get8(memory, 0) << 8) |
+                                   (Get8(memory, 1) << 0));
+}
+
+inline unsigned int GetBE32(const void* memory) {
+return (static_cast<unsigned int>(Get8(memory, 0)) << 24) |
+        (static_cast<unsigned int>(Get8(memory, 1)) << 16) |
+        (static_cast<unsigned int>(Get8(memory, 2)) << 8) |
+        (static_cast<unsigned int>(Get8(memory, 3)) << 0);
+}
+
+inline void SetLE16(void* memory, unsigned short v) {
+Set8(memory, 0, static_cast<unsigned char>(v >> 0));
+Set8(memory, 1, static_cast<unsigned char>(v >> 8));
+}
+
+inline void SetLE32(void* memory, unsigned int v) {
+Set8(memory, 0, static_cast<unsigned char>(v >> 0));
+Set8(memory, 1, static_cast<unsigned char>(v >> 8));
+Set8(memory, 2, static_cast<unsigned char>(v >> 16));
+Set8(memory, 3, static_cast<unsigned char>(v >> 24));
+}
+
+inline unsigned short GetLE16(const void* memory) {
+return static_cast<unsigned short>((Get8(memory, 0) << 0) |
+                                   (Get8(memory, 1) << 8));
+}
+
+inline unsigned int GetLE32(const void* memory) {
+return (static_cast<unsigned int>(Get8(memory, 0)) << 0) |
+        (static_cast<unsigned int>(Get8(memory, 1)) << 8) |
+        (static_cast<unsigned int>(Get8(memory, 2)) << 16) |
+        (static_cast<unsigned int>(Get8(memory, 3)) << 24);
+}
+
 #define SOCKET int
 #define FUNC_SUCCESS  0
 #define FUNC_FAILED  -1
-
-typedef struct data {
-    SOCKET fd;
-    char buf[1024];
-    size_t len;
-}Tdata;
 
 typedef enum emNetEvent {
     EVE_UNKNOWN = -1,// 未知错误
@@ -71,56 +119,50 @@ typedef enum emNetEvent {
     ENE_CLOSE// 连接关闭
 }EM_NET_EVENT;
 
+#define RECV_DATA_MAX_PACKET_SIZE 4096
+#define SEND_DATA_MAX_PACKET_SIZE 4096
+typedef unsigned int PacketLength;
+static const size_t kPacketLenSize = sizeof(PacketLength);
 
-
-// c++11特性不熟悉，先暂时使用boost的智能指针
+// 智能指针
 typedef struct stRecvData
 {
-    /// 消息ID：即消息的数据类型
-    int command_id;
-    /// 消息序列号(请求与应答一一对应)
-    int sequence_id;
-    /// 命令状态(应答包使用)
-    int status_id;
+    /// 接收数据数据
+    char recv_buf[RECV_DATA_MAX_PACKET_SIZE];
+    /// 接收数据长度
+    unsigned int recv_len;
     /// 连接句柄
     int sock_handle;
 
-    /// TODO 编译有警告，后期需要处理
-    /// 数据
-    void* data;
-
     stRecvData()
     {
+        recv_len = -1;
         sock_handle = -1;
-        status_id = -1;
-        data = nullptr;
-    }
-
-    ~stRecvData()
-    {
-        delete data;
-        data = nullptr;
+        ::memset(recv_buf, 0, sizeof(recv_buf));
     }
 
 }TRecvData;
-// 接受数据智能指针
+// 接收数据智能指针
 typedef std::shared_ptr<TRecvData> sRecvDataPage_ptr;
 
 typedef struct stSendData
 {
-    char buf[10240];
-    size_t len;
-
+    /// 发送数据缓冲区
+    char send_buf[SEND_DATA_MAX_PACKET_SIZE];
+    /// 发送数据长度
+    unsigned int send_len;
     /// 连接句柄
     int sock_handle;
 
     stSendData()
     {
-        ::memset(buf, 0, sizeof(buf));
-        len = -1;
+        ::memset(send_buf, 0, sizeof(send_buf));
+        send_len = -1;
     }
 }TSendData;
 // 发送数据智能指针
 typedef std::shared_ptr<TSendData> sSendDataPage_ptr;
+
+}
 
 #endif
