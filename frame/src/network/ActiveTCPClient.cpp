@@ -29,11 +29,11 @@ namespace NAME_SPACE {
     void ActiveTCPReadEventCb(struct bufferevent *bev, void *data) {
         
         ActiveTCPClient* pActiveTCPClient = (ActiveTCPClient*)data;
-        
+
         static char databuf[RECV_DATA_MAX_PACKET_SIZE];
         PacketLength datalen = 0;
         PacketLength nbytes = 0;
-        
+
         /** TCP网络通信的时候采用头两个字节为数据包长度的方式进行规范，防止粘包 */
         do {
 

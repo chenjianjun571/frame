@@ -56,17 +56,6 @@ namespace NAME_SPACE {
 
         } while (true);
 
-//        static char databuf[40960];
-//        size_t datalen = 0;
-//        size_t nbytes;
-        
-//        while ((nbytes = evbuffer_get_length(bev->input)) > 0) {
-//            evbuffer_remove(bev->input, databuf+datalen, sizeof(databuf)-datalen);
-//            datalen += nbytes;
-//        }
-        
-//        // 数据接收回调
-//        pPassiveTCPClient->PutRecvData(databuf, datalen);
     }
     
     void PassiveTCPEventCb(struct bufferevent *bev, short events, void *data) {
