@@ -209,7 +209,7 @@ namespace NAME_SPACE {
         _heart_num = 0;
 
         if (_pTCPClientSignal) {
-            _pTCPClientSignal->SignalRecvData(_fd, pdata);
+            _pTCPClientSignal->SignalRecvData(pdata);
         }
         
     }
