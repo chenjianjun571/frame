@@ -54,7 +54,7 @@ DISALLOW_EVIL_CONSTRUCTORS(TypeName)
 #define LIBJINGLE_DEFINE_STATIC_LOCAL(type, name, arguments) \
 static type& name = *new type arguments
 
-inline void Set8(void* memory, size_t offset, const unsigned char v) {
+inline void Set8(void* memory, size_t offset, unsigned char v) {
         static_cast<const unsigned char*>(memory)[offset] = v;
 }
 
