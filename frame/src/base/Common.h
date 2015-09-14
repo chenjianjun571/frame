@@ -56,7 +56,7 @@ namespace NAME_SPACE {
     static type& name = *new type arguments
 
 inline void Set8(void* memory, size_t offset, unsigned char v) {
-        static_cast<const unsigned char*>(memory)[offset] = v;
+        static_cast<unsigned char*>(memory)[offset] = v;
 }
 
 inline unsigned char Get8(const void* memory, size_t offset) {
