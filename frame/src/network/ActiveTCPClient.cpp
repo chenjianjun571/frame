@@ -30,18 +30,40 @@ namespace NAME_SPACE {
         
         ActiveTCPClient* pActiveTCPClient = (ActiveTCPClient*)data;
         
-        static char databuf[40960];
-        size_t datalen = 0;
-        size_t nbytes;
+        static char databuf[RECV_DATA_MAX_PACKET_SIZE];
+        PacketLength datalen = 0;
+        PacketLength nbytes = 0;
         
-        while ((nbytes = evbuffer_get_length(bev->input)) > 0) {
-            evbuffer_remove(bev->input, databuf+datalen, sizeof(databuf)-datalen);
-            datalen += nbytes;
-        }
+        /** TCP网络通信的时候采用头两个字节为数据包长度的方式进行规范，防止粘包 */
+        do {
 
-        // 数据接收回调
-        pActiveTCPClient->PutRecvData(databuf, datalen);
-        
+            nbytes = evbuffer_get_length(bev->input);
+            if (nbytes < kPacketLenSize) {
+                return;
+            }
+
+            // 如果大于系统定义的最大包长度，为防止恶意行为需要做断开处理
+            datalen = GetBE32(bev->input);
+            if (datalen > RECV_DATA_MAX_PACKET_SIZE) {
+
+                LOG(INFO)<<"接收客户端的数据超过缓冲区大小,断开客户端.收到的数据长度:"<<datalen;
+                pActiveTCPClient->ProcEvent(ENE_CLOSE);
+
+                return;
+            }
+
+            // 判断数据是否收集齐全，没有收集齐全的不做处理
+            if (nbytes < datalen) {
+                return;
+            }
+
+            // 取出完整的数据包
+            evbuffer_remove(bev->input, databuf, datalen);
+            // 数据接收回调
+            pActiveTCPClient->PutRecvData(databuf+kPacketLenSize, datalen);
+
+        } while (true);
+
     }
     
     ActiveTCPClient::ActiveTCPClient(std::string host_name, unsigned short host_port, short heart_time)

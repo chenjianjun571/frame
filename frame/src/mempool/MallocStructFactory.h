@@ -2,11 +2,11 @@
 /// @Copyright (C), 1993-2012, bafei  Information Technologies Co., Ltd.
 /// @URL
 /// @file           MallocStructFactory.h
-/// @brief          内存分配类
+/// @brief          内存池接口封装
 /// @attention
 /// @Author         chenjianjun
 /// @Version        0.1
-/// @Date           2013年01月17日
+/// @Date           2015年09月14日
 /// @Description
 /// @History
 ///************************************************************
