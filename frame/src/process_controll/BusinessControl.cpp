@@ -61,7 +61,6 @@ void CBusinessControl::cleanup_resource ()
 
 bool CBusinessControl::create_operate_object()
 {
-
     return true;
 }
 
