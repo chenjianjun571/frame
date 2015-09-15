@@ -13,12 +13,12 @@
 #ifndef __PROTOCOL_PROC_MANAGER_H_
 #define __PROTOCOL_PROC_MANAGER_H_
 
-#include "../protoc/jsbn_bss.pb.h"
 #include "ModuleConstDef.h"
 
 class ProtocolProcManager
 {
 public:
+    ProtocolProcManager(){};
     // 解析通信协议
     static sNetProtocolDataPage_ptr ParseProtocol(jsbn::sRecvDataPage_ptr& data);
 };

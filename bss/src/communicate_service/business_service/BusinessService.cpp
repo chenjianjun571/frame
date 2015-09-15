@@ -51,7 +51,7 @@ void BusinessService::Stop() {
 
     _pServerWorker->StopWork();
 
-    WriteLockScoped wls(&_client_mutex);
+    WriteLockScoped wls(*_client_mutex);
     std::map<SOCKET, PassiveTCPClient*>::iterator it = _map_clients.begin();
     while (it != _map_clients.end()) {
         it->second->StopWork();
@@ -63,7 +63,7 @@ void BusinessService::Stop() {
 
 int BusinessService::SendData(SOCKET fd, void* data, size_t len) {
 
-    ReadLockScoped rls(&_client_mutex);
+    ReadLockScoped rls(*_client_mutex);
     std::map<SOCKET, PassiveTCPClient*>::iterator it = _map_clients.find(fd);
     if (it != _map_clients.end()) {
         return it->second->SendData(data, len);
@@ -74,7 +74,7 @@ int BusinessService::SendData(SOCKET fd, void* data, size_t len) {
 
 int BusinessService::AddClient(SOCKET fd, jsbn::PassiveTCPClient* p_client) {
 
-    WriteLockScoped wls(&_client_mutex);
+    WriteLockScoped wls(*_client_mutex);
     std::map<SOCKET, PassiveTCPClient*>::iterator it = _map_clients.find(fd);
     if (it != _map_clients.end()) {
         return FUNC_FAILED;
@@ -87,7 +87,7 @@ int BusinessService::AddClient(SOCKET fd, jsbn::PassiveTCPClient* p_client) {
 
 void BusinessService::DelClient(SOCKET fd) {
 
-    WriteLockScoped wls(&_client_mutex);
+    WriteLockScoped wls(*_client_mutex);
     std::map<SOCKET, PassiveTCPClient*>::iterator it = _map_clients.find(fd);
     if (it != _map_clients.end()) {
         it->second->StopWork();
