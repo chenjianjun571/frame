@@ -17,12 +17,15 @@ endif
 
 #C++代码集
 SRC=$(shell ls *.cpp)
-SRC+=$(shell ls *.cc)
 SRC+=${INC_SRC_LIST}
 
+#CC代码集
+SRC_CC=$(shell ls *.cc)
+SRC_CC+=${INC_SRC_LIST_CC}
+
 #C代码集
-SRC_CC=$(shell ls *.c)
-SRC_CC+=${INC_SRC_LIST_C}
+SRC_C=$(shell ls *.c)
+SRC_C+=${INC_SRC_LIST_C}
 
 #头文件依赖路径
 INC=${PROJECT_INC_DIR} ${INC_DIR_LIST}

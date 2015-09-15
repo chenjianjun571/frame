@@ -18,13 +18,14 @@ export PROJECT_LIB_DIR
 #生成可执行文件的目录
 export TARGETDIR=./
 #生成的程序名
-export NAME=tss
+export NAME=bss
 
 #记住当前目录
 SRC_DIR=`pwd`
 INC_DIR_LIST=""
 INC_SRC_LIST=""
 INC_SRC_LIST_C=""
+INC_SRC_LIST_CC=""
 function get_list()
 {
         cd $1
@@ -46,9 +47,9 @@ function get_list()
         done
 	for src_file in $SRC_LIST_CC
         do
-                INC_SRC_LIST+=" "
-                INC_SRC_LIST+=${DIR}
-                INC_SRC_LIST+=$src_file
+                INC_SRC_LIST_CC+=" "
+                INC_SRC_LIST_CC+=${DIR}
+                INC_SRC_LIST_CC+=$src_file
         done
         for src_file in $SRC_LIST_C
         do
@@ -77,6 +78,7 @@ cd $SRC_DIR
 
 export INC_SRC_LIST
 export INC_SRC_LIST_C
+export INC_SRC_LIST_CC
 export INC_DIR_LIST
 
 case "$1" in
