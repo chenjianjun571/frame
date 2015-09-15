@@ -57,7 +57,7 @@ jsbn::sRecvDataPage_ptr ModuleDataCenter::GetRecvData()
         return jsbn::sRecvDataPage_ptr();
     }
 
-    jsbn::sRecvDataPage_ptr pdata = _recv_data_lists.begin();
+    jsbn::sRecvDataPage_ptr pdata = _recv_data_lists.front();
     _recv_data_lists.pop_front();
 
     return pdata;
