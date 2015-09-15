@@ -17,6 +17,7 @@ endif
 
 #C++代码集
 SRC=$(shell ls *.cpp)
+SRC+=$(shell ls *.cc)
 SRC+=${INC_SRC_LIST}
 
 #C代码集
