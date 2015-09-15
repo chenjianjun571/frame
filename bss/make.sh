@@ -35,8 +35,7 @@ function get_list()
 
         #代码list
         SRC_LIST=`ls *.cpp 2>/dev/null`
-        SRC_LIST+=" "
-        SRC_LIST+=`ls *.cc 2>/dev/null`
+        SRC_LIST_CC=`ls *.cc 2>/dev/null`
         SRC_LIST_C=`ls *.c 2>/dev/null`
 
         for src_file in $SRC_LIST
@@ -45,7 +44,12 @@ function get_list()
                 INC_SRC_LIST+=${DIR}
                 INC_SRC_LIST+=$src_file
         done
-
+	for src_file in $SRC_LIST_CC
+        do
+                INC_SRC_LIST+=" "
+                INC_SRC_LIST+=${DIR}
+                INC_SRC_LIST+=$src_file
+        done
         for src_file in $SRC_LIST_C
         do
                 INC_SRC_LIST_C+=" "
@@ -74,7 +78,7 @@ cd $SRC_DIR
 export INC_SRC_LIST
 export INC_SRC_LIST_C
 export INC_DIR_LIST
-
+echo $INC_SRC_LIST
 case "$1" in
         r|release)
                   echo "comple ${NAME} of release..."
