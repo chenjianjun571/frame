@@ -29,7 +29,9 @@ public:
     jsbn::sRecvDataPage_ptr GetRecvData();
 
 protected:
-    jsbn::DISALLOW_IMPLICIT_CONSTRUCTORS(ModuleDataCenter);
+    ModuleDataCenter();
+    void operator=(const ModuleDataCenter&);
+    ModuleDataCenter(const ModuleDataCenter&);
 
 private:
     // 接收数据锁

@@ -13,7 +13,7 @@
 #include "ModuleDataCenter.h"
 
 ModuleDataCenter* ModuleDataCenter::Instance() {
-    jsbn::LIBJINGLE_DEFINE_STATIC_LOCAL(ModuleDataCenter, mInstance, ());
+    static ModuleDataCenter mInstance;
     return &mInstance;
 }
 
@@ -49,7 +49,7 @@ jsbn::sRecvDataPage_ptr ModuleDataCenter::GetRecvData()
 
     // 如果没有数据就等待数据到达
     if (_recv_data_lists.size() == 0) {
-        _recv_cond_variable->SleepCS(&_recv_critical_section, 1000);
+        _recv_cond_variable->SleepCS(_recv_critical_section, 1000);
     }
 
     // 延迟一秒是否有数据到达，有的话取出返回，没有的话返回一个空智能指针
@@ -57,7 +57,7 @@ jsbn::sRecvDataPage_ptr ModuleDataCenter::GetRecvData()
         return jsbn::sRecvDataPage_ptr();
     }
 
-    jsbn::sRecvDataPage_ptr& pdata = _recv_data_lists.begin();
+    jsbn::sRecvDataPage_ptr pdata = _recv_data_lists.begin();
     _recv_data_lists.pop_front();
 
     return pdata;
