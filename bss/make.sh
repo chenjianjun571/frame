@@ -78,7 +78,7 @@ cd $SRC_DIR
 export INC_SRC_LIST
 export INC_SRC_LIST_C
 export INC_DIR_LIST
-echo $INC_SRC_LIST
+
 case "$1" in
         r|release)
                   echo "comple ${NAME} of release..."

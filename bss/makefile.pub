@@ -37,8 +37,8 @@ else
 endif
 
 OBJ=$(SRC:%.cpp=$(OBJDIR)/%.o)
-
-OBJ_CC=$(SRC_CC:%.c=$(OBJDIR)/%.o)
+OBJ_C=$(SRC_C:%.c=$(OBJDIR)/%.o)
+OBJ_CC=$(SRC_CC:%.cc=$(OBJDIR)/%.o)
 
 ifdef SHARED
  CXXFLAGS+=-fPIC
@@ -69,9 +69,9 @@ TARGET=$(TARGETDIR)/$(NAME)
 # Rules
 all : $(DEPCOMP) $(TARGET)
 
-$(TARGET) : $(OBJ) $(OBJ_CC) $(MOCOBJ)
+$(TARGET) : $(OBJ) $(OBJ_CC) $(OBJ_C) $(MOCOBJ)
 	@echo ---------- Making $@
-	@$(CXX) $(LDFLAGS) $(OBJ) $(MOCOBJ) $(OBJ_CC) $(LIB_DIR) $(LIB) -o $(TARGET)
+    @$(CXX) $(LDFLAGS) $(OBJ) $(MOCOBJ) $(OBJ_CC) $(OBJ_C) $(LIB_DIR) $(LIB) -o $(TARGET)
 
 $(OBJDIR)/%.moc.cpp : %.h
 	@echo ---------- mocing $<
@@ -91,6 +91,27 @@ $(OBJDIR)/%.d : %.cpp
 	@set -e; $(CPP) -MM $(CPPFLAGS) $< \
 	| sed 's&\($(*F)*\)\.o[ :]*&$(OBJDIR)/$*.o $@ : &g' > $@; \
 	[ -s $@ ] || rm -f $@
+
+
+$(OBJDIR)/%.moc.cc : %.h
+    @echo ---------- mocing $<
+    @moc -o $@ $<
+
+%.moc.o : %.moc.cc
+    @echo ---------- Compiling $<
+    @$(CXX) -c $(CPPFLAGS) $(CCFLAGS) $(CXXFLAGS) -o $@ $<
+
+$(OBJDIR)/%.o : %.cc
+    @echo ---------- Compiling $<
+    @$(CXX) -c $(CPPFLAGS) $(CCFLAGS) $(CXXFLAGS) -o $@ $<
+
+$(OBJDIR)/%.d : %.cc
+    @echo ---------- Updating dependency of $<
+    @[ -d $(@D) ] || mkdir -p $(@D)
+    @set -e; $(CPP) -MM $(CPPFLAGS) $< \
+    | sed 's&\($(*F)*\)\.o[ :]*&$(OBJDIR)/$*.o $@ : &g' > $@; \
+    [ -s $@ ] || rm -f $@
+
 
 $(OBJDIR)/%.moc.c : %.h
 	@echo ---------- mocing $<
@@ -113,7 +134,8 @@ $(OBJDIR)/%.d : %.c
 
 # Compute dependencies
 DEP=$(SRC:%.cpp=$(OBJDIR)/%.d)
-DEP+=$(SRC_CC:%.c=$(OBJDIR)/%.d)
+DEP+=$(SRC_C:%.c=$(OBJDIR)/%.d)
+DEP+=$(SRC_CC:%.cc=$(OBJDIR)/%.d)
 
 ifeq ($(MAKECMDGOALS),)
     -include $(DEP)
