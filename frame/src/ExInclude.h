@@ -1,5 +1,5 @@
 ///************************************************************
-/// @Copyright (C), 1993-2022, bafei  Information Technologies Co., Ltd.
+/// @Copyright (C), 2015-2030, bafei  Information Technologies Co., Ltd.
 /// @URL            
 /// @file           ExInclude.h
 /// @brief          框架头文件集合

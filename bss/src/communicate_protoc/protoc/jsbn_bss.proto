@@ -1,0 +1,36 @@
+package jsbn.protoc;
+option java_package = "com.jsbn.protoc";
+option java_outer_classname = "protocol";
+
+// 命令类型
+enum MSG {
+    Login_Request  = 0x00001001;// 登录请求
+    Login_Response = 0x00001002;// 登录应答
+}
+
+// 登录请求
+message LoginRequest
+{
+    required bytes username = 1;
+    required string password = 2;
+}
+
+// 登录应答
+message LoginResponse
+{
+    // 应答结果
+    required fixed32 result = 1;
+    // 应答结果描述
+    optional bytes error_description = 2;
+}
+
+// 传输通信协议
+message BSSNetProtocol
+{
+    // 消息类型
+    required MSG type = 1;
+    // 登录请求
+    optional LoginRequest loginrequest = 3;
+    // 登录应答
+    optional LoginResponse loginresponse = 4;
+}

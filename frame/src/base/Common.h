@@ -135,7 +135,7 @@ static const size_t kPacketLenSize = sizeof(PacketLength);
 typedef struct stRecvData
 {
     /// 接收数据数据
-    char recv_buf[RECV_DATA_MAX_PACKET_SIZE];
+    unsigned char recv_buf[RECV_DATA_MAX_PACKET_SIZE];
     /// 接收数据长度
     unsigned int recv_len;
     /// 连接句柄
@@ -155,7 +155,7 @@ typedef std::shared_ptr<TRecvData> sRecvDataPage_ptr;
 typedef struct stSendData
 {
     /// 发送数据缓冲区
-    char send_buf[SEND_DATA_MAX_PACKET_SIZE];
+    unsigned char send_buf[SEND_DATA_MAX_PACKET_SIZE];
     /// 发送数据长度
     unsigned int send_len;
     /// 连接句柄

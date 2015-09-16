@@ -1,5 +1,5 @@
 ///************************************************************
-/// @Copyright (C), 1993-2022, hzcw  Information Technologies Co., Ltd.
+/// @Copyright (C), 2015-2030, hzcw  Information Technologies Co., Ltd.
 /// @URL
 /// @file           main.cpp
 /// @brief          程序启动入口

@@ -10,19 +10,21 @@
 /// @Description
 /// @History
 ///************************************************************
-#include "CommunicateService.h"
+#ifndef __COMMUNICATE_SERVICE_H_
+#define __COMMUNICATE_SERVICE_H_
 
-bool CommunicateService::start_operation()
-{
-    return true;
-}
+#include "ModuleConstDef.h"
 
-bool CommunicateService::stop_operation()
+class CommunicateService : public COperationObject
 {
-    return true;
-}
+public:
+    /// @brief 启动业务模块
+    virtual bool start_operation();
 
-int CommunicateService::dump(const char* first_param, const char* second_param)
-{
-    return 0;
-}
+    /// @brief 停止业务模块
+    virtual bool stop_operation();
+
+    virtual int dump(const char* first_param = nullptr, const char* second_param = nullptr);
+};
+
+#endif

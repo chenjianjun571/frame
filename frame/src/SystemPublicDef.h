@@ -1,5 +1,5 @@
 ///************************************************************
-/// @Copyright (C), 1993-2022, bafei  Information Technologies Co., Ltd.
+/// @Copyright (C), 2015-2030, bafei  Information Technologies Co., Ltd.
 /// @URL            
 /// @file           SystemPublicDef.h
 /// @brief          此文件定义整个系统中使用的公共结构定义

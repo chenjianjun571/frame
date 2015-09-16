@@ -48,7 +48,7 @@ make install
 库文件：
 /usr/local/lib/libmysqlpp.so*
 
-# protobuf安装
+# protobuf安装 mac下面安装
 下载protobuf
 https://protobuf.googlecode.com/svn/rc/protobuf-2.6.0.tar.gz
 解压protobuf
@@ -66,3 +66,20 @@ autoreconf -f -i -Wall,no-obsolete
 make
 make check
 make install
+
+# protobuf安装 centos下面安装
+下载protobuf
+https://protobuf.googlecode.com/svn/rc/protobuf-2.6.0.tar.gz
+解压protobuf
+tar -xf protobuf-2.6.0.tar.gz
+cd protobuf-2.6.0
+./configure
+make
+make check
+make install
+
+# 协议生成方式
+# 生成描述文件,主要用于node
+./protoc --descriptor_set_out=******.desc --include_imports *****.proto
+# 生成代码，用户java c++
+./protoc --proto_path=./ ./*.proto --cpp_out=./ --java_out=./
