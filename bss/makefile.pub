@@ -71,7 +71,7 @@ all : $(DEPCOMP) $(TARGET)
 
 $(TARGET) : $(OBJ) $(OBJ_CC) $(OBJ_C) $(MOCOBJ)
 	@echo ---------- Making $@
-    @$(CXX) $(LDFLAGS) $(OBJ) $(MOCOBJ) $(OBJ_CC) $(OBJ_C) $(LIB_DIR) $(LIB) -o $(TARGET)
+    @$(CXX) $(LDFLAGS) $(OBJ) $(OBJ_CC) $(OBJ_C) $(MOCOBJ) $(LIB_DIR) $(LIB) -o $(TARGET)
 
 $(OBJDIR)/%.moc.cpp : %.h
 	@echo ---------- mocing $<
