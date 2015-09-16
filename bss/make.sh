@@ -35,7 +35,9 @@ function get_list()
 
         #代码list
         SRC_LIST=`ls *.cpp 2>/dev/null`
+        SRC_LIST+=`ls *.cc 2>/dev/null`
         SRC_LIST_C=`ls *.c 2>/dev/null`
+
         for src_file in $SRC_LIST
         do
                 INC_SRC_LIST+=" "

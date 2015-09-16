@@ -15,7 +15,7 @@
 sNetProtocolDataPage_ptr ProtocolProcManager::ParseProtocol(jsbn::sRecvDataPage_ptr& data)
 {
     // 解析协议，生成一个协议的智能指针区域
-    sNetProtocolDataPage_ptr protocol(new jsbn::protoc::BSSNetProtocol());
+    static sNetProtocolDataPage_ptr protocol(new(std::nothrow) jsbn::protoc::BSSNetProtocol());
 
     protocol->Clear();
     if (!protocol->ParseFromArray(data->recv_buf, data->recv_len)) {
