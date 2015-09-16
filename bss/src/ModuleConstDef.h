@@ -41,6 +41,8 @@
 /// 包含框架库头文件
 #include <ExInclude.h>
 
+#include "./communicate_protoc/protoc/jsbn_bss.pb.h"
+
 // 模块配置文件名
 #define MODULE_CONFIG_FILENAME "config/bss.ini"
 // 模块配置文件名 gcv_module_config_filename的值就是MODULE_CONFIG_FILENAME 
