@@ -53,7 +53,7 @@ const char* const gcv_module_name = "bss";
 const char* const gcv_program_name = "bss";
 
 // 协议数据智能指针
-typedef std::shared_ptr<jsbn::protoc::NetProtocol> sNetProtocolDataPage_ptr;
+typedef std::shared_ptr<jsbn::protoc::BSSNetProtocol> sNetProtocolDataPage_ptr;
 
 #endif //__MODULE_CONST_DEF_H_
 
