@@ -14,11 +14,17 @@
 
 bool CommunicateService::start_operation()
 {
+    if (_mBusinessService.Start() != FUNC_SUCCESS) {
+        LOG(ERROR)<<"业务服务器模块启动失败";
+        return false;
+    }
+
     return true;
 }
 
 bool CommunicateService::stop_operation()
 {
+    _mBusinessService.Stop();
     return true;
 }
 

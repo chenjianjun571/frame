@@ -14,6 +14,7 @@
 #define __COMMUNICATE_SERVICE_H_
 
 #include "ModuleConstDef.h"
+#include "./business_service/BusinessService.h"
 
 class CommunicateService : public COperationObject
 {
@@ -25,6 +26,10 @@ public:
     virtual bool stop_operation();
 
     virtual int dump(const char* first_param = nullptr, const char* second_param = nullptr);
+
+private:
+    // 业务服务器
+    BusinessService _mBusinessService;
 };
 
 #endif
