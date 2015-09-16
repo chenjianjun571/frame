@@ -35,6 +35,7 @@ function get_list()
 
         #代码list
         SRC_LIST=`ls *.cpp 2>/dev/null`
+        SRC_LIST+=" "
         SRC_LIST+=`ls *.cc 2>/dev/null`
         SRC_LIST_C=`ls *.c 2>/dev/null`
 
