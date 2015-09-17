@@ -12,13 +12,13 @@
 ///************************************************************
 #include "ProtocolProcManager.h"
 
-sNetProtocolDataPage_ptr ProtocolProcManager::ParseProtocol(jsbn::sRecvDataPage_ptr& data)
+sNetProtocolDataPage_ptr ProtocolProcManager::ParseProtocol(SOCKET fd, const unsigned char* buf, jsbn::PacketLength len)
 {
     // 解析协议，生成一个协议的智能指针区域
     static sNetProtocolDataPage_ptr protocol(new(std::nothrow) jsbn::protoc::BSSNetProtocol());
 
     protocol->Clear();
-    if (!protocol->ParseFromArray(data->recv_buf, data->recv_len)) {
+    if (!protocol->ParseFromArray(buf, len)) {
         LOG(ERROR)<<"协议解析";
     }
 
