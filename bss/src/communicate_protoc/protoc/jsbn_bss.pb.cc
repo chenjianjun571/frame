@@ -136,9 +136,9 @@ void protobuf_AddDesc_jsbn_5fbss_2eproto() {
     "\022\036\n\004type\030\001 \002(\0162\020.jsbn.protoc.MSG\022/\n\014logi"
     "nrequest\030\003 \001(\0132\031.jsbn.protoc.LoginReques"
     "t\0221\n\rloginresponse\030\004 \001(\0132\032.jsbn.protoc.L"
-    "oginResponse*.\n\003MSG\022\022\n\rLogin_Request\020\201 \022"
-    "\023\n\016Login_Response\020\202 B\033\n\017com.jsbn.protocB"
-    "\010protocol", 369);
+    "oginResponse*>\n\003MSG\022\016\n\nHeart_Beat\020\000\022\022\n\rL"
+    "ogin_Request\020\201 \022\023\n\016Login_Response\020\202 B\033\n\017"
+    "com.jsbn.protocB\010protocol", 385);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "jsbn_bss.proto", &protobuf_RegisterTypes);
   LoginRequest::default_instance_ = new LoginRequest();
@@ -162,6 +162,7 @@ const ::google::protobuf::EnumDescriptor* MSG_descriptor() {
 }
 bool MSG_IsValid(int value) {
   switch(value) {
+    case 0:
     case 4097:
     case 4098:
       return true;
@@ -763,7 +764,7 @@ BSSNetProtocol::BSSNetProtocol(const BSSNetProtocol& from)
 
 void BSSNetProtocol::SharedCtor() {
   _cached_size_ = 0;
-  type_ = 4097;
+  type_ = 0;
   loginrequest_ = NULL;
   loginresponse_ = NULL;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
@@ -804,7 +805,7 @@ BSSNetProtocol* BSSNetProtocol::New() const {
 
 void BSSNetProtocol::Clear() {
   if (_has_bits_[0 / 32] & 7) {
-    type_ = 4097;
+    type_ = 0;
     if (has_loginrequest()) {
       if (loginrequest_ != NULL) loginrequest_->::jsbn::protoc::LoginRequest::Clear();
     }

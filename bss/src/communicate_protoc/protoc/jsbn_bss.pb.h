@@ -40,11 +40,12 @@ class LoginResponse;
 class BSSNetProtocol;
 
 enum MSG {
+  Heart_Beat = 0,
   Login_Request = 4097,
   Login_Response = 4098
 };
 bool MSG_IsValid(int value);
-const MSG MSG_MIN = Login_Request;
+const MSG MSG_MIN = Heart_Beat;
 const MSG MSG_MAX = Login_Response;
 const int MSG_ARRAYSIZE = MSG_MAX + 1;
 
@@ -632,7 +633,7 @@ inline void BSSNetProtocol::clear_has_type() {
   _has_bits_[0] &= ~0x00000001u;
 }
 inline void BSSNetProtocol::clear_type() {
-  type_ = 4097;
+  type_ = 0;
   clear_has_type();
 }
 inline ::jsbn::protoc::MSG BSSNetProtocol::type() const {
