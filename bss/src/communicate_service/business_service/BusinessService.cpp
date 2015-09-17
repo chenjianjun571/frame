@@ -142,7 +142,7 @@ void BusinessService::Event(SOCKET fd, EM_NET_EVENT msg)
 
 void BusinessService::Accept(SOCKET fd, struct sockaddr_in* sa)
 {
-    LOG(INFO)<<"收到客户端连接."<<::inet_ntoa(sa->sin_addr)<<":"<<::ntohl(sa->sin_port);
+    LOG(INFO)<<"收到客户端连接"<<::inet_ntoa(sa->sin_addr)<<":"<<::ntohs(sa->sin_port);
 
     PassiveTCPClient* pPassiveTCPClient = new PassiveTCPClient(fd, sa, SYS_CONFIG->get_module_config().bus_heartbeat_detection);
     if (!pPassiveTCPClient->StartWork(this))
