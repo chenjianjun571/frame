@@ -37,15 +37,6 @@ namespace NAME_SPACE {
         //////////////////////////////////////////////////////////////////////////
         sSendDataPage_ptr get_send_page();
 
-        //////////////////////////////////////////////////////////////////////////
-        ///@brief 获取一个接收数据缓存区
-        ///
-        ///@param[in] 无
-        ///
-        ///@return 智能指针
-        //////////////////////////////////////////////////////////////////////////
-        sRecvDataPage_ptr get_recv_page();
-
     private:
         MallocStructFactory();
         MallocStructFactory(const MallocStructFactory &other);

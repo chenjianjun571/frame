@@ -20,10 +20,10 @@ namespace NAME_SPACE {
         CObjectAllocator<stSendData>::get_instance()->free(p);
     }
 
-    void delete_recv_page(stRecvData* p)
-    {
-        CObjectAllocator<stRecvData>::get_instance()->free(p);
-    }
+//    void delete_recv_page(stRecvData* p)
+//    {
+//        CObjectAllocator<stRecvData>::get_instance()->free(p);
+//    }
 
     MallocStructFactory& MallocStructFactory::Instance()
     {
@@ -41,8 +41,8 @@ namespace NAME_SPACE {
         return sSendDataPage_ptr(CObjectAllocator<stSendData>::get_instance()->malloc(), delete_send_page);
     }
 
-    sRecvDataPage_ptr MallocStructFactory::get_recv_page()
-    {
-        return sRecvDataPage_ptr(CObjectAllocator<stRecvData>::get_instance()->malloc(), delete_recv_page);
-    }
+//    sRecvDataPage_ptr MallocStructFactory::get_recv_page()
+//    {
+//        return sRecvDataPage_ptr(CObjectAllocator<stRecvData>::get_instance()->malloc(), delete_recv_page);
+//    }
 }
