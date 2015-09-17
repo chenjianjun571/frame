@@ -96,8 +96,10 @@ void BusinessService::DelClient(SOCKET fd) {
     }
 }
 
-void BusinessService::RecvData(sRecvDataPage_ptr& data) {
-    // 丢队列，让其他线程处理
+void BusinessService::RecvData(SOCKET _fd, const unsigned char* buf, PacketLength len) {
+
+    // 解析数据协议
+
 }
 
 // 套接字事件处理器

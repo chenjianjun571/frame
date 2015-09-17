@@ -23,9 +23,9 @@ namespace NAME_SPACE {
 
         PassiveTCPClient* pPassiveTCPClient = (PassiveTCPClient*)data;
 
-        static char databuf[RECV_DATA_MAX_PACKET_SIZE];
-        PacketLength datalen = 0;
-        PacketLength nbytes = 0;
+        static unsigned char recv_buf[RECV_DATA_MAX_PACKET_SIZE];
+        static PacketLength datalen = 0;
+        static PacketLength nbytes = 0;
 
         /** TCP网络通信的时候采用头两个字节为数据包长度的方式进行规范，防止粘包 */
         do {
@@ -51,12 +51,10 @@ namespace NAME_SPACE {
             }
 
             // 取出完整的数据包
-            sRecvDataPage_ptr pData = MallocStructFactory::Instance().get_recv_page();
-            pData->recv_len = datalen;
-            evbuffer_remove(bev->input, pData->recv_buf, datalen);
+            evbuffer_remove(bev->input, recv_buf, datalen);
 
-            // 数据接收回调
-            pPassiveTCPClient->PutRecvData(pData);
+            /// 数据接收回调,去除头四个字节的长度buf
+            pPassiveTCPClient->PutRecvData(recv_buf+kPacketLenSize, datalen);
 
         } while (true);
 
@@ -137,30 +135,19 @@ namespace NAME_SPACE {
         // 不要对_pPassiveTCPClientSignal置null，释放由外部传入者负责
     }
     
-    int PassiveTCPClient::SendData(void* pdata, size_t len) {
+    int PassiveTCPClient::SendData(const sSendDataPage_ptr& pData) {
         
-        if (_bev == nullptr) {
+        if (nullptr == _bev || nullptr == pData) {
             return FUNC_FAILED;
         }
 
-        if (bufferevent_write(_bev, pdata, len) < 0) {
+        if (bufferevent_write(_bev, pData->send_buf, pData->send_len) < 0) {
             return FUNC_FAILED;
         }
         
         return FUNC_SUCCESS;
     }
-    
-    void PassiveTCPClient::PutRecvData(sRecvDataPage_ptr& pdata) {
-        
-        // 有数据往来,心跳计数清零
-        _heart_num = 0;
 
-        if (_pTCPClientSignal) {
-            pdata->sock_handle = _fd;
-            _pTCPClientSignal->SignalRecvData(pdata);
-        }
-    }
-    
     void PassiveTCPClient::ProcEvent(EM_NET_EVENT event) {
         
         if (!_pTCPClientSignal) {
@@ -178,5 +165,17 @@ namespace NAME_SPACE {
 
         _pTCPClientSignal->SignalEvent(_fd, event);
         
+    }
+
+    void PassiveTCPClient::PutRecvData(const unsigned char* buf, PacketLength len) {
+
+        // 有数据往来,心跳计数清零
+        _heart_num = 0;
+
+        if (nullptr == _pTCPClientSignal) {
+            return;
+        }
+
+        _pTCPClientSignal->SignalRecvData(_fd, buf, len);
     }
 }

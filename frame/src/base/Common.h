@@ -131,26 +131,26 @@ typedef unsigned int PacketLength;
 static const size_t kPacketLenSize = sizeof(PacketLength);
 
 /** TCP网络通信的时候采用头两个字节为数据包长度的方式进行规范，防止粘包 */
-// 智能指针
-typedef struct stRecvData
-{
-    /// 接收数据数据
-    unsigned char recv_buf[RECV_DATA_MAX_PACKET_SIZE];
-    /// 接收数据长度
-    unsigned int recv_len;
-    /// 连接句柄
-    int sock_handle;
+//// 智能指针
+//typedef struct stRecvData
+//{
+//    /// 接收数据数据
+//    unsigned char recv_buf[RECV_DATA_MAX_PACKET_SIZE];
+//    /// 接收数据长度
+//    unsigned int recv_len;
+//    /// 连接句柄
+//    int sock_handle;
 
-    stRecvData()
-    {
-        recv_len = -1;
-        sock_handle = -1;
-        ::memset(recv_buf, 0, sizeof(recv_buf));
-    }
+//    stRecvData()
+//    {
+//        recv_len = -1;
+//        sock_handle = -1;
+//        ::memset(recv_buf, 0, sizeof(recv_buf));
+//    }
 
-}TRecvData;
-// 接收数据智能指针
-typedef std::shared_ptr<TRecvData> sRecvDataPage_ptr;
+//}TRecvData;
+//// 接收数据智能指针
+//typedef std::shared_ptr<TRecvData> sRecvDataPage_ptr;
 
 typedef struct stSendData
 {
@@ -161,10 +161,13 @@ typedef struct stSendData
     /// 连接句柄
     int sock_handle;
 
-    stSendData()
-    {
-        ::memset(send_buf, 0, sizeof(send_buf));
-        send_len = -1;
+    void Copy(const unsigned char* buf, unsigned int len) {
+        // 贴上包头
+        SetBE32(send_buf, len);
+        // 贴上包体
+        ::memcpy(send_buf+kPacketLenSize, buf, (len>SEND_DATA_MAX_PACKET_SIZE) ? SEND_DATA_MAX_PACKET_SIZE : len);
+
+        send_len = kPacketLenSize + (len>SEND_DATA_MAX_PACKET_SIZE) ? SEND_DATA_MAX_PACKET_SIZE : len;
     }
 }TSendData;
 // 发送数据智能指针

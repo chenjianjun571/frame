@@ -31,8 +31,9 @@ namespace NAME_SPACE {
         
         ActiveTCPClient* pActiveTCPClient = (ActiveTCPClient*)data;
 
-        PacketLength datalen = 0;
-        PacketLength nbytes = 0;
+        static unsigned char recv_buf[RECV_DATA_MAX_PACKET_SIZE];
+        static PacketLength datalen = 0;
+        static PacketLength nbytes = 0;
 
         /** TCP网络通信的时候采用头两个字节为数据包长度的方式进行规范，防止粘包 */
         do {
@@ -58,12 +59,10 @@ namespace NAME_SPACE {
             }
 
             // 取出完整的数据包
-            sRecvDataPage_ptr pData = MallocStructFactory::Instance().get_recv_page();
-            pData->recv_len = datalen;
-            evbuffer_remove(bev->input, pData->recv_buf, datalen);
+            evbuffer_remove(bev->input, recv_buf, datalen);
 
-            // 数据接收回调
-            pActiveTCPClient->PutRecvData(pData);
+            // 数据接收回调,去除头四个字节的长度buf
+            pActiveTCPClient->PutRecvData(recv_buf+kPacketLenSize, datalen);
 
         } while (true);
 
@@ -147,21 +146,17 @@ namespace NAME_SPACE {
         }
     }
     
-    int ActiveTCPClient::SendData(void* pdata, size_t len) {
+    int ActiveTCPClient::SendData(const sSendDataPage_ptr& pData) {
         
         ReadLockScoped rLock(*_m_rw_loacl);
         
-        if (_bev == nullptr || _connect_flg != 2) {
+        if (nullptr == _bev || _connect_flg != 2 || nullptr == pData) {
             return FUNC_FAILED;
         }
 
-        if (bufferevent_write(_bev, pdata, len) < 0) {
+        if (bufferevent_write(_bev, pData->send_buf, pData->send_len) < 0) {
             return FUNC_FAILED;
         }
-        
-//        if (send(_fd, pdata, len, 0) < 0) {
-//            return FUNC_FAILED;
-//        }
         
         return FUNC_SUCCESS;
         
@@ -203,15 +198,15 @@ namespace NAME_SPACE {
         _pTCPClientSignal->SignalEvent(_fd, event);
     }
     
-    void ActiveTCPClient::PutRecvData(sRecvDataPage_ptr& pdata) {
+    void ActiveTCPClient::PutRecvData(const unsigned char* buf, PacketLength len) {
         
         // 有数据往来,心跳计数清零
         _heart_num = 0;
 
-        if (_pTCPClientSignal) {
-            pdata->sock_handle = _fd;
-            _pTCPClientSignal->SignalRecvData(pdata);
+        if (nullptr == _pTCPClientSignal) {
+            return;
         }
 
+        _pTCPClientSignal->SignalRecvData(_fd, buf, len);
     }
 }

@@ -35,7 +35,7 @@ public:
 
 public:
     // 数据接收
-    void RecvData(jsbn::sRecvDataPage_ptr&);
+    void RecvData(SOCKET, const unsigned char*, jsbn::PacketLength);
 
     // 套接字事件处理器
     void Event(SOCKET fd, jsbn::EM_NET_EVENT msg);

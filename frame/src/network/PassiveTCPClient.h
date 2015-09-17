@@ -49,12 +49,11 @@ namespace NAME_SPACE {
         /**
          *	@brief	发送数据
          *
-         *	@paramv char* 数据
-         *	@paramv size_t 数据长度
+         *	@paramv const sSendDataPage_ptr& 数据
          *
          *	@return
          */
-        int SendData(void* pdata, size_t len);
+        int SendData(const sSendDataPage_ptr&);
         
         SOCKET GetFd() { return _fd; }
         
@@ -63,10 +62,9 @@ namespace NAME_SPACE {
         /**
          *	@brief	接收数据，此函数外部禁止调用，用于event事件回调函数调用
          *
-         *	@param 	void* 数据
-         *	@param 	size_t 数据长度
+         *	@param 	data 数据
          */
-        void PutRecvData(sRecvDataPage_ptr&);
+        void PutRecvData(const unsigned char* buf, PacketLength len);
 
         /**
          *	@brief	事件处理，此函数外部禁止调用，用于event事件回调函数调用
