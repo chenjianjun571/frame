@@ -10,137 +10,30 @@
 #include <google/protobuf/stubs/once.h>
 #include <google/protobuf/io/coded_stream.h>
 #include <google/protobuf/wire_format_lite_inl.h>
-#include <google/protobuf/descriptor.h>
-#include <google/protobuf/generated_message_reflection.h>
-#include <google/protobuf/reflection_ops.h>
-#include <google/protobuf/wire_format.h>
+#include <google/protobuf/io/zero_copy_stream_impl_lite.h>
 // @@protoc_insertion_point(includes)
 
 namespace jsbn {
 namespace protoc {
 
-namespace {
-
-const ::google::protobuf::Descriptor* LoginRequest_descriptor_ = NULL;
-const ::google::protobuf::internal::GeneratedMessageReflection*
-  LoginRequest_reflection_ = NULL;
-const ::google::protobuf::Descriptor* LoginResponse_descriptor_ = NULL;
-const ::google::protobuf::internal::GeneratedMessageReflection*
-  LoginResponse_reflection_ = NULL;
-const ::google::protobuf::Descriptor* BSSNetProtocol_descriptor_ = NULL;
-const ::google::protobuf::internal::GeneratedMessageReflection*
-  BSSNetProtocol_reflection_ = NULL;
-const ::google::protobuf::EnumDescriptor* MSG_descriptor_ = NULL;
-
-}  // namespace
-
-
-void protobuf_AssignDesc_jsbn_5fbss_2eproto() {
-  protobuf_AddDesc_jsbn_5fbss_2eproto();
-  const ::google::protobuf::FileDescriptor* file =
-    ::google::protobuf::DescriptorPool::generated_pool()->FindFileByName(
-      "jsbn_bss.proto");
-  GOOGLE_CHECK(file != NULL);
-  LoginRequest_descriptor_ = file->message_type(0);
-  static const int LoginRequest_offsets_[2] = {
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(LoginRequest, username_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(LoginRequest, password_),
-  };
-  LoginRequest_reflection_ =
-    new ::google::protobuf::internal::GeneratedMessageReflection(
-      LoginRequest_descriptor_,
-      LoginRequest::default_instance_,
-      LoginRequest_offsets_,
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(LoginRequest, _has_bits_[0]),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(LoginRequest, _unknown_fields_),
-      -1,
-      ::google::protobuf::DescriptorPool::generated_pool(),
-      ::google::protobuf::MessageFactory::generated_factory(),
-      sizeof(LoginRequest));
-  LoginResponse_descriptor_ = file->message_type(1);
-  static const int LoginResponse_offsets_[2] = {
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(LoginResponse, result_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(LoginResponse, error_description_),
-  };
-  LoginResponse_reflection_ =
-    new ::google::protobuf::internal::GeneratedMessageReflection(
-      LoginResponse_descriptor_,
-      LoginResponse::default_instance_,
-      LoginResponse_offsets_,
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(LoginResponse, _has_bits_[0]),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(LoginResponse, _unknown_fields_),
-      -1,
-      ::google::protobuf::DescriptorPool::generated_pool(),
-      ::google::protobuf::MessageFactory::generated_factory(),
-      sizeof(LoginResponse));
-  BSSNetProtocol_descriptor_ = file->message_type(2);
-  static const int BSSNetProtocol_offsets_[3] = {
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(BSSNetProtocol, type_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(BSSNetProtocol, loginrequest_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(BSSNetProtocol, loginresponse_),
-  };
-  BSSNetProtocol_reflection_ =
-    new ::google::protobuf::internal::GeneratedMessageReflection(
-      BSSNetProtocol_descriptor_,
-      BSSNetProtocol::default_instance_,
-      BSSNetProtocol_offsets_,
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(BSSNetProtocol, _has_bits_[0]),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(BSSNetProtocol, _unknown_fields_),
-      -1,
-      ::google::protobuf::DescriptorPool::generated_pool(),
-      ::google::protobuf::MessageFactory::generated_factory(),
-      sizeof(BSSNetProtocol));
-  MSG_descriptor_ = file->enum_type(0);
-}
-
-namespace {
-
-GOOGLE_PROTOBUF_DECLARE_ONCE(protobuf_AssignDescriptors_once_);
-inline void protobuf_AssignDescriptorsOnce() {
-  ::google::protobuf::GoogleOnceInit(&protobuf_AssignDescriptors_once_,
-                 &protobuf_AssignDesc_jsbn_5fbss_2eproto);
-}
-
-void protobuf_RegisterTypes(const ::std::string&) {
-  protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-    LoginRequest_descriptor_, &LoginRequest::default_instance());
-  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-    LoginResponse_descriptor_, &LoginResponse::default_instance());
-  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-    BSSNetProtocol_descriptor_, &BSSNetProtocol::default_instance());
-}
-
-}  // namespace
-
 void protobuf_ShutdownFile_jsbn_5fbss_2eproto() {
   delete LoginRequest::default_instance_;
-  delete LoginRequest_reflection_;
   delete LoginResponse::default_instance_;
-  delete LoginResponse_reflection_;
   delete BSSNetProtocol::default_instance_;
-  delete BSSNetProtocol_reflection_;
 }
 
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+void protobuf_AddDesc_jsbn_5fbss_2eproto_impl() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+#else
 void protobuf_AddDesc_jsbn_5fbss_2eproto() {
   static bool already_here = false;
   if (already_here) return;
   already_here = true;
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
-  ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-    "\n\016jsbn_bss.proto\022\013jsbn.protoc\"2\n\014LoginRe"
-    "quest\022\020\n\010username\030\001 \002(\014\022\020\n\010password\030\002 \002("
-    "\t\":\n\rLoginResponse\022\016\n\006result\030\001 \002(\007\022\031\n\021er"
-    "ror_description\030\002 \001(\014\"\224\001\n\016BSSNetProtocol"
-    "\022\036\n\004type\030\001 \002(\0162\020.jsbn.protoc.MSG\022/\n\014logi"
-    "nrequest\030\003 \001(\0132\031.jsbn.protoc.LoginReques"
-    "t\0221\n\rloginresponse\030\004 \001(\0132\032.jsbn.protoc.L"
-    "oginResponse*>\n\003MSG\022\016\n\nHeart_Beat\020\000\022\022\n\rL"
-    "ogin_Request\020\201 \022\023\n\016Login_Response\020\202 B\033\n\017"
-    "com.jsbn.protocB\010protocol", 385);
-  ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
-    "jsbn_bss.proto", &protobuf_RegisterTypes);
+#endif
   LoginRequest::default_instance_ = new LoginRequest();
   LoginResponse::default_instance_ = new LoginResponse();
   BSSNetProtocol::default_instance_ = new BSSNetProtocol();
@@ -150,16 +43,20 @@ void protobuf_AddDesc_jsbn_5fbss_2eproto() {
   ::google::protobuf::internal::OnShutdown(&protobuf_ShutdownFile_jsbn_5fbss_2eproto);
 }
 
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+GOOGLE_PROTOBUF_DECLARE_ONCE(protobuf_AddDesc_jsbn_5fbss_2eproto_once_);
+void protobuf_AddDesc_jsbn_5fbss_2eproto() {
+  ::google::protobuf::GoogleOnceInit(&protobuf_AddDesc_jsbn_5fbss_2eproto_once_,
+                 &protobuf_AddDesc_jsbn_5fbss_2eproto_impl);
+}
+#else
 // Force AddDescriptors() to be called at static initialization time.
 struct StaticDescriptorInitializer_jsbn_5fbss_2eproto {
   StaticDescriptorInitializer_jsbn_5fbss_2eproto() {
     protobuf_AddDesc_jsbn_5fbss_2eproto();
   }
 } static_descriptor_initializer_jsbn_5fbss_2eproto_;
-const ::google::protobuf::EnumDescriptor* MSG_descriptor() {
-  protobuf_AssignDescriptorsOnce();
-  return MSG_descriptor_;
-}
+#endif
 bool MSG_IsValid(int value) {
   switch(value) {
     case 0:
@@ -180,7 +77,7 @@ const int LoginRequest::kPasswordFieldNumber;
 #endif  // !_MSC_VER
 
 LoginRequest::LoginRequest()
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::MessageLite() {
   SharedCtor();
   // @@protoc_insertion_point(constructor:jsbn.protoc.LoginRequest)
 }
@@ -189,7 +86,7 @@ void LoginRequest::InitAsDefaultInstance() {
 }
 
 LoginRequest::LoginRequest(const LoginRequest& from)
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::MessageLite() {
   SharedCtor();
   MergeFrom(from);
   // @@protoc_insertion_point(copy_constructor:jsbn.protoc.LoginRequest)
@@ -215,7 +112,11 @@ void LoginRequest::SharedDtor() {
   if (password_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
     delete password_;
   }
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  if (this != &default_instance()) {
+  #else
   if (this != default_instance_) {
+  #endif
   }
 }
 
@@ -224,13 +125,12 @@ void LoginRequest::SetCachedSize(int size) const {
   _cached_size_ = size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
 }
-const ::google::protobuf::Descriptor* LoginRequest::descriptor() {
-  protobuf_AssignDescriptorsOnce();
-  return LoginRequest_descriptor_;
-}
-
 const LoginRequest& LoginRequest::default_instance() {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  protobuf_AddDesc_jsbn_5fbss_2eproto();
+#else
   if (default_instance_ == NULL) protobuf_AddDesc_jsbn_5fbss_2eproto();
+#endif
   return *default_instance_;
 }
 
@@ -254,13 +154,17 @@ void LoginRequest::Clear() {
     }
   }
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  mutable_unknown_fields()->Clear();
+  mutable_unknown_fields()->clear();
 }
 
 bool LoginRequest::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
+  ::google::protobuf::io::StringOutputStream unknown_fields_string(
+      mutable_unknown_fields());
+  ::google::protobuf::io::CodedOutputStream unknown_fields_stream(
+      &unknown_fields_string);
   // @@protoc_insertion_point(parse_start:jsbn.protoc.LoginRequest)
   for (;;) {
     ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
@@ -285,10 +189,6 @@ bool LoginRequest::MergePartialFromCodedStream(
          parse_password:
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_password()));
-          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
-            this->password().data(), this->password().length(),
-            ::google::protobuf::internal::WireFormat::PARSE,
-            "password");
         } else {
           goto handle_unusual;
         }
@@ -303,8 +203,8 @@ bool LoginRequest::MergePartialFromCodedStream(
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
           goto success;
         }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
-              input, tag, mutable_unknown_fields()));
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(
+            input, tag, &unknown_fields_stream));
         break;
       }
     }
@@ -329,48 +229,13 @@ void LoginRequest::SerializeWithCachedSizes(
 
   // required string password = 2;
   if (has_password()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
-      this->password().data(), this->password().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE,
-      "password");
     ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       2, this->password(), output);
   }
 
-  if (!unknown_fields().empty()) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        unknown_fields(), output);
-  }
+  output->WriteRaw(unknown_fields().data(),
+                   unknown_fields().size());
   // @@protoc_insertion_point(serialize_end:jsbn.protoc.LoginRequest)
-}
-
-::google::protobuf::uint8* LoginRequest::SerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
-  // @@protoc_insertion_point(serialize_to_array_start:jsbn.protoc.LoginRequest)
-  // required bytes username = 1;
-  if (has_username()) {
-    target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
-        1, this->username(), target);
-  }
-
-  // required string password = 2;
-  if (has_password()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
-      this->password().data(), this->password().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE,
-      "password");
-    target =
-      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        2, this->password(), target);
-  }
-
-  if (!unknown_fields().empty()) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        unknown_fields(), target);
-  }
-  // @@protoc_insertion_point(serialize_to_array_end:jsbn.protoc.LoginRequest)
-  return target;
 }
 
 int LoginRequest::ByteSize() const {
@@ -392,27 +257,17 @@ int LoginRequest::ByteSize() const {
     }
 
   }
-  if (!unknown_fields().empty()) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        unknown_fields());
-  }
+  total_size += unknown_fields().size();
+
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = total_size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
   return total_size;
 }
 
-void LoginRequest::MergeFrom(const ::google::protobuf::Message& from) {
-  GOOGLE_CHECK_NE(&from, this);
-  const LoginRequest* source =
-    ::google::protobuf::internal::dynamic_cast_if_available<const LoginRequest*>(
-      &from);
-  if (source == NULL) {
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-    MergeFrom(*source);
-  }
+void LoginRequest::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const LoginRequest*>(&from));
 }
 
 void LoginRequest::MergeFrom(const LoginRequest& from) {
@@ -425,13 +280,7 @@ void LoginRequest::MergeFrom(const LoginRequest& from) {
       set_password(from.password());
     }
   }
-  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
-}
-
-void LoginRequest::CopyFrom(const ::google::protobuf::Message& from) {
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
+  mutable_unknown_fields()->append(from.unknown_fields());
 }
 
 void LoginRequest::CopyFrom(const LoginRequest& from) {
@@ -451,17 +300,13 @@ void LoginRequest::Swap(LoginRequest* other) {
     std::swap(username_, other->username_);
     std::swap(password_, other->password_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
-    _unknown_fields_.Swap(&other->_unknown_fields_);
+    _unknown_fields_.swap(other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);
   }
 }
 
-::google::protobuf::Metadata LoginRequest::GetMetadata() const {
-  protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::Metadata metadata;
-  metadata.descriptor = LoginRequest_descriptor_;
-  metadata.reflection = LoginRequest_reflection_;
-  return metadata;
+::std::string LoginRequest::GetTypeName() const {
+  return "jsbn.protoc.LoginRequest";
 }
 
 
@@ -473,7 +318,7 @@ const int LoginResponse::kErrorDescriptionFieldNumber;
 #endif  // !_MSC_VER
 
 LoginResponse::LoginResponse()
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::MessageLite() {
   SharedCtor();
   // @@protoc_insertion_point(constructor:jsbn.protoc.LoginResponse)
 }
@@ -482,7 +327,7 @@ void LoginResponse::InitAsDefaultInstance() {
 }
 
 LoginResponse::LoginResponse(const LoginResponse& from)
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::MessageLite() {
   SharedCtor();
   MergeFrom(from);
   // @@protoc_insertion_point(copy_constructor:jsbn.protoc.LoginResponse)
@@ -505,7 +350,11 @@ void LoginResponse::SharedDtor() {
   if (error_description_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
     delete error_description_;
   }
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  if (this != &default_instance()) {
+  #else
   if (this != default_instance_) {
+  #endif
   }
 }
 
@@ -514,13 +363,12 @@ void LoginResponse::SetCachedSize(int size) const {
   _cached_size_ = size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
 }
-const ::google::protobuf::Descriptor* LoginResponse::descriptor() {
-  protobuf_AssignDescriptorsOnce();
-  return LoginResponse_descriptor_;
-}
-
 const LoginResponse& LoginResponse::default_instance() {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  protobuf_AddDesc_jsbn_5fbss_2eproto();
+#else
   if (default_instance_ == NULL) protobuf_AddDesc_jsbn_5fbss_2eproto();
+#endif
   return *default_instance_;
 }
 
@@ -540,13 +388,17 @@ void LoginResponse::Clear() {
     }
   }
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  mutable_unknown_fields()->Clear();
+  mutable_unknown_fields()->clear();
 }
 
 bool LoginResponse::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
+  ::google::protobuf::io::StringOutputStream unknown_fields_string(
+      mutable_unknown_fields());
+  ::google::protobuf::io::CodedOutputStream unknown_fields_stream(
+      &unknown_fields_string);
   // @@protoc_insertion_point(parse_start:jsbn.protoc.LoginResponse)
   for (;;) {
     ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
@@ -587,8 +439,8 @@ bool LoginResponse::MergePartialFromCodedStream(
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
           goto success;
         }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
-              input, tag, mutable_unknown_fields()));
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(
+            input, tag, &unknown_fields_stream));
         break;
       }
     }
@@ -616,34 +468,9 @@ void LoginResponse::SerializeWithCachedSizes(
       2, this->error_description(), output);
   }
 
-  if (!unknown_fields().empty()) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        unknown_fields(), output);
-  }
+  output->WriteRaw(unknown_fields().data(),
+                   unknown_fields().size());
   // @@protoc_insertion_point(serialize_end:jsbn.protoc.LoginResponse)
-}
-
-::google::protobuf::uint8* LoginResponse::SerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
-  // @@protoc_insertion_point(serialize_to_array_start:jsbn.protoc.LoginResponse)
-  // required fixed32 result = 1;
-  if (has_result()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteFixed32ToArray(1, this->result(), target);
-  }
-
-  // optional bytes error_description = 2;
-  if (has_error_description()) {
-    target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
-        2, this->error_description(), target);
-  }
-
-  if (!unknown_fields().empty()) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        unknown_fields(), target);
-  }
-  // @@protoc_insertion_point(serialize_to_array_end:jsbn.protoc.LoginResponse)
-  return target;
 }
 
 int LoginResponse::ByteSize() const {
@@ -663,27 +490,17 @@ int LoginResponse::ByteSize() const {
     }
 
   }
-  if (!unknown_fields().empty()) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        unknown_fields());
-  }
+  total_size += unknown_fields().size();
+
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = total_size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
   return total_size;
 }
 
-void LoginResponse::MergeFrom(const ::google::protobuf::Message& from) {
-  GOOGLE_CHECK_NE(&from, this);
-  const LoginResponse* source =
-    ::google::protobuf::internal::dynamic_cast_if_available<const LoginResponse*>(
-      &from);
-  if (source == NULL) {
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-    MergeFrom(*source);
-  }
+void LoginResponse::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const LoginResponse*>(&from));
 }
 
 void LoginResponse::MergeFrom(const LoginResponse& from) {
@@ -696,13 +513,7 @@ void LoginResponse::MergeFrom(const LoginResponse& from) {
       set_error_description(from.error_description());
     }
   }
-  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
-}
-
-void LoginResponse::CopyFrom(const ::google::protobuf::Message& from) {
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
+  mutable_unknown_fields()->append(from.unknown_fields());
 }
 
 void LoginResponse::CopyFrom(const LoginResponse& from) {
@@ -722,17 +533,13 @@ void LoginResponse::Swap(LoginResponse* other) {
     std::swap(result_, other->result_);
     std::swap(error_description_, other->error_description_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
-    _unknown_fields_.Swap(&other->_unknown_fields_);
+    _unknown_fields_.swap(other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);
   }
 }
 
-::google::protobuf::Metadata LoginResponse::GetMetadata() const {
-  protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::Metadata metadata;
-  metadata.descriptor = LoginResponse_descriptor_;
-  metadata.reflection = LoginResponse_reflection_;
-  return metadata;
+::std::string LoginResponse::GetTypeName() const {
+  return "jsbn.protoc.LoginResponse";
 }
 
 
@@ -745,18 +552,28 @@ const int BSSNetProtocol::kLoginresponseFieldNumber;
 #endif  // !_MSC_VER
 
 BSSNetProtocol::BSSNetProtocol()
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::MessageLite() {
   SharedCtor();
   // @@protoc_insertion_point(constructor:jsbn.protoc.BSSNetProtocol)
 }
 
 void BSSNetProtocol::InitAsDefaultInstance() {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  loginrequest_ = const_cast< ::jsbn::protoc::LoginRequest*>(
+      ::jsbn::protoc::LoginRequest::internal_default_instance());
+#else
   loginrequest_ = const_cast< ::jsbn::protoc::LoginRequest*>(&::jsbn::protoc::LoginRequest::default_instance());
+#endif
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  loginresponse_ = const_cast< ::jsbn::protoc::LoginResponse*>(
+      ::jsbn::protoc::LoginResponse::internal_default_instance());
+#else
   loginresponse_ = const_cast< ::jsbn::protoc::LoginResponse*>(&::jsbn::protoc::LoginResponse::default_instance());
+#endif
 }
 
 BSSNetProtocol::BSSNetProtocol(const BSSNetProtocol& from)
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::MessageLite() {
   SharedCtor();
   MergeFrom(from);
   // @@protoc_insertion_point(copy_constructor:jsbn.protoc.BSSNetProtocol)
@@ -776,7 +593,11 @@ BSSNetProtocol::~BSSNetProtocol() {
 }
 
 void BSSNetProtocol::SharedDtor() {
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  if (this != &default_instance()) {
+  #else
   if (this != default_instance_) {
+  #endif
     delete loginrequest_;
     delete loginresponse_;
   }
@@ -787,13 +608,12 @@ void BSSNetProtocol::SetCachedSize(int size) const {
   _cached_size_ = size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
 }
-const ::google::protobuf::Descriptor* BSSNetProtocol::descriptor() {
-  protobuf_AssignDescriptorsOnce();
-  return BSSNetProtocol_descriptor_;
-}
-
 const BSSNetProtocol& BSSNetProtocol::default_instance() {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  protobuf_AddDesc_jsbn_5fbss_2eproto();
+#else
   if (default_instance_ == NULL) protobuf_AddDesc_jsbn_5fbss_2eproto();
+#endif
   return *default_instance_;
 }
 
@@ -814,13 +634,17 @@ void BSSNetProtocol::Clear() {
     }
   }
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  mutable_unknown_fields()->Clear();
+  mutable_unknown_fields()->clear();
 }
 
 bool BSSNetProtocol::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
+  ::google::protobuf::io::StringOutputStream unknown_fields_string(
+      mutable_unknown_fields());
+  ::google::protobuf::io::CodedOutputStream unknown_fields_stream(
+      &unknown_fields_string);
   // @@protoc_insertion_point(parse_start:jsbn.protoc.BSSNetProtocol)
   for (;;) {
     ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
@@ -837,7 +661,8 @@ bool BSSNetProtocol::MergePartialFromCodedStream(
           if (::jsbn::protoc::MSG_IsValid(value)) {
             set_type(static_cast< ::jsbn::protoc::MSG >(value));
           } else {
-            mutable_unknown_fields()->AddVarint(1, value);
+            unknown_fields_stream.WriteVarint32(tag);
+            unknown_fields_stream.WriteVarint32(value);
           }
         } else {
           goto handle_unusual;
@@ -879,8 +704,8 @@ bool BSSNetProtocol::MergePartialFromCodedStream(
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
           goto success;
         }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
-              input, tag, mutable_unknown_fields()));
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(
+            input, tag, &unknown_fields_stream));
         break;
       }
     }
@@ -905,52 +730,19 @@ void BSSNetProtocol::SerializeWithCachedSizes(
 
   // optional .jsbn.protoc.LoginRequest loginrequest = 3;
   if (has_loginrequest()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
       3, this->loginrequest(), output);
   }
 
   // optional .jsbn.protoc.LoginResponse loginresponse = 4;
   if (has_loginresponse()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
       4, this->loginresponse(), output);
   }
 
-  if (!unknown_fields().empty()) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        unknown_fields(), output);
-  }
+  output->WriteRaw(unknown_fields().data(),
+                   unknown_fields().size());
   // @@protoc_insertion_point(serialize_end:jsbn.protoc.BSSNetProtocol)
-}
-
-::google::protobuf::uint8* BSSNetProtocol::SerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
-  // @@protoc_insertion_point(serialize_to_array_start:jsbn.protoc.BSSNetProtocol)
-  // required .jsbn.protoc.MSG type = 1;
-  if (has_type()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
-      1, this->type(), target);
-  }
-
-  // optional .jsbn.protoc.LoginRequest loginrequest = 3;
-  if (has_loginrequest()) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        3, this->loginrequest(), target);
-  }
-
-  // optional .jsbn.protoc.LoginResponse loginresponse = 4;
-  if (has_loginresponse()) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        4, this->loginresponse(), target);
-  }
-
-  if (!unknown_fields().empty()) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        unknown_fields(), target);
-  }
-  // @@protoc_insertion_point(serialize_to_array_end:jsbn.protoc.BSSNetProtocol)
-  return target;
 }
 
 int BSSNetProtocol::ByteSize() const {
@@ -978,27 +770,17 @@ int BSSNetProtocol::ByteSize() const {
     }
 
   }
-  if (!unknown_fields().empty()) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        unknown_fields());
-  }
+  total_size += unknown_fields().size();
+
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = total_size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
   return total_size;
 }
 
-void BSSNetProtocol::MergeFrom(const ::google::protobuf::Message& from) {
-  GOOGLE_CHECK_NE(&from, this);
-  const BSSNetProtocol* source =
-    ::google::protobuf::internal::dynamic_cast_if_available<const BSSNetProtocol*>(
-      &from);
-  if (source == NULL) {
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-    MergeFrom(*source);
-  }
+void BSSNetProtocol::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const BSSNetProtocol*>(&from));
 }
 
 void BSSNetProtocol::MergeFrom(const BSSNetProtocol& from) {
@@ -1014,13 +796,7 @@ void BSSNetProtocol::MergeFrom(const BSSNetProtocol& from) {
       mutable_loginresponse()->::jsbn::protoc::LoginResponse::MergeFrom(from.loginresponse());
     }
   }
-  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
-}
-
-void BSSNetProtocol::CopyFrom(const ::google::protobuf::Message& from) {
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
+  mutable_unknown_fields()->append(from.unknown_fields());
 }
 
 void BSSNetProtocol::CopyFrom(const BSSNetProtocol& from) {
@@ -1047,17 +823,13 @@ void BSSNetProtocol::Swap(BSSNetProtocol* other) {
     std::swap(loginrequest_, other->loginrequest_);
     std::swap(loginresponse_, other->loginresponse_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
-    _unknown_fields_.Swap(&other->_unknown_fields_);
+    _unknown_fields_.swap(other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);
   }
 }
 
-::google::protobuf::Metadata BSSNetProtocol::GetMetadata() const {
-  protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::Metadata metadata;
-  metadata.descriptor = BSSNetProtocol_descriptor_;
-  metadata.reflection = BSSNetProtocol_reflection_;
-  return metadata;
+::std::string BSSNetProtocol::GetTypeName() const {
+  return "jsbn.protoc.BSSNetProtocol";
 }
 
 

@@ -38,7 +38,7 @@ ifdef NDEBUG
  CXXFLAGS=-fPIC -fno-inline -D_LINUX -DNDEBUG -Wno-deprecated $(DEBUG_DEFINE)
 else
  # debug库依赖添加
- LIB=-lframe -lglog -lboost_system -lboost_thread -lACE -levent -levent_pthreads -lmysqlclient -lmysqlpp -lprotobuf-lite
+ LIB=-lframe -lglog -lACE -levent -levent_pthreads -lmysqlclient -lmysqlpp -lprotobuf-lite
  CXXFLAGS=-fPIC -fno-inline -D_LINUX -Wno-deprecated $(DEBUG_DEFINE)
 endif
 
