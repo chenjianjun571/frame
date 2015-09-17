@@ -66,7 +66,14 @@ int BusinessService::SendData(SOCKET fd, void* data, size_t len) {
     ReadLockScoped rls(*_client_mutex);
     std::map<SOCKET, PassiveTCPClient*>::iterator it = _map_clients.find(fd);
     if (it != _map_clients.end()) {
-        return it->second->SendData(data, len);
+
+        sSendDataPage_ptr ptr = MallocStructFactory::Instance().get_send_page();
+        if (nullptr == ptr) {
+            return FUNC_FAILED;
+        }
+        ptr->Copy(data, len);
+
+        return it->second->SendData(ptr);
     }
 
     return FUNC_FAILED;
