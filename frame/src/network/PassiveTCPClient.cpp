@@ -45,7 +45,7 @@ namespace NAME_SPACE {
 
                 return;
             }
-
+            LOG(INFO)<<"实际数据长度:"<<datalen;
             // 判断数据是否收集齐全，没有收集齐全的不做处理
             if (nbytes < datalen)
             {
