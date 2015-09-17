@@ -115,9 +115,7 @@ void BusinessService::DelClient(SOCKET fd)
 
 void BusinessService::RecvData(SOCKET _fd, const unsigned char* buf, PacketLength len)
 {
-
     // 解析数据协议
-
 }
 
 // 套接字事件处理器
@@ -127,12 +125,16 @@ void BusinessService::Event(SOCKET fd, EM_NET_EVENT msg)
     switch (msg)
     {
     case ENE_CLOSE:
-        LOG(ERROR)<<"连接关闭";
+        LOG(ERROR)<<"连接关闭.";
         DelClient(fd);
         break;
     case ENE_ACCEPT_ERROR:
-        LOG(ERROR)<<"监听失败";
+        LOG(ERROR)<<"监听失败.";
         Stop();
+        break;
+    case ENE_HEART_TIMEOUT:
+        LOG(ERROR)<<"心跳超时,关闭连接.";
+        DelClient(fd);
         break;
     default:
         break;
@@ -142,7 +144,7 @@ void BusinessService::Event(SOCKET fd, EM_NET_EVENT msg)
 
 void BusinessService::Accept(SOCKET fd, struct sockaddr_in* sa)
 {
-    LOG(INFO)<<"收到客户端连接"<<::inet_ntoa(sa->sin_addr)<<":"<<::ntohs(sa->sin_port);
+    LOG(INFO)<<"收到客户端连接:"<<::inet_ntoa(sa->sin_addr)<<":"<<::ntohs(sa->sin_port);
 
     PassiveTCPClient* pPassiveTCPClient = new PassiveTCPClient(fd, sa, SYS_CONFIG->get_module_config().bus_heartbeat_detection);
     if (!pPassiveTCPClient->StartWork(this))

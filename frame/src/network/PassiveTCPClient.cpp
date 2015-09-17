@@ -16,7 +16,7 @@ namespace NAME_SPACE {
         
         PassiveTCPClient *pPassiveTCPClient = (PassiveTCPClient*)data;
         // 心跳超时回调
-        pPassiveTCPClient->ProcEvent(ENE_HEART_TIMEOUT);
+        pPassiveTCPClient->ProcEvent(ENE_HEART);
     }
     
     void PassiveTCPReadEventCb(struct bufferevent *bev, void *data) {
@@ -131,6 +131,8 @@ namespace NAME_SPACE {
             event_free(_event);
             _event = nullptr;
         }
+
+        LOG(INFO)<<"连接关闭:"<<_client_ip<<":"<<_client_port;
         
         // 不要对_pPassiveTCPClientSignal置null，释放由外部传入者负责
     }
@@ -156,9 +158,11 @@ namespace NAME_SPACE {
         
         if (ENE_HEART == event) {
 
-            // 如果超过三次，说明服务器已经死了，这个时候需要关闭
+            // 如果超过三次，说明客户端已经死了，这个时候需要关闭
             if(++_heart_num > 2) {
                 event = ENE_HEART_TIMEOUT;
+            } else {
+                return;
             }
 
         }
