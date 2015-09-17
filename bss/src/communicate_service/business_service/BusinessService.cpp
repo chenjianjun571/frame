@@ -71,7 +71,7 @@ int BusinessService::SendData(SOCKET fd, void* data, size_t len) {
         if (nullptr == ptr) {
             return FUNC_FAILED;
         }
-        ptr->Copy(data, len);
+        ptr->Copy(static_cast<const unsigned char*>(data), len);
 
         return it->second->SendData(ptr);
     }
