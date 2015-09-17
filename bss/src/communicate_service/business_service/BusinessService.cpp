@@ -11,6 +11,11 @@
 /// @History
 ///************************************************************
 #include "BusinessService.h"
+#include "ModuleConfigCollection.h"
+
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
 
 using namespace jsbn;
 
@@ -22,11 +27,13 @@ BusinessService::~BusinessService()
     delete _client_mutex;
 }
 
-int BusinessService::Start() {
+int BusinessService::Start()
+{
 
-    //TODO: "192.168.1.4",8888 从配置文件读取
-    _pServerWorker = new(std::nothrow) ServerWorker("192.168.1.4",8888);
-    if (nullptr == _pServerWorker) {
+    _pServerWorker = new(std::nothrow) ServerWorker(SYS_CONFIG->get_module_config().bus_listen_ip,
+                                                    SYS_CONFIG->get_module_config().bus_listen_port);
+    if (nullptr == _pServerWorker)
+    {
         return FUNC_FAILED;
     }
 
@@ -35,7 +42,8 @@ int BusinessService::Start() {
     SignalRecvData.connect(this, &BusinessService::RecvData);
     SignalEvent.connect(this, &BusinessService::Event);
 
-    if (!_pServerWorker->StartWork(this)) {
+    if (!_pServerWorker->StartWork(this))
+    {
         LOG(ERROR)<<"服务器监听启动失败";
         return FUNC_FAILED;
     }
@@ -43,9 +51,10 @@ int BusinessService::Start() {
     return FUNC_SUCCESS;
 }
 
-void BusinessService::Stop() {
-
-    if (nullptr == _pServerWorker) {
+void BusinessService::Stop()
+{
+    if (nullptr == _pServerWorker)
+    {
         return;
     }
 
@@ -53,7 +62,8 @@ void BusinessService::Stop() {
 
     WriteLockScoped wls(*_client_mutex);
     std::map<SOCKET, PassiveTCPClient*>::iterator it = _map_clients.begin();
-    while (it != _map_clients.end()) {
+    while (it != _map_clients.end())
+    {
         it->second->StopWork();
         delete it->second;
         _map_clients.erase(it++);
@@ -61,8 +71,8 @@ void BusinessService::Stop() {
 
 }
 
-int BusinessService::SendData(SOCKET fd, void* data, size_t len) {
-
+int BusinessService::SendData(SOCKET fd, void* data, size_t len)
+{
     ReadLockScoped rls(*_client_mutex);
     std::map<SOCKET, PassiveTCPClient*>::iterator it = _map_clients.find(fd);
     if (it != _map_clients.end()) {
@@ -79,8 +89,8 @@ int BusinessService::SendData(SOCKET fd, void* data, size_t len) {
     return FUNC_FAILED;
 }
 
-int BusinessService::AddClient(SOCKET fd, jsbn::PassiveTCPClient* p_client) {
-
+int BusinessService::AddClient(SOCKET fd, jsbn::PassiveTCPClient* p_client)
+{
     WriteLockScoped wls(*_client_mutex);
     std::map<SOCKET, PassiveTCPClient*>::iterator it = _map_clients.find(fd);
     if (it != _map_clients.end()) {
@@ -92,8 +102,8 @@ int BusinessService::AddClient(SOCKET fd, jsbn::PassiveTCPClient* p_client) {
     return FUNC_SUCCESS;
 }
 
-void BusinessService::DelClient(SOCKET fd) {
-
+void BusinessService::DelClient(SOCKET fd)
+{
     WriteLockScoped wls(*_client_mutex);
     std::map<SOCKET, PassiveTCPClient*>::iterator it = _map_clients.find(fd);
     if (it != _map_clients.end()) {
@@ -103,16 +113,19 @@ void BusinessService::DelClient(SOCKET fd) {
     }
 }
 
-void BusinessService::RecvData(SOCKET _fd, const unsigned char* buf, PacketLength len) {
+void BusinessService::RecvData(SOCKET _fd, const unsigned char* buf, PacketLength len)
+{
 
     // 解析数据协议
 
 }
 
 // 套接字事件处理器
-void BusinessService::Event(SOCKET fd, EM_NET_EVENT msg) {
+void BusinessService::Event(SOCKET fd, EM_NET_EVENT msg)
+{
 
-    switch (msg) {
+    switch (msg)
+    {
     case ENE_CLOSE:
         LOG(ERROR)<<"连接关闭";
         DelClient(fd);
@@ -127,19 +140,20 @@ void BusinessService::Event(SOCKET fd, EM_NET_EVENT msg) {
 
 }
 
-void BusinessService::Accept(SOCKET fd, struct sockaddr_in* sa) {
+void BusinessService::Accept(SOCKET fd, struct sockaddr_in* sa)
+{
+    LOG(INFO)<<"收到客户端连接."<<::inet_ntoa(sa->sin_addr)<<":"<<::ntohl(sa->sin_port);
 
-    LOG(ERROR)<<"收到客户端连接.";
-
-    // TODO 15是心跳时间，需要读取配置文件
-    PassiveTCPClient* pPassiveTCPClient = new PassiveTCPClient(fd, sa, 15);
-    if (!pPassiveTCPClient->StartWork(this)) {
-        LOG(ERROR)<<"启动客户端失败";
+    PassiveTCPClient* pPassiveTCPClient = new PassiveTCPClient(fd, sa, SYS_CONFIG->get_module_config().bus_heartbeat_detection);
+    if (!pPassiveTCPClient->StartWork(this))
+    {
+        LOG(ERROR)<<"启动客户端失败.";
         delete pPassiveTCPClient;
         return;
     }
 
-    if (AddClient(fd, pPassiveTCPClient) != FUNC_SUCCESS) {
+    if (AddClient(fd, pPassiveTCPClient) != FUNC_SUCCESS)
+    {
         pPassiveTCPClient->StopWork();
         delete pPassiveTCPClient;
     }

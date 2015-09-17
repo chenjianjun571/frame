@@ -32,17 +32,20 @@ int CModuleConfigCollection::dump(const char* first_param /* = NULL */,
 int CModuleConfigCollection::load_module_file_config (CIniFile &ini_reader)
 {
     if (FUNC_SUCCESS != load_string_item (ini_reader,
-                                          "RELAY_INFO",
-                                          "RELAY_IP",
-                                          m_net_srv_config.relay_ip))
+                                          "BUS_SVR_INFO",
+                                          "BUS_SVR_IP",
+                                          m_net_srv_config.bus_listen_ip))
     {
         return FUNC_FAILED;
     }
 
-    if (FUNC_SUCCESS != load_string_item (ini_reader,
-                                          "RELAY_INFO",
-                                          "RELAY_PORTS",
-                                          m_net_srv_config.relay_ports))
+
+    if (FUNC_SUCCESS != load_int_item(ini_reader,
+                                      "BUS_SVR_INFO",
+                                      "BUS_SVR_PORT",
+                                      m_net_srv_config.bus_listen_port,
+                                      1024,
+                                      65523))
     {
         return FUNC_FAILED;
     }

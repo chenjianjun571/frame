@@ -18,20 +18,17 @@
 /// @brief 通信服务器配置信息
 struct stModuleConfig
 {
-    // 转发监听IP
-    std::string relay_ip;
-    // 转发监听port 例如:"1111,2222,1122"
-    std::string relay_ports;
-
-    /// 跟信令服务器的链接心跳
-    std::string signal_ip;
-    int signal_port;
-    int signal_srv_heartbeat_time;
+    // 业务服务器监听IP
+    std::string bus_listen_ip;
+    // 业务服务器监听port
+    int bus_listen_port;
+    // 业务服务器心跳检测间隔时间
+    int bus_heartbeat_detection;
 
     stModuleConfig()
     {
-        relay_ip.clear();
-        signal_ip.clear();
+        bus_listen_ip.clear();
+        bus_heartbeat_detection = 15;
     }
 };
 
