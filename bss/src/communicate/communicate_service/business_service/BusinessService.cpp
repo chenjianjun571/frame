@@ -163,9 +163,12 @@ void BusinessService::Event(SOCKET fd, EM_NET_EVENT msg)
 
 void BusinessService::Accept(SOCKET fd, struct sockaddr_in* sa)
 {
-    LOG(INFO)<<"收到客户端连接:"<<::inet_ntoa(sa->sin_addr)<<":"<<::ntohs(sa->sin_port);
+    PassiveTCPClient* pPassiveTCPClient = new(std::nothrow) PassiveTCPClient(fd, sa, SYS_CONFIG->get_module_config().bus_heartbeat_detection);
+    if (nullptr == pPassiveTCPClient) {
+        close(fd);
+        return;
+    }
 
-    PassiveTCPClient* pPassiveTCPClient = new PassiveTCPClient(fd, sa, SYS_CONFIG->get_module_config().bus_heartbeat_detection);
     if (!pPassiveTCPClient->StartWork(this))
     {
         LOG(ERROR)<<"启动客户端失败.";
@@ -178,4 +181,6 @@ void BusinessService::Accept(SOCKET fd, struct sockaddr_in* sa)
         pPassiveTCPClient->StopWork();
         delete pPassiveTCPClient;
     }
+
+    LOG(INFO)<<"收到客户端连接:"<<::inet_ntoa(sa->sin_addr)<<":"<<::ntohs(sa->sin_port);
 }
