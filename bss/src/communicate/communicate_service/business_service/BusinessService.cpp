@@ -121,6 +121,7 @@ void BusinessService::RecvData(SOCKET fd, const unsigned char* buf, PacketLength
     }
 
     if (prt->type() == Heart_Beat) {
+        LOG(INFO)<<"收到心跳.";
         // 心跳协议
         sSendDataPage_ptr pSend = MallocStructFactory::Instance().get_send_page();
         pSend->Copy(buf, len);

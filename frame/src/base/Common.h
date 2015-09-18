@@ -167,7 +167,7 @@ typedef struct stSendData
         // 贴上包体
         ::memcpy(send_buf+kPacketLenSize, buf, (len>SEND_DATA_MAX_PACKET_SIZE) ? SEND_DATA_MAX_PACKET_SIZE : len);
 
-        send_len = kPacketLenSize + (len>SEND_DATA_MAX_PACKET_SIZE) ? SEND_DATA_MAX_PACKET_SIZE : len;
+        send_len = kPacketLenSize + ((len>SEND_DATA_MAX_PACKET_SIZE) ? SEND_DATA_MAX_PACKET_SIZE : len);
     }
 }TSendData;
 // 发送数据智能指针
