@@ -31,14 +31,14 @@ public:
     // 停止服务器
     void Stop();
 
-    int SendData(const jsbn::sSendDataPage_ptr& pSend);
+    int SendData(const sSendDataPage_ptr& pSend);
 
 public:
     // 数据接收
     void RecvData(SOCKET, const unsigned char*, jsbn::PacketLength);
 
     // 套接字事件处理器
-    void Event(SOCKET fd, jsbn::EM_NET_EVENT msg);
+    void Event(SOCKET fd, EM_NET_EVENT msg);
 
     // 客户端连接触发器
     void Accept(SOCKET fd, struct sockaddr_in* sa);
