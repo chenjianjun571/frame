@@ -35,7 +35,7 @@ namespace NAME_SPACE {
             {
                 return;
             }
-            
+            LOG(INFO)<<"收到的数据长度:"<<nbytes;
             // 如果大于系统定义的最大包长度，为防止恶意行为需要做断开处理
             datalen = GetBE16(bev->input);
             if (datalen > RECV_DATA_MAX_PACKET_SIZE)
