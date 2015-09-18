@@ -153,5 +153,42 @@ struct SSystemControl
 #define FUNC_FAILED -1
 #endif
 
+#define SOCKET int
+
+typedef enum emNetEvent {
+    EVE_UNKNOWN = -1,// 未知错误
+    ENE_CONNECTED = 0,// 连接建立
+    ENE_HEART,// 心跳
+    ENE_HEART_TIMEOUT,// 心跳检测超时
+    ENE_ACCEPT_ERROR,// 监听失败
+    ENE_CLOSE// 连接关闭
+}EM_NET_EVENT;
+
+#define RECV_DATA_MAX_PACKET_SIZE 4096
+#define SEND_DATA_MAX_PACKET_SIZE 4096
+typedef uint16 PacketLength;
+static const size_t kPacketLenSize = sizeof(PacketLength);
+
+typedef struct stSendData
+{
+    /// 发送数据缓冲区
+    unsigned char send_buf[SEND_DATA_MAX_PACKET_SIZE];
+    /// 发送数据长度
+    unsigned int send_len;
+    /// 连接句柄
+    int sock_handle;
+
+    void Copy(const unsigned char* buf, unsigned int len) {
+        // 贴上包头
+        SetBE16(send_buf, len);
+        // 贴上包体
+        ::memcpy(send_buf+kPacketLenSize, buf, (len>SEND_DATA_MAX_PACKET_SIZE) ? SEND_DATA_MAX_PACKET_SIZE : len);
+
+        send_len = kPacketLenSize + ((len>SEND_DATA_MAX_PACKET_SIZE) ? SEND_DATA_MAX_PACKET_SIZE : len);
+    }
+}TSendData;
+// 发送数据智能指针
+typedef std::shared_ptr<TSendData> sSendDataPage_ptr;
+
 #endif //__SYSTEM_PUBLIC_DEF_H_FILE__
 
