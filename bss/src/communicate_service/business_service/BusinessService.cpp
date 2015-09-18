@@ -12,12 +12,15 @@
 ///************************************************************
 #include "BusinessService.h"
 #include "ModuleConfigCollection.h"
+#include "../../communicate_protoc/ProtocolProcManager.h"
+#include "../../ModuleDataCenter.h"
 
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
 using namespace jsbn;
+using namespace jsbn::protoc;
 
 BusinessService::BusinessService():_pServerWorker(nullptr),_client_mutex(RWLock::Create())
 {}
@@ -71,19 +74,13 @@ void BusinessService::Stop()
 
 }
 
-int BusinessService::SendData(SOCKET fd, void* data, size_t len)
+int BusinessService::SendData(const sSendDataPage_ptr& pSend)
 {
     ReadLockScoped rls(*_client_mutex);
-    std::map<SOCKET, PassiveTCPClient*>::iterator it = _map_clients.find(fd);
-    if (it != _map_clients.end()) {
-
-        sSendDataPage_ptr ptr = MallocStructFactory::Instance().get_send_page();
-        if (nullptr == ptr) {
-            return FUNC_FAILED;
-        }
-        ptr->Copy(static_cast<const unsigned char*>(data), len);
-
-        return it->second->SendData(ptr);
+    std::map<SOCKET, PassiveTCPClient*>::iterator it = _map_clients.find(pSend->sock_handle);
+    if (it != _map_clients.end())
+    {
+        return it->second->SendData(pSend);
     }
 
     return FUNC_FAILED;
@@ -113,9 +110,27 @@ void BusinessService::DelClient(SOCKET fd)
     }
 }
 
-void BusinessService::RecvData(SOCKET _fd, const unsigned char* buf, PacketLength len)
+void BusinessService::RecvData(SOCKET fd, const unsigned char* buf, PacketLength len)
 {
     // 解析数据协议
+    sNetProtocolDataPage_ptr prt = ProtocolProcManager::ParseProtocol(buf, len);
+    if (nullptr == prt) {
+        LOG(ERROR)<<"协议解析失败，关闭连接.";
+        DelClient(fd);
+        return;
+    }
+
+    if (prt->type() == Heart_Beat) {
+        // 心跳协议
+        sSendDataPage_ptr pSend = MallocStructFactory::Instance().get_send_page();
+        pSend->Copy(buf, len);
+
+        SendData(pSend);
+        return;
+    }
+
+    // 丢队列
+    ModuleDataCenter::Instance()->PutRecvData(prt);
 }
 
 // 套接字事件处理器

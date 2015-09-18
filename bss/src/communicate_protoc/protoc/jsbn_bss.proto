@@ -4,6 +4,7 @@ option java_outer_classname = "protocol";
 
 // 命令类型
 enum MSG {
+    Heart_Beat  = 0x00000000;// 心跳
     Login_Request  = 0x00001001;// 登录请求
     Login_Response = 0x00001002;// 登录应答
 }

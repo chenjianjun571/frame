@@ -31,7 +31,7 @@ public:
     // 停止服务器
     void Stop();
 
-    int SendData(SOCKET fd, void* data, size_t len);
+    int SendData(const jsbn::sSendDataPage_ptr& pSend);
 
 public:
     // 数据接收

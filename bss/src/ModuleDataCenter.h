@@ -25,8 +25,8 @@ public:
     /// @brief 析构函数
     virtual ~ModuleDataCenter();
 
-//    int PutRecvData(jsbn::sRecvDataPage_ptr&);
-//    jsbn::sRecvDataPage_ptr GetRecvData(unsigned long max_time_inMS = 1000);
+    int PutRecvData(sNetProtocolDataPage_ptr&);
+    sNetProtocolDataPage_ptr GetRecvData(unsigned long max_time_inMS = 1000);
 
 protected:
     ModuleDataCenter();
@@ -37,7 +37,7 @@ private:
     // 接收数据锁
     jsbn::CriticalSection _recv_critical_section;
     jsbn::ConditionVariable* _recv_cond_variable;
-//    CList<jsbn::sRecvDataPage_ptr> _recv_data_lists;
+    CList<sNetProtocolDataPage_ptr> _recv_data_lists;
 };
 
 #endif //__MODULE_DATA_CENTER_H_

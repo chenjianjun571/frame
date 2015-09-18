@@ -19,7 +19,7 @@ class ProtocolProcManager
 {
 public:
     // 解析通信协议
-    static sNetProtocolDataPage_ptr ParseProtocol(SOCKET, const unsigned char*, jsbn::PacketLength);
+    static sNetProtocolDataPage_ptr ParseProtocol(const unsigned char*, jsbn::PacketLength);
 };
 
 #endif //__PROTOCOL_PROC_MANAGER_H_
