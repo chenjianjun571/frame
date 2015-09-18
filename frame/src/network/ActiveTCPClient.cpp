@@ -8,7 +8,6 @@
 
 #include "ActiveTCPClient.h"
 #include "NetFrame.h"
-#include "../mempool/MallocStructFactory.h"
 
 namespace NAME_SPACE {
     
@@ -30,43 +29,43 @@ namespace NAME_SPACE {
     void ActiveTCPReadEventCb(struct bufferevent *bev, void *data) {
         
         ActiveTCPClient* pActiveTCPClient = (ActiveTCPClient*)data;
-
+        
         static unsigned char recv_buf[RECV_DATA_MAX_PACKET_SIZE];
         static PacketLength datalen = 0;
         static PacketLength nbytes = 0;
-
+        
         /** TCP网络通信的时候采用头两个字节为数据包长度的方式进行规范，防止粘包 */
-        do
-        {
+        do {
+            
             nbytes = EVBUFFER_LENGTH(bev->input);
             if (nbytes < kPacketLenSize)
             {
                 return;
             }
-
+            
             // 如果大于系统定义的最大包长度，为防止恶意行为需要做断开处理
             datalen = GetBE16(EVBUFFER_DATA(bev->input));
             if (datalen > RECV_DATA_MAX_PACKET_SIZE) {
-
+                
                 LOG(INFO)<<"接收客户端的数据超过缓冲区大小,断开客户端.收到的数据长度:"<<datalen;
                 pActiveTCPClient->ProcEvent(ENE_CLOSE);
-
+                
                 return;
             }
-
+            
             // 判断数据是否收集齐全，没有收集齐全的不做处理
             if (nbytes < datalen) {
                 return;
             }
-
+            
             // 取出完整的数据包
             evbuffer_remove(bev->input, recv_buf, datalen+kPacketLenSize);
-
+            LOG(INFO)<<"客户端收到数据回调.";
             // 数据接收回调,去除头四个字节的长度buf
             pActiveTCPClient->PutRecvData(recv_buf+kPacketLenSize, datalen);
-
+            
         } while (true);
-
+        
     }
     
     ActiveTCPClient::ActiveTCPClient(std::string host_name, unsigned short host_port, short heart_time)
@@ -154,7 +153,7 @@ namespace NAME_SPACE {
         if (nullptr == _bev || _connect_flg != 2 || nullptr == pData) {
             return FUNC_FAILED;
         }
-
+        
         if (bufferevent_write(_bev, pData->send_buf, pData->send_len) < 0) {
             return FUNC_FAILED;
         }
@@ -168,7 +167,7 @@ namespace NAME_SPACE {
         if (!_pTCPClientSignal) {
             return;
         }
-
+        
         if (ENE_CONNECTED == event) {
             // 已连接状态
             _connect_flg = 2;
@@ -178,22 +177,22 @@ namespace NAME_SPACE {
                                EV_TIMEOUT|EV_PERSIST,
                                ActiveTCPTimeOutEventCb,
                                this);
-
+            
             // 设置心跳检测时间
             struct timeval timeout = {_heart_time, 0};
             event_add(_event, &timeout);
-
+            
             // 心跳计数清零
             _heart_num = 0;
         }
-
+        
         if (ENE_HEART == event) {
-
+            
             // 如果超过三次，说明服务器已经死了，这个时候需要关闭
             if(++_heart_num > 2) {
                 event = ENE_HEART_TIMEOUT;
             }
-
+            
         }
         
         _pTCPClientSignal->SignalEvent(_fd, event);
@@ -203,11 +202,11 @@ namespace NAME_SPACE {
         
         // 有数据往来,心跳计数清零
         _heart_num = 0;
-
+        
         if (nullptr == _pTCPClientSignal) {
             return;
         }
-
+        
         _pTCPClientSignal->SignalRecvData(_fd, buf, len);
     }
 }

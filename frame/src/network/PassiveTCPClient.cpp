@@ -8,7 +8,6 @@
 
 #include "PassiveTCPClient.h"
 #include "NetFrame.h"
-#include "../mempool/MallocStructFactory.h"
 
 namespace NAME_SPACE {
     
@@ -22,11 +21,11 @@ namespace NAME_SPACE {
     void PassiveTCPReadEventCb(struct bufferevent *bev, void *data)
     {
         PassiveTCPClient* pPassiveTCPClient = (PassiveTCPClient*)data;
-
+        
         static unsigned char recv_buf[RECV_DATA_MAX_PACKET_SIZE];
         static PacketLength datalen = 0;
         static PacketLength nbytes = 0;
-
+        
         /** TCP网络通信的时候采用头两个字节为数据包长度的方式进行规范，防止粘包 */
         do
         {
@@ -35,26 +34,26 @@ namespace NAME_SPACE {
             {
                 return;
             }
-
+            
             // 如果大于系统定义的最大包长度，为防止恶意行为需要做断开处理
             datalen = GetBE16(EVBUFFER_DATA(bev->input));
             if (datalen > RECV_DATA_MAX_PACKET_SIZE)
             {
                 LOG(INFO)<<"接收服务器的数据超过缓冲区大小,断开客户端.收到的数据长度:"<<datalen;
                 pPassiveTCPClient->ProcEvent(ENE_CLOSE);
-
+                
                 return;
             }
-            LOG(INFO)<<"实际数据长度:"<<datalen;
+
             // 判断数据是否收集齐全，没有收集齐全的不做处理
             if (nbytes < datalen)
             {
                 return;
             }
-
+            
             // 取出完整的数据包
             evbuffer_remove(bev->input, recv_buf, datalen+kPacketLenSize);
-LOG(INFO)<<"收到数据:"<<datalen<<":"<<kPacketLenSize;
+            
             /// 数据接收回调,去除头四个字节的长度buf
             pPassiveTCPClient->PutRecvData(recv_buf+kPacketLenSize, datalen);
         } while (true);
@@ -108,7 +107,7 @@ LOG(INFO)<<"收到数据:"<<datalen<<":"<<kPacketLenSize;
             _bev = nullptr;
             return false;
         }
-
+        
         // 心跳计数
         _heart_num = 0;
         
@@ -149,7 +148,7 @@ LOG(INFO)<<"收到数据:"<<datalen<<":"<<kPacketLenSize;
         {
             return FUNC_FAILED;
         }
-
+LOG(INFO)<<"服务器发送数据.";
         if (bufferevent_write(_bev, pData->send_buf, pData->send_len) < 0)
         {
             return FUNC_FAILED;
@@ -157,7 +156,7 @@ LOG(INFO)<<"收到数据:"<<datalen<<":"<<kPacketLenSize;
         
         return FUNC_SUCCESS;
     }
-
+    
     void PassiveTCPClient::ProcEvent(EM_NET_EVENT event)
     {
         if (!_pTCPClientSignal)
@@ -167,7 +166,7 @@ LOG(INFO)<<"收到数据:"<<datalen<<":"<<kPacketLenSize;
         
         if (ENE_HEART == event)
         {
-
+            
             // 如果超过三次，说明客户端已经死了，这个时候需要关闭
             if(++_heart_num > 2)
             {
@@ -177,23 +176,23 @@ LOG(INFO)<<"收到数据:"<<datalen<<":"<<kPacketLenSize;
             {
                 return;
             }
-
+            
         }
-
+        
         _pTCPClientSignal->SignalEvent(_fd, event);
         
     }
-
+    
     void PassiveTCPClient::PutRecvData(const unsigned char* buf, PacketLength len)
     {
         // 有数据往来,心跳计数清零
         _heart_num = 0;
-
+        
         if (nullptr == _pTCPClientSignal)
         {
             return;
         }
-
+        
         _pTCPClientSignal->SignalRecvData(_fd, buf, len);
     }
 }
