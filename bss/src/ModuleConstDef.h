@@ -41,7 +41,7 @@
 /// 包含框架库头文件
 #include <ExInclude.h>
 
-#include "./communicate_protoc/protoc/jsbn_bss.pb.h"
+#include "./communicate/communicate_protoc/protoc/jsbn_bss.pb.h"
 
 // 模块配置文件名
 #define MODULE_CONFIG_FILENAME "config/bss.ini"
