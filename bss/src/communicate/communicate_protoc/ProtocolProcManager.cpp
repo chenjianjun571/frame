@@ -14,7 +14,7 @@
 
 using namespace jsbn::protoc;
 
-sNetProtocolDataPage_ptr ProtocolProcManager::ParseProtocol(const unsigned char* buf, jsbn::PacketLength len)
+sNetProtocolDataPage_ptr ProtocolProcManager::ParseProtocol(const unsigned char* buf, PacketLength len)
 {
     // 解析协议，生成一个协议的智能指针区域
     sNetProtocolDataPage_ptr protocol(new(std::nothrow) BSSNetProtocol());
