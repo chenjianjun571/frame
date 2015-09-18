@@ -148,7 +148,7 @@ namespace NAME_SPACE {
         {
             return FUNC_FAILED;
         }
-LOG(INFO)<<"服务器发送数据.";
+
         if (bufferevent_write(_bev, pData->send_buf, pData->send_len) < 0)
         {
             return FUNC_FAILED;

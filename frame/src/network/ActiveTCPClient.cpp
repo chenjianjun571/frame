@@ -60,7 +60,7 @@ namespace NAME_SPACE {
             
             // 取出完整的数据包
             evbuffer_remove(bev->input, recv_buf, datalen+kPacketLenSize);
-            LOG(INFO)<<"客户端收到数据回调.";
+
             // 数据接收回调,去除头四个字节的长度buf
             pActiveTCPClient->PutRecvData(recv_buf+kPacketLenSize, datalen);
             

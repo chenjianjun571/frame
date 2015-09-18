@@ -90,7 +90,8 @@ int BusinessService::AddClient(SOCKET fd, jsbn::PassiveTCPClient* p_client)
 {
     WriteLockScoped wls(*_client_mutex);
     std::map<SOCKET, PassiveTCPClient*>::iterator it = _map_clients.find(fd);
-    if (it != _map_clients.end()) {
+    if (it != _map_clients.end())
+    {
         return FUNC_FAILED;
     }
 
@@ -114,14 +115,15 @@ void BusinessService::RecvData(SOCKET fd, const unsigned char* buf, PacketLength
 {
     // 解析数据协议
     sNetProtocolDataPage_ptr prt = ProtocolProcManager::ParseProtocol(buf, len);
-    if (nullptr == prt) {
+    if (nullptr == prt)
+    {
         LOG(ERROR)<<"协议解析失败，关闭连接.";
         DelClient(fd);
         return;
     }
 
-    if (prt->type() == Heart_Beat) {
-        LOG(INFO)<<"收到心跳.";
+    if (prt->type() == Heart_Beat)
+    {
         // 心跳协议
         sSendDataPage_ptr pSend = MallocStructFactory::Instance().get_send_page();
         pSend->sock_handle = fd;
