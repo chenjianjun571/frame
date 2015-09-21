@@ -11,7 +11,6 @@
 /// @History
 ///************************************************************
 #include "ModuleDataCenter.h"
-#include "../../Communicate.h"
 
 ModuleDataCenter* ModuleDataCenter::Instance() {
     static ModuleDataCenter mInstance;

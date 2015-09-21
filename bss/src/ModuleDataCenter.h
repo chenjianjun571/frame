@@ -14,6 +14,7 @@
 #define __MODULE_DATA_CENTER_H_
 
 #include "ModuleConstDef.h"
+#include "../../Communicate.h"
 
 class ModuleDataCenter
 {
