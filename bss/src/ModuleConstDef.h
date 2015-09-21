@@ -41,8 +41,6 @@
 /// 包含框架库头文件
 #include <ExInclude.h>
 
-#include "./communicate/communicate_protoc/protoc/jsbn_bss.pb.h"
-
 // 模块配置文件名
 #define MODULE_CONFIG_FILENAME "config/bss.ini"
 // 模块配置文件名 gcv_module_config_filename的值就是MODULE_CONFIG_FILENAME 
@@ -51,9 +49,6 @@ extern const char* const gcv_module_config_filename;
 const char* const gcv_module_name = "bss";
 // 模块可执行文件名
 const char* const gcv_program_name = "bss";
-
-// 协议数据智能指针
-typedef std::shared_ptr<jsbn::protoc::BSSNetProtocol> sNetProtocolDataPage_ptr;
 
 #endif //__MODULE_CONST_DEF_H_
 

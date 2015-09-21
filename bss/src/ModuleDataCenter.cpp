@@ -11,6 +11,7 @@
 /// @History
 ///************************************************************
 #include "ModuleDataCenter.h"
+#include "../../Communicate.h"
 
 ModuleDataCenter* ModuleDataCenter::Instance() {
     static ModuleDataCenter mInstance;
@@ -38,7 +39,7 @@ int ModuleDataCenter::PutRecvData(sNetProtocolDataPage_ptr& pData)
     _recv_data_lists.push_back(pData);
 
     // 通知数据请求线程有数据到达
-    _recv_cond_variable->WakeAll();
+    _recv_cond_variable->Wake();
 
     return FUNC_SUCCESS;
 }

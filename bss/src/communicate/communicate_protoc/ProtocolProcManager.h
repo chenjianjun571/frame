@@ -14,6 +14,7 @@
 #define __PROTOCOL_PROC_MANAGER_H_
 
 #include "ModuleConstDef.h"
+#include "../Communicate.h"
 
 class ProtocolProcManager
 {

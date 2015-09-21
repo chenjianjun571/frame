@@ -140,7 +140,6 @@ void BusinessService::RecvData(SOCKET fd, const unsigned char* buf, PacketLength
 // 套接字事件处理器
 void BusinessService::Event(SOCKET fd, EM_NET_EVENT msg)
 {
-
     switch (msg)
     {
     case ENE_CLOSE:
@@ -158,7 +157,6 @@ void BusinessService::Event(SOCKET fd, EM_NET_EVENT msg)
     default:
         break;
     }
-
 }
 
 void BusinessService::Accept(SOCKET fd, struct sockaddr_in* sa)
