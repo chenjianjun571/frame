@@ -70,7 +70,7 @@ sProtocolData_ptr ProtocolProcManager::GetRecvData(sNetProtocolDataPage_ptr& pro
         ptr->command_id = jsbn::protoc::MSG::Login_Request;
         ::memcpy(((TLogin*)ptr.get())->user_name, protocol->loginrequest().username().c_str(), sizeof(((TLogin*)ptr.get())->user_name)-1);
         ::memcpy(((TLogin*)ptr.get())->pass_word, protocol->loginrequest().password().c_str(), sizeof(((TLogin*)ptr.get())->pass_word)-1);
-        LOG(ERROR)<<"收到登录应答,用户名:"<<((TLogin*)ptr.get())->user_name<<":密码"<<((TLogin*)ptr.get())->pass_word;
+        LOG(ERROR)<<"收到登录请求,用户名:"<<((TLogin*)ptr.get())->user_name<<",密码:"<<((TLogin*)ptr.get())->pass_word;
 
         break;
     }
@@ -81,6 +81,7 @@ sProtocolData_ptr ProtocolProcManager::GetRecvData(sNetProtocolDataPage_ptr& pro
         ptr->command_id = jsbn::protoc::MSG::Login_Response;
         ((TLoginResp*)ptr.get())->result = protocol->loginresponse().result();
         ::memcpy(((TLoginResp*)ptr.get())->desc, protocol->loginresponse().error_description().c_str(), sizeof(((TLoginResp*)ptr.get())->desc)-1);
+        LOG(ERROR)<<"收到登录应答,状态码:"<<((TLoginResp*)ptr.get())->result<<",描述:"<<((TLoginResp*)ptr.get())->desc;
 
         break;
     }
