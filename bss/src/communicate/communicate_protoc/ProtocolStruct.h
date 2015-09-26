@@ -36,7 +36,7 @@ typedef struct stLogin:public TProtocolBase
 
     void clear() {
         ::memset(user_name, 0x00, sizeof(user_name));
-        ::pass_word(user_name, 0x00, sizeof(pass_word));
+        ::memset(pass_word, 0x00, sizeof(pass_word));
     }
 }TLogin;
 

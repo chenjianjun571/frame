@@ -17,6 +17,7 @@
 #include "ProtocolStruct.h"
 #include "../Communicate.h"
 
+template<T>
 void delete_recv_page(T* p)
 {
     CObjectAllocator<T>::get_instance()->free(p);
