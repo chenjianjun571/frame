@@ -41,7 +41,6 @@ int BusinessService::Start()
     }
 
     SignalAccept.connect(this, &BusinessService::Accept);
-    SignalAcceptError.connect(this, &BusinessService::Event);
     SignalRecvData.connect(this, &BusinessService::RecvData);
     SignalEvent.connect(this, &BusinessService::Event);
 
@@ -64,7 +63,7 @@ void BusinessService::Stop()
     _pServerWorker->StopWork();
 
     WriteLockScoped wls(*_client_mutex);
-    std::map<SOCKET, PassiveTCPClient*>::iterator it = _map_clients.begin();
+    std::map<unsigned short, PassiveTCPClient*>::iterator it = _map_clients.begin();
     while (it != _map_clients.end())
     {
         it->second->StopWork();
@@ -77,7 +76,7 @@ void BusinessService::Stop()
 int BusinessService::SendData(const sSendDataPage_ptr& pSend)
 {
     ReadLockScoped rls(*_client_mutex);
-    std::map<SOCKET, PassiveTCPClient*>::iterator it = _map_clients.find(pSend->sock_handle);
+    std::map<unsigned short, PassiveTCPClient*>::iterator it = _map_clients.find(pSend->sock_handle);
     if (it != _map_clients.end())
     {
         return it->second->SendData(pSend);
