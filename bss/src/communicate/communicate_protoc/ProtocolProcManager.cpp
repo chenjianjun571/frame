@@ -20,10 +20,13 @@ sNetProtocolDataPage_ptr ProtocolProcManager::ParseProtocol(const unsigned char*
     sNetProtocolDataPage_ptr protocol = std::make_shared<BSSNetProtocol>();
 
     protocol->Clear();
-    if (!protocol->ParseFromArray(buf, len)) {
-        LOG(ERROR)<<"协议解析";
+    if (!protocol->ParseFromArray(buf, len))
+    {
+        LOG(ERROR)<<"协议解析失败";
         return sNetProtocolDataPage_ptr();
     }
+
+    GetRecvData(protocol->type());
 
     return protocol;
 }

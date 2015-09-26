@@ -14,13 +14,33 @@
 #define __PROTOCOL_PROC_MANAGER_H_
 
 #include "ModuleConstDef.h"
+#include "ProtocolStruct.h"
 #include "../Communicate.h"
+
+void delete_recv_page(T* p)
+{
+    CObjectAllocator<T>::get_instance()->free(p);
+}
 
 class ProtocolProcManager
 {
 public:
     // 解析通信协议
     static sNetProtocolDataPage_ptr ParseProtocol(const unsigned char*, PacketLength);
+
+    template<T>
+    std::shared_ptr<TProtocolBase> GetRecvData(jsbn::protoc::MSG type) {
+
+        switch(type) {
+        case jsbn::protoc::MSG::Login_Request:
+        {
+            return std::shared_ptr<TProtocolBase>(CObjectAllocator<T>::get_instance()->malloc(), delete_recv_page);
+            break;
+        }
+        }
+
+    }
+
 };
 
 #endif //__PROTOCOL_PROC_MANAGER_H_
