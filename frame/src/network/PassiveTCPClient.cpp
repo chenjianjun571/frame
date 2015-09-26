@@ -66,7 +66,7 @@ namespace NAME_SPACE {
         pPassiveTCPClient->ProcEvent(ENE_CLOSE);
     }
     
-    PassiveTCPClient::PassiveTCPClient(SOCKET seq, struct sockaddr_in* sa, short heart_time)
+    PassiveTCPClient::PassiveTCPClient(unsigned short seq, struct sockaddr_in* sa, short heart_time)
     :seq_(seq),
     _client_ip(inet_ntoa(sa->sin_addr)),
     _client_port(ntohs(sa->sin_port)),
