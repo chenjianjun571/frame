@@ -23,7 +23,7 @@ public:
     // 解析通信协议
     static sNetProtocolDataPage_ptr ParseProtocol(const unsigned char*, PacketLength);
 
-    std::shared_ptr<TProtocolBase> GetRecvData(jsbn::protoc::MSG type);
+    static std::shared_ptr<TProtocolBase> GetRecvData(jsbn::protoc::MSG type);
 };
 
 #endif //__PROTOCOL_PROC_MANAGER_H_
