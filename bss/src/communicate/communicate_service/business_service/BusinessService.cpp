@@ -133,7 +133,7 @@ void BusinessService::RecvData(unsigned short seq, const unsigned char* buf, Pac
     }
 
     // 丢队列
-    ModuleDataCenter::Instance()->PutRecvData(prt);
+    //ModuleDataCenter::Instance()->PutRecvData(prt);
 }
 
 // 套接字事件处理器
