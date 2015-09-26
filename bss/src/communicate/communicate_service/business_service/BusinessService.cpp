@@ -121,11 +121,14 @@ void BusinessService::RecvData(unsigned short seq, const unsigned char* buf, Pac
         return;
     }
 
+    // 标记是那个连接收到的数据，便于业务处理完以后应答
+    prt->sock_handle = seq;
+
     if (prt->command_id == Heart_Beat)
     {
         // 心跳协议
         sSendDataPage_ptr pSend = MallocStructFactory::Instance().get_send_page();
-        pSend->sock_handle = seq;
+        pSend->sock_handle = prt->sock_handle;
         pSend->Copy(buf, len);
 
         SendData(pSend);
