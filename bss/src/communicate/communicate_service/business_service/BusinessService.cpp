@@ -113,7 +113,7 @@ void BusinessService::DelClient(unsigned short seq)
 void BusinessService::RecvData(unsigned short seq, const unsigned char* buf, PacketLength len)
 {
     // 解析数据协议
-    sNetProtocolDataPage_ptr prt = ProtocolProcManager::ParseProtocol(buf, len);
+    std::shared_ptr<TProtocolBase> prt = ProtocolProcManager::ParseProtocol(buf, len);
     if (nullptr == prt)
     {
         LOG(ERROR)<<"协议解析失败，关闭连接.";
@@ -121,7 +121,7 @@ void BusinessService::RecvData(unsigned short seq, const unsigned char* buf, Pac
         return;
     }
 
-    if (prt->type() == Heart_Beat)
+    if (prt->command_id == Heart_Beat)
     {
         // 心跳协议
         sSendDataPage_ptr pSend = MallocStructFactory::Instance().get_send_page();

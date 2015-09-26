@@ -21,7 +21,7 @@ class ProtocolProcManager
 {
 public:
     // 解析通信协议
-    static sNetProtocolDataPage_ptr ParseProtocol(const unsigned char*, PacketLength);
+    static std::shared_ptr<TProtocolBase> ParseProtocol(const unsigned char*, PacketLength);
 
     static std::shared_ptr<TProtocolBase> GetRecvData(jsbn::protoc::MSG type);
 };
