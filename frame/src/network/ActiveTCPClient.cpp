@@ -121,6 +121,7 @@ namespace NAME_SPACE {
             return false;
         }
         
+        seq_ = NetFrame::GetGloabSeq();
         bufferevent_setcb(_bev, ActiveTCPReadEventCb, nullptr, ActiveTCPEventCb, this);
         bufferevent_enable(_bev, EV_READ);
         
@@ -195,7 +196,7 @@ namespace NAME_SPACE {
             
         }
         
-        _pTCPClientSignal->SignalEvent(_fd, event);
+        _pTCPClientSignal->SignalEvent(seq_, event);
     }
     
     void ActiveTCPClient::PutRecvData(const unsigned char* buf, PacketLength len) {
@@ -207,6 +208,6 @@ namespace NAME_SPACE {
             return;
         }
         
-        _pTCPClientSignal->SignalRecvData(_fd, buf, len);
+        _pTCPClientSignal->SignalRecvData(seq_, buf, len);
     }
 }

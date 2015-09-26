@@ -22,8 +22,6 @@ namespace NAME_SPACE {
         
         // 客户端连接触发器
         sigslot::signal2<SOCKET , struct sockaddr_in*> SignalAccept;
-        // 监听失败触发器
-        sigslot::signal2<SOCKET , EM_NET_EVENT> SignalAcceptError;
     };
     
     class TCPClientSignal {
@@ -33,9 +31,9 @@ namespace NAME_SPACE {
         ~TCPClientSignal() {}
         
         // 数据接收连接器
-        sigslot::signal3<SOCKET, const unsigned char*, PacketLength> SignalRecvData;
+        sigslot::signal3<unsigned short, const unsigned char*, PacketLength> SignalRecvData;
         // 套接字事件处理器
-        sigslot::signal2<SOCKET, EM_NET_EVENT> SignalEvent;
+        sigslot::signal2<unsigned short, EM_NET_EVENT> SignalEvent;
     };
     
 }

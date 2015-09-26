@@ -19,13 +19,12 @@ namespace NAME_SPACE {
         /**
          *	@brief	构造函数
          *
-         *	@param  SOCKET 套接字句柄
          *	@param 	sockaddr_in* 客户端地址
          *	@param 	short 心跳事件
          *
          *	@return
          */
-        PassiveTCPClient(SOCKET fd, struct sockaddr_in* sa, short heart_time = 10);
+        PassiveTCPClient(unsigned short seq, struct sockaddr_in* sa, short heart_time = 10);
         ~PassiveTCPClient();
         
         /**
@@ -35,7 +34,7 @@ namespace NAME_SPACE {
          *
          *	@return
          */
-        bool StartWork(TCPClientSignal*);
+        bool StartWork(SOCKET, TCPClientSignal*);
         
         /**
          *	@brief	停止工作
@@ -54,8 +53,6 @@ namespace NAME_SPACE {
          *	@return
          */
         int SendData(const sSendDataPage_ptr&);
-        
-        SOCKET GetFd() { return _fd; }
         
     public:
         
@@ -85,8 +82,6 @@ namespace NAME_SPACE {
         std::string _client_ip;
         // 客户端端口
         unsigned short _client_port;
-        // 套接字句柄
-        SOCKET _fd;
         // 心跳时间
         short _heart_time;
         // bufferevent
@@ -95,6 +90,11 @@ namespace NAME_SPACE {
         struct event *_event;
         // 心跳计数
         unsigned char _heart_num;
+
+        // 连接序号，针对没一个连接使用连接序号，防止出现多个连接共存的时候，一个连接断开，
+        // 马上连接上了一个新连接，这个时候系统会把断开的那个连接句柄分配给新上来的连接，
+        // 如果我们通过连接句柄异步发送数据，那么有可能出现串包得问题，所以我们使用连接序号
+        unsigned short seq_;
     };
     
 }

@@ -92,9 +92,7 @@ namespace NAME_SPACE {
     }
     
     void ServerWorker::AcceptError(int fd, EM_NET_EVENT msg) {
-        if (_pTCPServerSignal) {
-            _pTCPServerSignal->SignalAcceptError(fd, msg);
-        }
+        LOG(ERROR)<<"监听失败.";
     }
     
 }

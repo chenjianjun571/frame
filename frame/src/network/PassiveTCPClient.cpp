@@ -66,8 +66,8 @@ namespace NAME_SPACE {
         pPassiveTCPClient->ProcEvent(ENE_CLOSE);
     }
     
-    PassiveTCPClient::PassiveTCPClient(SOCKET fd, struct sockaddr_in* sa, short heart_time)
-    :_fd(fd),
+    PassiveTCPClient::PassiveTCPClient(SOCKET seq, struct sockaddr_in* sa, short heart_time)
+    :seq_(seq),
     _client_ip(inet_ntoa(sa->sin_addr)),
     _client_port(ntohs(sa->sin_port)),
     _bev(nullptr),
@@ -82,7 +82,7 @@ namespace NAME_SPACE {
         _pTCPClientSignal = nullptr;
     }
     
-    bool PassiveTCPClient::StartWork(TCPClientSignal* pTCPClientSignal)
+    bool PassiveTCPClient::StartWork(SOCKET fd, TCPClientSignal* pTCPClientSignal)
     {
         if (_bev)
         {
@@ -90,7 +90,7 @@ namespace NAME_SPACE {
         }
         
         _bev = bufferevent_socket_new(NetFrame::_base,
-                                      _fd,
+                                      fd,
                                       BEV_OPT_CLOSE_ON_FREE|BEV_OPT_THREADSAFE);
         if (_bev == nullptr)
         {
@@ -98,7 +98,7 @@ namespace NAME_SPACE {
         }
         
         _event = event_new(NetFrame::_base,
-                           _fd,
+                           fd,
                            EV_TIMEOUT|EV_PERSIST,
                            PassiveTCPTimeOutEventCb, this);
         if (_event == nullptr)
@@ -179,7 +179,7 @@ namespace NAME_SPACE {
             
         }
         
-        _pTCPClientSignal->SignalEvent(_fd, event);
+        _pTCPClientSignal->SignalEvent(seq_, event);
         
     }
     
@@ -193,6 +193,6 @@ namespace NAME_SPACE {
             return;
         }
         
-        _pTCPClientSignal->SignalRecvData(_fd, buf, len);
+        _pTCPClientSignal->SignalRecvData(seq_, buf, len);
     }
 }

@@ -18,6 +18,7 @@ namespace NAME_SPACE {
         
     public:
         static NetFrame* Instance();
+        static unsigned short GetGloabSeq();
         int NetWorkInit();
         int NetWorkExit();
         

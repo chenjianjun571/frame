@@ -86,24 +86,24 @@ int BusinessService::SendData(const sSendDataPage_ptr& pSend)
     return FUNC_FAILED;
 }
 
-int BusinessService::AddClient(SOCKET fd, jsbn::PassiveTCPClient* p_client)
+int BusinessService::AddClient(unsigned short seq, jsbn::PassiveTCPClient* p_client)
 {
     WriteLockScoped wls(*_client_mutex);
-    std::map<SOCKET, PassiveTCPClient*>::iterator it = _map_clients.find(fd);
+    std::map<unsigned short, PassiveTCPClient*>::iterator it = _map_clients.find(seq);
     if (it != _map_clients.end())
     {
         return FUNC_FAILED;
     }
 
-    _map_clients[fd] = p_client;
+    _map_clients[seq] = p_client;
 
     return FUNC_SUCCESS;
 }
 
-void BusinessService::DelClient(SOCKET fd)
+void BusinessService::DelClient(unsigned short seq)
 {
     WriteLockScoped wls(*_client_mutex);
-    std::map<SOCKET, PassiveTCPClient*>::iterator it = _map_clients.find(fd);
+    std::map<unsigned short, PassiveTCPClient*>::iterator it = _map_clients.find(seq);
     if (it != _map_clients.end()) {
         it->second->StopWork();
         delete it->second;
@@ -111,14 +111,14 @@ void BusinessService::DelClient(SOCKET fd)
     }
 }
 
-void BusinessService::RecvData(SOCKET fd, const unsigned char* buf, PacketLength len)
+void BusinessService::RecvData(unsigned short seq, const unsigned char* buf, PacketLength len)
 {
     // 解析数据协议
     sNetProtocolDataPage_ptr prt = ProtocolProcManager::ParseProtocol(buf, len);
     if (nullptr == prt)
     {
         LOG(ERROR)<<"协议解析失败，关闭连接.";
-        DelClient(fd);
+        DelClient(seq);
         return;
     }
 
@@ -126,7 +126,7 @@ void BusinessService::RecvData(SOCKET fd, const unsigned char* buf, PacketLength
     {
         // 心跳协议
         sSendDataPage_ptr pSend = MallocStructFactory::Instance().get_send_page();
-        pSend->sock_handle = fd;
+        pSend->sock_handle = seq;
         pSend->Copy(buf, len);
 
         SendData(pSend);
@@ -138,21 +138,17 @@ void BusinessService::RecvData(SOCKET fd, const unsigned char* buf, PacketLength
 }
 
 // 套接字事件处理器
-void BusinessService::Event(SOCKET fd, EM_NET_EVENT msg)
+void BusinessService::Event(unsigned short seq, EM_NET_EVENT msg)
 {
     switch (msg)
     {
     case ENE_CLOSE:
         LOG(ERROR)<<"连接关闭.";
-        DelClient(fd);
-        break;
-    case ENE_ACCEPT_ERROR:
-        LOG(ERROR)<<"监听失败.";
-        Stop();
+        DelClient(seq);
         break;
     case ENE_HEART_TIMEOUT:
         LOG(ERROR)<<"心跳超时,关闭连接.";
-        DelClient(fd);
+        DelClient(seq);
         break;
     default:
         break;
@@ -161,23 +157,27 @@ void BusinessService::Event(SOCKET fd, EM_NET_EVENT msg)
 
 void BusinessService::Accept(SOCKET fd, struct sockaddr_in* sa)
 {
-    PassiveTCPClient* pPassiveTCPClient = new(std::nothrow) PassiveTCPClient(fd, sa, SYS_CONFIG->get_module_config().bus_heartbeat_detection);
+    unsigned short seq = NetFrame::GetGloabSeq();
+    PassiveTCPClient* pPassiveTCPClient = new(std::nothrow) PassiveTCPClient(seq, sa, SYS_CONFIG->get_module_config().bus_heartbeat_detection);
     if (nullptr == pPassiveTCPClient) {
         close(fd);
         return;
     }
 
-    if (!pPassiveTCPClient->StartWork(this))
+    if (!pPassiveTCPClient->StartWork(fd, this))
     {
         LOG(ERROR)<<"启动客户端失败.";
         delete pPassiveTCPClient;
+        close(fd);
         return;
     }
 
-    if (AddClient(fd, pPassiveTCPClient) != FUNC_SUCCESS)
+    if (AddClient(seq, pPassiveTCPClient) != FUNC_SUCCESS)
     {
         pPassiveTCPClient->StopWork();
         delete pPassiveTCPClient;
+        close(fd);
+        return;
     }
 
     LOG(INFO)<<"收到客户端连接:"<<::inet_ntoa(sa->sin_addr)<<":"<<::ntohs(sa->sin_port);

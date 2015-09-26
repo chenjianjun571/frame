@@ -16,6 +16,11 @@ namespace NAME_SPACE {
         LIBJINGLE_DEFINE_STATIC_LOCAL(NetFrame, manager, ());
         return &manager;
     }
+
+    static unsigned short NetFrame::GetGloabSeq() {
+        static volatile unsigned short seq = 0;
+        return seq++;
+    }
     
     NetFrame::NetFrame():_run_flg(false){}
     

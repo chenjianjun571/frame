@@ -160,7 +160,6 @@ typedef enum emNetEvent {
     ENE_CONNECTED = 0,// 连接建立
     ENE_HEART,// 心跳
     ENE_HEART_TIMEOUT,// 心跳检测超时
-    ENE_ACCEPT_ERROR,// 监听失败
     ENE_CLOSE// 连接关闭
 }EM_NET_EVENT;
 
@@ -175,8 +174,8 @@ typedef struct stSendData
     unsigned char send_buf[SEND_DATA_MAX_PACKET_SIZE];
     /// 发送数据长度
     unsigned int send_len;
-    /// 连接句柄
-    int sock_handle;
+    /// 连接序号
+    unsigned short sock_handle;
 
     void Copy(const unsigned char* buf, unsigned int len) {
         // 贴上包头

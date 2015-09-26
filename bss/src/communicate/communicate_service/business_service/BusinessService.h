@@ -35,21 +35,21 @@ public:
 
 public:
     // 数据接收
-    void RecvData(SOCKET, const unsigned char*, PacketLength);
+    void RecvData(unsigned short, const unsigned char*, PacketLength);
 
     // 套接字事件处理器
-    void Event(SOCKET fd, EM_NET_EVENT msg);
+    void Event(unsigned short fd, EM_NET_EVENT msg);
 
     // 客户端连接触发器
     void Accept(SOCKET fd, struct sockaddr_in* sa);
 
 protected:
-    int AddClient(SOCKET, jsbn::PassiveTCPClient*);
-    void DelClient(SOCKET);
+    int AddClient(unsigned short, jsbn::PassiveTCPClient*);
+    void DelClient(unsigned short);
 
 private:
     jsbn::ServerWorker* _pServerWorker;
-    std::map<SOCKET, jsbn::PassiveTCPClient*> _map_clients;
+    std::map<unsigned short, jsbn::PassiveTCPClient*> _map_clients;
     jsbn::RWLock* _client_mutex;
 };
 
