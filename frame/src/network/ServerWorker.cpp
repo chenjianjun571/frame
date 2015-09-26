@@ -25,8 +25,7 @@ namespace NAME_SPACE {
     // 监听失败回调处理函数
     static void ListenerErrorCb(struct evconnlistener *listener, void *user_data) {
         ServerWorker* pServerWorker = (ServerWorker*)user_data;
-        pServerWorker->AcceptError(pServerWorker->GetFd(),ENE_ACCEPT_ERROR);
-                                   //evutil_socket_error_to_string(EVUTIL_SOCKET_ERROR()));
+        pServerWorker->AcceptError(pServerWorker->GetFd(), evutil_socket_error_to_string(EVUTIL_SOCKET_ERROR()));
     }
     
     ServerWorker::ServerWorker(std::string listen_ip, int listen_port)
@@ -91,8 +90,8 @@ namespace NAME_SPACE {
         }
     }
     
-    void ServerWorker::AcceptError(int fd, EM_NET_EVENT msg) {
-        LOG(ERROR)<<"监听失败.";
+    void ServerWorker::AcceptError(int fd, std::string msg) {
+        LOG(ERROR)<<"监听失败."<<msg;
     }
     
 }

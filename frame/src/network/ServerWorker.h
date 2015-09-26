@@ -66,7 +66,7 @@ namespace NAME_SPACE {
          *	@param 	int 套接字句柄
          *	@param 	EM_NET_EVENT 错误码
          */
-        void AcceptError(int fd, EM_NET_EVENT msg);
+        void AcceptError(int fd, std::string msg);
         
     private:
         // 事件监听器
