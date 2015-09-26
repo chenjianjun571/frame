@@ -17,7 +17,7 @@ namespace NAME_SPACE {
         return &manager;
     }
 
-    static unsigned short NetFrame::GetGloabSeq() {
+    unsigned short NetFrame::GetGloabSeq() {
         static volatile unsigned short seq = 0;
         return seq++;
     }
