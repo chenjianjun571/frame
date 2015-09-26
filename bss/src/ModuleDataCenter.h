@@ -14,7 +14,7 @@
 #define __MODULE_DATA_CENTER_H_
 
 #include "ModuleConstDef.h"
-#include "../../Communicate.h"
+#include "./communicate/communicate_protoc/ProtocolStruct.h"
 
 class ModuleDataCenter
 {
@@ -26,8 +26,8 @@ public:
     /// @brief 析构函数
     virtual ~ModuleDataCenter();
 
-    int PutRecvData(sNetProtocolDataPage_ptr&);
-    sNetProtocolDataPage_ptr GetRecvData(unsigned long max_time_inMS = 1000);
+    int PutRecvData(sProtocolData_ptr&);
+    sProtocolData_ptr GetRecvData(unsigned long max_time_inMS = 1000);
 
 protected:
     ModuleDataCenter();
@@ -38,7 +38,7 @@ private:
     // 接收数据锁
     jsbn::CriticalSection _recv_critical_section;
     jsbn::ConditionVariable* _recv_cond_variable;
-    CList<sNetProtocolDataPage_ptr> _recv_data_lists;
+    CList<sProtocolData_ptr> _recv_data_lists;
 };
 
 #endif //__MODULE_DATA_CENTER_H_

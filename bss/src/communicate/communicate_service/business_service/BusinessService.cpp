@@ -113,7 +113,7 @@ void BusinessService::DelClient(unsigned short seq)
 void BusinessService::RecvData(unsigned short seq, const unsigned char* buf, PacketLength len)
 {
     // 解析数据协议
-    std::shared_ptr<TProtocolBase> prt = ProtocolProcManager::ParseProtocol(buf, len);
+    sProtocolData_ptr prt = ProtocolProcManager::ParseProtocol(buf, len);
     if (nullptr == prt)
     {
         LOG(ERROR)<<"协议解析失败，关闭连接.";
@@ -133,7 +133,7 @@ void BusinessService::RecvData(unsigned short seq, const unsigned char* buf, Pac
     }
 
     // 丢队列
-    //ModuleDataCenter::Instance()->PutRecvData(prt);
+    ModuleDataCenter::Instance()->PutRecvData(prt);
 }
 
 // 套接字事件处理器

@@ -25,7 +25,7 @@ ModuleDataCenter::~ModuleDataCenter()
     _recv_data_lists.clear();
 }
 
-int ModuleDataCenter::PutRecvData(sNetProtocolDataPage_ptr& pData)
+int ModuleDataCenter::PutRecvData(sProtocolData_ptr& pData)
 {
     jsbn::CriticalSectionScoped css(&_recv_critical_section);
 
@@ -43,7 +43,7 @@ int ModuleDataCenter::PutRecvData(sNetProtocolDataPage_ptr& pData)
     return FUNC_SUCCESS;
 }
 
-sNetProtocolDataPage_ptr ModuleDataCenter::GetRecvData(unsigned long max_time_inMS)
+sProtocolData_ptr ModuleDataCenter::GetRecvData(unsigned long max_time_inMS)
 {
     jsbn::CriticalSectionScoped css(&_recv_critical_section);
 
@@ -54,10 +54,10 @@ sNetProtocolDataPage_ptr ModuleDataCenter::GetRecvData(unsigned long max_time_in
 
     // 延迟一秒是否有数据到达，有的话取出返回，没有的话返回一个空智能指针
     if (_recv_data_lists.size() == 0) {
-        return sNetProtocolDataPage_ptr();
+        return sProtocolData_ptr();
     }
 
-    sNetProtocolDataPage_ptr pData = _recv_data_lists.front();
+    sProtocolData_ptr pData = _recv_data_lists.front();
     _recv_data_lists.pop_front();
 
     return pData;

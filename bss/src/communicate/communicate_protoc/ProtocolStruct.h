@@ -40,5 +40,21 @@ typedef struct stLogin:public TProtocolBase
     }
 }TLogin;
 
+typedef struct stLoginResp:public TProtocolBase
+{
+    int result;
+    char desc[15];
+
+    stLoginResp() {
+        clear();
+    }
+
+    void clear() {
+        ::memset(desc, 0x00, sizeof(desc));
+    }
+}TLoginResp;
+
+typedef std::shared_ptr<TProtocolBase> sProtocolData_ptr;
+
 #endif //__PROTOCOL_STRUCT_H_
 
