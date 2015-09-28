@@ -15,7 +15,7 @@
 
 #include "ModuleConstDef.h"
 
-#include "./communicate/communicate_protoc/protoc/jsbn_bss.pb.h"
+#include "./communicate/protoc/pb/jsbn_bss.pb.h"
 // 协议数据智能指针
 typedef std::shared_ptr<jsbn::protoc::BSSNetProtocol> sNetProtocolDataPage_ptr;
 

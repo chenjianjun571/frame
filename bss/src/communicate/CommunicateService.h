@@ -14,7 +14,7 @@
 #define __COMMUNICATE_SERVICE_H_
 
 #include "ModuleConstDef.h"
-#include "./business_service/BusinessService.h"
+#include "./service/business/BusinessService.h"
 
 class CommunicateService : public COperationObject
 {

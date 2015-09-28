@@ -12,7 +12,7 @@
 ///************************************************************
 #include "BusinessService.h"
 #include "ModuleConfigCollection.h"
-#include "../../communicate_protoc/ProtocolProcManager.h"
+#include "../../protoc/ProtocolProcManager.h"
 #include "../../../ModuleDataCenter.h"
 
 #include <sys/socket.h>
@@ -103,7 +103,8 @@ void BusinessService::DelClient(unsigned short seq)
 {
     WriteLockScoped wls(*_client_mutex);
     std::map<unsigned short, PassiveTCPClient*>::iterator it = _map_clients.find(seq);
-    if (it != _map_clients.end()) {
+    if (it != _map_clients.end())
+    {
         it->second->StopWork();
         delete it->second;
         _map_clients.erase(it);
@@ -124,9 +125,9 @@ void BusinessService::RecvData(unsigned short seq, const unsigned char* buf, Pac
     // 标记是那个连接收到的数据，便于业务处理完以后应答
     prt->sock_handle = seq;
 
+    // 判断是否心跳
     if (prt->command_id == Heart_Beat)
     {
-        // 心跳协议
         sSendDataPage_ptr pSend = MallocStructFactory::Instance().get_send_page();
         pSend->sock_handle = prt->sock_handle;
         pSend->Copy(buf, len);
@@ -144,43 +145,56 @@ void BusinessService::Event(unsigned short seq, EM_NET_EVENT msg)
 {
     switch (msg)
     {
-    case ENE_CLOSE:
-        LOG(ERROR)<<"连接关闭.";
-        DelClient(seq);
-        break;
-    case ENE_HEART_TIMEOUT:
-        LOG(ERROR)<<"心跳超时,关闭连接.";
-        DelClient(seq);
-        break;
-    default:
-        break;
+        case ENE_CLOSE:
+            LOG(ERROR)<<"连接关闭.";
+            DelClient(seq);
+            break;
+        case ENE_HEART_TIMEOUT:
+            LOG(ERROR)<<"心跳超时,关闭连接.";
+            DelClient(seq);
+            break;
+        default:
+            break;
     }
 }
 
 void BusinessService::Accept(SOCKET fd, struct sockaddr_in* sa)
 {
+    // 获取一个连接序号
     unsigned short seq = NetFrame::GetGloabSeq();
-    PassiveTCPClient* pPassiveTCPClient = new(std::nothrow) PassiveTCPClient(seq, sa, SYS_CONFIG->get_module_config().bus_heartbeat_detection);
-    if (nullptr == pPassiveTCPClient) {
-        close(fd);
-        return;
-    }
 
-    if (!pPassiveTCPClient->StartWork(fd, this))
+    PassiveTCPClient* pPassiveTCPClient = new(std::nothrow) PassiveTCPClient(
+                seq, sa, SYS_CONFIG->get_module_config().bus_heartbeat_detection);
+    do
     {
-        LOG(ERROR)<<"启动客户端失败.";
-        delete pPassiveTCPClient;
-        close(fd);
-        return;
-    }
+        if (nullptr == pPassiveTCPClient)
+        {
+            break;
+        }
 
-    if (AddClient(seq, pPassiveTCPClient) != FUNC_SUCCESS)
+        if (!pPassiveTCPClient->StartWork(fd, this))
+        {
+            LOG(ERROR)<<"启动客户端失败.";
+            break;
+        }
+
+        if (AddClient(seq, pPassiveTCPClient) != FUNC_SUCCESS)
+        {
+            LOG(ERROR)<<"客户端添加失败.";
+            break;
+        }
+
+        LOG(INFO)<<"收到客户端连接:"<<inet_ntoa(sa->sin_addr)<<":"<<ntohs(sa->sin_port);
+
+        return;
+
+    }while(0);
+
+    if (pPassiveTCPClient)
     {
         pPassiveTCPClient->StopWork();
         delete pPassiveTCPClient;
-        close(fd);
-        return;
     }
 
-    LOG(INFO)<<"收到客户端连接:"<<::inet_ntoa(sa->sin_addr)<<":"<<::ntohs(sa->sin_port);
+    close(fd);
 }

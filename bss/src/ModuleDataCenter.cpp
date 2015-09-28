@@ -30,7 +30,8 @@ int ModuleDataCenter::PutRecvData(sProtocolData_ptr& pData)
     jsbn::CriticalSectionScoped css(&_recv_critical_section);
 
     // 判断数据积压是否达到上限
-    if (_recv_data_lists.size() > 10000) {
+    if (_recv_data_lists.size() > 10000)
+    {
         LOG(INFO)<<"接收数据队列发生积压，做丢弃处理.";
         return FUNC_FAILED;
     }
@@ -48,13 +49,15 @@ sProtocolData_ptr ModuleDataCenter::GetRecvData(unsigned long max_time_inMS)
     jsbn::CriticalSectionScoped css(&_recv_critical_section);
 
     // 如果没有数据就等待数据到达
-    if (_recv_data_lists.size() == 0) {
+    if (_recv_data_lists.size() == 0)
+    {
         _recv_cond_variable->SleepCS(_recv_critical_section, max_time_inMS);
     }
 
     // 延迟一秒是否有数据到达，有的话取出返回，没有的话返回一个空智能指针
-    if (_recv_data_lists.size() == 0) {
-        return sProtocolData_ptr();
+    if (_recv_data_lists.size() == 0)
+    {
+        return nullptr;
     }
 
     sProtocolData_ptr pData = _recv_data_lists.front();

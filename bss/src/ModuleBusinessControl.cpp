@@ -3,7 +3,7 @@
 #include "ModuleConstDef.h"
 #include <new>
 
-#include "./communicate_service/CommunicateService.h"
+#include "./communicate/CommunicateService.h"
 
 using namespace std;
 using namespace jsbn;

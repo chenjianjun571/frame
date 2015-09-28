@@ -14,7 +14,8 @@
 
 bool CommunicateService::start_operation()
 {
-    if (_mBusinessService.Start() != FUNC_SUCCESS) {
+    if (_mBusinessService.Start() != FUNC_SUCCESS)
+    {
         LOG(ERROR)<<"业务服务器模块启动失败";
         return false;
     }
