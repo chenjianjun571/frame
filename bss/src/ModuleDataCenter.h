@@ -14,7 +14,7 @@
 #define __MODULE_DATA_CENTER_H_
 
 #include "ModuleConstDef.h"
-#include "./communicate/communicate_protoc/ProtocolStruct.h"
+#include "./communicate/protoc/ProtocolStruct.h"
 
 class ModuleDataCenter
 {
