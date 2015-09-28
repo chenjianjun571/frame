@@ -11,22 +11,28 @@
 
 namespace NAME_SPACE {
     
-    void ActiveTCPTimeOutEventCb(evutil_socket_t fd, short, void *data) {
+    void ActiveTCPTimeOutEventCb(evutil_socket_t fd, short, void *data)
+    {
         ActiveTCPClient* pActiveTCPClient = (ActiveTCPClient*)data;
         pActiveTCPClient->ProcEvent(ENE_HEART);
     }
     
-    void ActiveTCPEventCb(struct bufferevent *bev, short events, void *data) {
+    void ActiveTCPEventCb(struct bufferevent *bev, short events, void *data)
+    {
         ActiveTCPClient* pActiveTCPClient = (ActiveTCPClient*)data;
-        if (events & BEV_EVENT_CONNECTED) {
+        if (events & BEV_EVENT_CONNECTED)
+        {
             pActiveTCPClient->ProcEvent(ENE_CONNECTED);
-        } else {
+        }
+        else
+        {
             pActiveTCPClient->ProcEvent(ENE_CLOSE);
         }
         // (events & (BEV_EVENT_READING|BEV_EVENT_WRITING|BEV_EVENT_EOF|BEV_EVENT_TIMEOUT))
     }
     
-    void ActiveTCPReadEventCb(struct bufferevent *bev, void *data) {
+    void ActiveTCPReadEventCb(struct bufferevent *bev, void *data)
+    {
         
         ActiveTCPClient* pActiveTCPClient = (ActiveTCPClient*)data;
         
@@ -69,39 +75,44 @@ namespace NAME_SPACE {
     }
     
     ActiveTCPClient::ActiveTCPClient(std::string host_name, unsigned short host_port, short heart_time)
-    :_host_name(host_name),
-    _host_port(host_port),
-    _heart_time(heart_time),
-    _bev(nullptr),
-    _pTCPClientSignal(nullptr),
-    _heart_num(0),
-    _event(nullptr),
-    _connect_flg(0),
-    _m_rw_loacl(RWLock::Create()) {
+        :_host_name(host_name),
+          _host_port(host_port),
+          _heart_time(heart_time),
+          _bev(nullptr),
+          _pTCPClientSignal(nullptr),
+          _heart_num(0),
+          _event(nullptr),
+          _connect_flg(0),
+          _m_rw_loacl(RWLock::Create())
+    {
     }
     
-    ActiveTCPClient::~ActiveTCPClient() {
+    ActiveTCPClient::~ActiveTCPClient()
+    {
         StopWork();
         _pTCPClientSignal = nullptr;
         delete _m_rw_loacl;
     }
     
-    bool ActiveTCPClient::StartWork() {
-        
+    bool ActiveTCPClient::StartWork()
+    {
         WriteLockScoped wLock(*_m_rw_loacl);
         
-        if (_bev) {
+        if (_bev)
+        {
             return false;
         }
         
         _fd = socket(AF_INET, SOCK_STREAM, 0);
         evutil_make_socket_nonblocking(_fd);
-        if (_fd < 0) {
+        if (_fd < 0)
+        {
             return false;
         }
         
         _bev = bufferevent_socket_new(NetFrame::_base, _fd, BEV_OPT_CLOSE_ON_FREE|BEV_OPT_THREADSAFE);
-        if (_bev == nullptr) {
+        if (_bev == nullptr)
+        {
             close(_fd);
             return false;
         }
@@ -115,7 +126,8 @@ namespace NAME_SPACE {
         
         // 置为连接中状态
         _connect_flg = 1;
-        if (bufferevent_socket_connect(_bev, (struct sockaddr*)&sSvrAddr, addrlen) < 0) {
+        if (bufferevent_socket_connect(_bev, (struct sockaddr*)&sSvrAddr, addrlen) < 0)
+        {
             _connect_flg = 0;
             StopWork();
             return false;
@@ -128,18 +140,21 @@ namespace NAME_SPACE {
         return true;
     }
     
-    void ActiveTCPClient::StopWork() {
+    void ActiveTCPClient::StopWork()
+    {
         
         WriteLockScoped wLock(*_m_rw_loacl);
         
         _connect_flg = 0;
-        if (_event) {
+        if (_event)
+        {
             event_del(_event);
             event_free(_event);
             _event = nullptr;
         }
         
-        if (_bev) {
+        if (_bev)
+        {
             bufferevent_disable(_bev, EV_READ);
             bufferevent_free(_bev);
             _bev = nullptr;
@@ -147,15 +162,18 @@ namespace NAME_SPACE {
         }
     }
     
-    int ActiveTCPClient::SendData(const sSendDataPage_ptr& pData) {
+    int ActiveTCPClient::SendData(const sSendDataPage_ptr& pData)
+    {
         
         ReadLockScoped rLock(*_m_rw_loacl);
         
-        if (nullptr == _bev || _connect_flg != 2 || nullptr == pData) {
+        if (nullptr == _bev || _connect_flg != 2 || nullptr == pData)
+        {
             return FUNC_FAILED;
         }
         
-        if (bufferevent_write(_bev, pData->send_buf, pData->send_len) < 0) {
+        if (bufferevent_write(_bev, pData->send_buf, pData->send_len) < 0)
+        {
             return FUNC_FAILED;
         }
         
@@ -163,13 +181,16 @@ namespace NAME_SPACE {
         
     }
     
-    void ActiveTCPClient::ProcEvent(EM_NET_EVENT event) {
+    void ActiveTCPClient::ProcEvent(EM_NET_EVENT event)
+    {
         
-        if (!_pTCPClientSignal) {
+        if (!_pTCPClientSignal)
+        {
             return;
         }
         
-        if (ENE_CONNECTED == event) {
+        if (ENE_CONNECTED == event)
+        {
             // 已连接状态
             _connect_flg = 2;
             // 连接建立，开启心跳计数
@@ -187,10 +208,11 @@ namespace NAME_SPACE {
             _heart_num = 0;
         }
         
-        if (ENE_HEART == event) {
-            
+        if (ENE_HEART == event)
+        {
             // 如果超过三次，说明服务器已经死了，这个时候需要关闭
-            if(++_heart_num > 2) {
+            if(++_heart_num > 2)
+            {
                 event = ENE_HEART_TIMEOUT;
             }
             
@@ -199,12 +221,13 @@ namespace NAME_SPACE {
         _pTCPClientSignal->SignalEvent(seq_, event);
     }
     
-    void ActiveTCPClient::PutRecvData(const unsigned char* buf, PacketLength len) {
-        
+    void ActiveTCPClient::PutRecvData(const unsigned char* buf, PacketLength len)
+    {
         // 有数据往来,心跳计数清零
         _heart_num = 0;
         
-        if (nullptr == _pTCPClientSignal) {
+        if (nullptr == _pTCPClientSignal)
+        {
             return;
         }
         

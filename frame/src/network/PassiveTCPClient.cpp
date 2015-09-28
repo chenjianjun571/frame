@@ -56,6 +56,7 @@ namespace NAME_SPACE {
             
             /// 数据接收回调,去除头四个字节的长度buf
             pPassiveTCPClient->PutRecvData(recv_buf+kPacketLenSize, datalen);
+
         } while (true);
     }
     
