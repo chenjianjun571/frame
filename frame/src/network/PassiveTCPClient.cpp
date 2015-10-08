@@ -39,7 +39,7 @@ namespace NAME_SPACE {
             datalen = GetBE32(EVBUFFER_DATA(bev->input));
             if (datalen > RECV_DATA_MAX_PACKET_SIZE)
             {
-                LOG(INFO)<<"接收服务器的数据超过缓冲区大小,断开客户端.收到的数据长度:"<<datalen;
+                LOG(INFO)<<"接收服务器的数据超过缓冲区大小,断开客户端.收到的数据长度:"<<datalen<<"缓冲区长度:"<<nbytes;
                 pPassiveTCPClient->ProcEvent(ENE_CLOSE);
                 
                 return;
