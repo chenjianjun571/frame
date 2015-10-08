@@ -32,7 +32,6 @@ BusinessService::~BusinessService()
 
 int BusinessService::Start()
 {
-
     _pServerWorker = new(std::nothrow) ServerWorker(SYS_CONFIG->get_module_config().bus_listen_ip,
                                                     SYS_CONFIG->get_module_config().bus_listen_port);
     if (nullptr == _pServerWorker)

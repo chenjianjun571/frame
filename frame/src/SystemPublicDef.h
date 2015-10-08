@@ -163,9 +163,9 @@ typedef enum emNetEvent {
     ENE_CLOSE// 连接关闭
 }EM_NET_EVENT;
 
-#define RECV_DATA_MAX_PACKET_SIZE 4096
+#define RECV_DATA_MAX_PACKET_SIZE 102400
 #define SEND_DATA_MAX_PACKET_SIZE 4096
-typedef uint16 PacketLength;
+typedef uint32 PacketLength;
 static const size_t kPacketLenSize = sizeof(PacketLength);
 
 typedef struct stSendData
