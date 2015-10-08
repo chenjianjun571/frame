@@ -67,6 +67,7 @@ sProtocolData_ptr ProtocolProcManager::GetRecvData(sNetProtocolDataPage_ptr& pro
 
             ptr->command_id = jsbn::protoc::MSG::Heart_Beat;
 
+            LOG(INFO)<<"收到心跳";
             break;
         }
         case jsbn::protoc::MSG::Login_Request:
