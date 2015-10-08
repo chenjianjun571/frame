@@ -36,6 +36,7 @@ namespace NAME_SPACE {
             }
             
             // 如果大于系统定义的最大包长度，为防止恶意行为需要做断开处理
+            // 如果换成用四字节作为头部的话，客户端短时间发送大量的包情况下会出现“接收客户端的数据超过缓冲区大小”的错误
             datalen = GetBE16(EVBUFFER_DATA(bev->input));
             if (datalen > RECV_DATA_MAX_PACKET_SIZE-kPacketLenSize)
             {
@@ -54,7 +55,7 @@ namespace NAME_SPACE {
             // 取出完整的数据包
             evbuffer_remove(bev->input, recv_buf, datalen+kPacketLenSize);
 
-            // 数据接收回调,去除头四个字节的长度buf
+            // 数据接收回调,去除头2个字节的长度buf
             pPassiveTCPClient->PutRecvData(recv_buf+kPacketLenSize, datalen);
 
         } while (true);
