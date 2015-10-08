@@ -127,11 +127,10 @@ void BusinessService::RecvData(unsigned short seq, const unsigned char* buf, Pac
     // 判断是否心跳
     if (prt->command_id == Heart_Beat)
     {
-//        sSendDataPage_ptr pSend = MallocStructFactory::Instance().get_send_page();
-//        pSend->sock_handle = prt->sock_handle;
-//        pSend->Copy(buf, len);
-
-//        SendData(pSend);
+        sSendDataPage_ptr pSend = MallocStructFactory::Instance().get_send_page();
+        pSend->sock_handle = prt->sock_handle;
+        pSend->Copy(buf, len);
+        SendData(pSend);
         return;
     }
 

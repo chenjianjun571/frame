@@ -152,6 +152,7 @@ namespace NAME_SPACE {
 
         if (bufferevent_write(_bev, pData->send_buf, pData->send_len) < 0)
         {
+            LOG(INFO)<<"发送数据失败.";
             return FUNC_FAILED;
         }
         
