@@ -165,7 +165,7 @@ typedef enum emNetEvent {
 
 #define RECV_DATA_MAX_PACKET_SIZE 64*1024
 #define SEND_DATA_MAX_PACKET_SIZE 4096
-typedef uint32 PacketLength;
+typedef uint16 PacketLength;
 static const size_t kPacketLenSize = sizeof(PacketLength);
 
 typedef struct stSendData
@@ -179,7 +179,7 @@ typedef struct stSendData
 
     void Copy(const unsigned char* buf, unsigned int len) {
         // 贴上包头
-        SetBE32(send_buf, len);
+        SetBE16(send_buf, len);
         // 贴上包体
         ::memcpy(send_buf+kPacketLenSize, buf, (len>SEND_DATA_MAX_PACKET_SIZE) ? SEND_DATA_MAX_PACKET_SIZE : len);
 
