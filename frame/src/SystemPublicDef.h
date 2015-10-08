@@ -179,7 +179,7 @@ typedef struct stSendData
 
     void Copy(const unsigned char* buf, unsigned int len) {
         // 贴上包头
-        SetBE16(send_buf, len);
+        SetBE32(send_buf, len);
         // 贴上包体
         ::memcpy(send_buf+kPacketLenSize, buf, (len>SEND_DATA_MAX_PACKET_SIZE) ? SEND_DATA_MAX_PACKET_SIZE : len);
 
