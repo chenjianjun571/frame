@@ -51,8 +51,8 @@ namespace NAME_SPACE {
             
             // 如果大于系统定义的最大包长度，为防止恶意行为需要做断开处理
             datalen = GetBE32(EVBUFFER_DATA(bev->input));
-            if (datalen > RECV_DATA_MAX_PACKET_SIZE) {
-                
+            if (datalen > RECV_DATA_MAX_PACKET_SIZE)
+            {
                 LOG(INFO)<<"接收客户端的数据超过缓冲区大小,断开客户端.收到的数据长度:"<<datalen;
                 pActiveTCPClient->ProcEvent(ENE_CLOSE);
                 
