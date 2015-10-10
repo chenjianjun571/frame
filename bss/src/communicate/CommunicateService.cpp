@@ -26,6 +26,12 @@ bool CommunicateService::start_operation()
         return false;
     }
 
+    if (_mCSSClient.Start() != FUNC_SUCCESS)
+    {
+        LOG(ERROR)<<"终端服务器模块启动失败";
+        return false;
+    }
+
     return true;
 }
 
@@ -33,6 +39,7 @@ bool CommunicateService::stop_operation()
 {
     _mISSService.Stop();
     _mTSSService.Stop();
+    _mCSSClient.Stop();
     return true;
 }
 

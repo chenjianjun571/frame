@@ -16,6 +16,7 @@
 #include "ModuleConstDef.h"
 #include "./service/iss/ISSService.h"
 #include "./service/tss/TSSService.h"
+#include "./client/css/CSSClient.h"
 
 class CommunicateService : public COperationObject
 {
@@ -33,6 +34,8 @@ private:
     ISSService _mISSService;
     // 终端服务器监听服务器
     TSSService _mTSSService;
+    // 中心服务器客户端
+    CSSClient _mCSSClient;
 };
 
 #endif
