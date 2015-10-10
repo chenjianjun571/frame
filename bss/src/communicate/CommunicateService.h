@@ -29,8 +29,10 @@ public:
     virtual int dump(const char* first_param = nullptr, const char* second_param = nullptr);
 
 private:
-    // 业务服务器
+    // 接入服务器监听服务器
     ISSService _mISSService;
+    // 终端服务器监听服务器
+    TSSService _mTSSService;
 };
 
 #endif
