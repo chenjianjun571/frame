@@ -18,17 +18,26 @@
 /// @brief 通信服务器配置信息
 struct stModuleConfig
 {
-    // 业务服务器监听IP
-    std::string bus_listen_ip;
-    // 业务服务器监听port
-    int bus_listen_port;
-    // 业务服务器心跳检测间隔时间
-    int bus_heartbeat_detection;
+    // 接入服务器监听IP
+    std::string iss_service_listen_ip;
+    // 接入服务器监听port
+    int iss_service_listen_port;
+    // 接入服务器心跳检测间隔时间
+    int iss_service_heartbeat_detection;
+
+    // 终端服务器监听IP
+    std::string tss_service_listen_ip;
+    // 终端服务器监听port
+    int tss_service_listen_port;
+    // 终端服务器心跳检测间隔时间
+    int tss_service_heartbeat_detection;
 
     stModuleConfig()
     {
-        bus_listen_ip.clear();
-        bus_heartbeat_detection = 15;
+        iss_service_listen_ip.clear();
+        iss_service_heartbeat_detection = 15;
+        tss_service_listen_ip.clear();
+        tss_service_heartbeat_detection = 15;
     }
 };
 

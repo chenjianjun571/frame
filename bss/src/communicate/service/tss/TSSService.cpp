@@ -1,7 +1,7 @@
 ///************************************************************
 /// @Copyright (C), 2015-2030, hzcw  Information Technologies Co., Ltd.
 /// @URL
-/// @file           BusinessService.cpp
+/// @file           TSSService.cpp
 /// @brief          业务服务器
 /// @attention
 /// @Author         chenjianjun
@@ -10,7 +10,7 @@
 /// @Description
 /// @History
 ///************************************************************
-#include "BusinessService.h"
+#include "TSSService.h"
 #include "ModuleConfigCollection.h"
 #include "../../protoc/ProtocolProcManager.h"
 #include "../../../ModuleDataCenter.h"
@@ -22,26 +22,26 @@
 using namespace jsbn;
 using namespace jsbn::protoc;
 
-BusinessService::BusinessService():_pServerWorker(nullptr),_client_mutex(RWLock::Create())
+TSSService::TSSService():_pServerWorker(nullptr),_client_mutex(RWLock::Create())
 {}
 
-BusinessService::~BusinessService()
+TSSService::~TSSService()
 {
     delete _client_mutex;
 }
 
-int BusinessService::Start()
+int TSSService::Start()
 {
-    _pServerWorker = new(std::nothrow) ServerWorker(SYS_CONFIG->get_module_config().bus_listen_ip,
-                                                    SYS_CONFIG->get_module_config().bus_listen_port);
+    _pServerWorker = new(std::nothrow) ServerWorker(SYS_CONFIG->get_module_config().tss_service_listen_ip,
+                                                    SYS_CONFIG->get_module_config().tss_service_listen_port);
     if (nullptr == _pServerWorker)
     {
         return FUNC_FAILED;
     }
 
-    SignalAccept.connect(this, &BusinessService::Accept);
-    SignalRecvData.connect(this, &BusinessService::RecvData);
-    SignalEvent.connect(this, &BusinessService::Event);
+    SignalAccept.connect(this, &TSSService::Accept);
+    SignalRecvData.connect(this, &TSSService::RecvData);
+    SignalEvent.connect(this, &TSSService::Event);
 
     if (!_pServerWorker->StartWork(this))
     {
@@ -52,7 +52,7 @@ int BusinessService::Start()
     return FUNC_SUCCESS;
 }
 
-void BusinessService::Stop()
+void TSSService::Stop()
 {
     if (nullptr == _pServerWorker)
     {
@@ -72,7 +72,7 @@ void BusinessService::Stop()
 
 }
 
-int BusinessService::SendData(const sSendDataPage_ptr& pSend)
+int TSSService::SendData(const sSendDataPage_ptr& pSend)
 {
     ReadLockScoped rls(*_client_mutex);
     std::map<unsigned short, PassiveTCPClient*>::iterator it = _map_clients.find(pSend->sock_handle);
@@ -84,7 +84,7 @@ int BusinessService::SendData(const sSendDataPage_ptr& pSend)
     return FUNC_FAILED;
 }
 
-int BusinessService::AddClient(unsigned short seq, jsbn::PassiveTCPClient* p_client)
+int TSSService::AddClient(unsigned short seq, jsbn::PassiveTCPClient* p_client)
 {
     WriteLockScoped wls(*_client_mutex);
     std::map<unsigned short, PassiveTCPClient*>::iterator it = _map_clients.find(seq);
@@ -98,7 +98,7 @@ int BusinessService::AddClient(unsigned short seq, jsbn::PassiveTCPClient* p_cli
     return FUNC_SUCCESS;
 }
 
-void BusinessService::DelClient(unsigned short seq)
+void TSSService::DelClient(unsigned short seq)
 {
     WriteLockScoped wls(*_client_mutex);
     std::map<unsigned short, PassiveTCPClient*>::iterator it = _map_clients.find(seq);
@@ -110,7 +110,7 @@ void BusinessService::DelClient(unsigned short seq)
     }
 }
 
-void BusinessService::RecvData(unsigned short seq, const unsigned char* buf, PacketLength len)
+void TSSService::RecvData(unsigned short seq, const unsigned char* buf, PacketLength len)
 {
     // 解析数据协议
     sProtocolData_ptr prt = ProtocolProcManager::ParseProtocol(buf, len);
@@ -139,7 +139,7 @@ void BusinessService::RecvData(unsigned short seq, const unsigned char* buf, Pac
 }
 
 // 套接字事件处理器
-void BusinessService::Event(unsigned short seq, EM_NET_EVENT msg)
+void TSSService::Event(unsigned short seq, EM_NET_EVENT msg)
 {
     switch (msg)
     {
@@ -156,13 +156,13 @@ void BusinessService::Event(unsigned short seq, EM_NET_EVENT msg)
     }
 }
 
-void BusinessService::Accept(SOCKET fd, struct sockaddr_in* sa)
+void TSSService::Accept(SOCKET fd, struct sockaddr_in* sa)
 {
     // 获取一个连接序号
     unsigned short seq = NetFrame::GetGloabSeq();
 
     PassiveTCPClient* pPassiveTCPClient = new(std::nothrow) PassiveTCPClient(
-                seq, sa, SYS_CONFIG->get_module_config().bus_heartbeat_detection);
+                seq, sa, SYS_CONFIG->get_module_config().tss_service_heartbeat_detection);
     do
     {
         if (nullptr == pPassiveTCPClient)

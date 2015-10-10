@@ -14,7 +14,8 @@
 #define __COMMUNICATE_SERVICE_H_
 
 #include "ModuleConstDef.h"
-#include "./service/business/BusinessService.h"
+#include "./service/iss/ISSService.h"
+#include "./service/tss/TSSService.h"
 
 class CommunicateService : public COperationObject
 {
@@ -29,7 +30,7 @@ public:
 
 private:
     // 业务服务器
-    BusinessService _mBusinessService;
+    ISSService _mISSService;
 };
 
 #endif

@@ -32,18 +32,18 @@ int CModuleConfigCollection::dump(const char* first_param /* = NULL */,
 int CModuleConfigCollection::load_module_file_config (CIniFile &ini_reader)
 {
     if (FUNC_SUCCESS != load_string_item (ini_reader,
-                                          "BUS_SVR_INFO",
-                                          "BUS_SVR_IP",
-                                          m_net_srv_config.bus_listen_ip))
+                                          "ISS_SVR_INFO",
+                                          "ISS_SVR_IP",
+                                          m_net_srv_config.iss_service_listen_ip))
     {
         return FUNC_FAILED;
     }
 
 
     if (FUNC_SUCCESS != load_int_item(ini_reader,
-                                      "BUS_SVR_INFO",
-                                      "BUS_SVR_PORT",
-                                      m_net_srv_config.bus_listen_port,
+                                      "ISS_SVR_INFO",
+                                      "ISS_SVR_PORT",
+                                      m_net_srv_config.iss_service_listen_port,
                                       1024,
                                       65523))
     {

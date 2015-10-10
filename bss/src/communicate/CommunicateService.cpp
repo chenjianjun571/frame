@@ -14,9 +14,9 @@
 
 bool CommunicateService::start_operation()
 {
-    if (_mBusinessService.Start() != FUNC_SUCCESS)
+    if (_mISSService.Start() != FUNC_SUCCESS)
     {
-        LOG(ERROR)<<"业务服务器模块启动失败";
+        LOG(ERROR)<<"接入服务器模块启动失败";
         return false;
     }
 
@@ -25,7 +25,7 @@ bool CommunicateService::start_operation()
 
 bool CommunicateService::stop_operation()
 {
-    _mBusinessService.Stop();
+    _mISSService.Stop();
     return true;
 }
 
