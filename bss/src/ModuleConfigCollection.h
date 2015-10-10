@@ -32,12 +32,21 @@ struct stModuleConfig
     // 终端服务器心跳检测间隔时间
     int tss_service_heartbeat_detection;
 
+    // 中心服务器IP
+    std::string css_client_listen_ip;
+    // 中心服务器监听port
+    int css_client_listen_port;
+    // 心跳检测间隔时间
+    int css_client_heartbeat_detection;
+
     stModuleConfig()
     {
         iss_service_listen_ip.clear();
         iss_service_heartbeat_detection = 15;
         tss_service_listen_ip.clear();
         tss_service_heartbeat_detection = 15;
+        css_client_listen_ip.clear();
+        css_client_heartbeat_detection = 15;
     }
 };
 

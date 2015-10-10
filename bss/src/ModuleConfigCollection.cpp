@@ -89,6 +89,35 @@ int CModuleConfigCollection::load_module_file_config (CIniFile &ini_reader)
         return FUNC_FAILED;
     }
 
+    if (FUNC_SUCCESS != load_string_item (ini_reader,
+                                          "CSS_CLIENT_INFO",
+                                          "CSS_CLIENT_IP",
+                                          m_net_srv_config.css_client_listen_ip))
+    {
+        return FUNC_FAILED;
+    }
+
+
+    if (FUNC_SUCCESS != load_int_item(ini_reader,
+                                      "CSS_CLIENT_INFO",
+                                      "CSS_CLIENT_PORT",
+                                      m_net_srv_config.css_client_listen_port,
+                                      1024,
+                                      65523))
+    {
+        return FUNC_FAILED;
+    }
+
+    if (FUNC_SUCCESS != load_int_item(ini_reader,
+                                      "CSS_CLIENT_INFO",
+                                      "CSS_HEARTBEAT_TIME",
+                                      m_net_srv_config.css_client_heartbeat_detection,
+                                      5,
+                                      6000))
+    {
+        return FUNC_FAILED;
+    }
+
     return FUNC_SUCCESS;
 }
 
