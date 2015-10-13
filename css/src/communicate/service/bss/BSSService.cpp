@@ -84,7 +84,7 @@ int BSSService::SendData(const sSendDataPage_ptr& pSend)
     return FUNC_FAILED;
 }
 
-int BSSService::AddClient(unsigned short seq, jsbn::BssTcpClient* p_client)
+int BSSService::AddClient(unsigned short seq, BssTcpClient* p_client)
 {
     WriteLockScoped wls(*_client_mutex);
     std::map<unsigned short, BssTcpClient*>::iterator it = _map_clients.find(seq);
