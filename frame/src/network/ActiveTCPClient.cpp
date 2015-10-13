@@ -164,17 +164,17 @@ namespace NAME_SPACE {
         }
     }
     
-    int ActiveTCPClient::SendData(const sSendDataPage_ptr& pData)
+    int ActiveTCPClient::SendData(const unsigned char* pData, size_t len)
     {
         
         ReadLockScoped rLock(*_m_rw_loacl);
         
-        if (nullptr == _bev || _connect_flg != 2 || nullptr == pData)
+        if (nullptr == _bev || _connect_flg != 2)
         {
             return FUNC_FAILED;
         }
         
-        if (bufferevent_write(_bev, pData->send_buf, pData->send_len) < 0)
+        if (bufferevent_write(_bev, pData, len) < 0)
         {
             return FUNC_FAILED;
         }

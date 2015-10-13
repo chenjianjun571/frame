@@ -35,7 +35,6 @@
 #include<tools/List.h>
 #include<tools/PublicTools.h>
 #include<tools/TimeFormat.h>
-#include<mempool/MallocStructFactory.h>
 #include<base/Common.h>
 #include<base/ConditionVariable.h>
 #include<base/CriticalSection.h>

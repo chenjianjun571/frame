@@ -78,7 +78,7 @@ int TSSService::SendData(const sSendDataPage_ptr& pSend)
     std::map<unsigned short, PassiveTCPClient*>::iterator it = _map_clients.find(pSend->sock_handle);
     if (it != _map_clients.end())
     {
-        return it->second->SendData(pSend);
+        return it->second->SendData(pSend->send_buf, pSend->send_len);
     }
 
     return FUNC_FAILED;

@@ -46,11 +46,12 @@ namespace NAME_SPACE {
         /**
          *	@brief	发送数据
          *
-         *	@paramv const sSendDataPage_ptr& 数据
+         *	@paramv const unsigned char* 数据
+         *  @paramv len 数据长度
          *
          *	@return
          */
-        int SendData(const sSendDataPage_ptr&);
+        int SendData(const unsigned char* pData, size_t len);
         
         bool IsConnect() { return _connect_flg == 2;}
         

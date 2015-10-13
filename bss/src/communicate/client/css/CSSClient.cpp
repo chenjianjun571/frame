@@ -71,7 +71,7 @@ int CSSClient::SendData(const sSendDataPage_ptr& pSend)
 {
     if (_pActiveTCPClient)
     {
-        return _pActiveTCPClient->SendData(pSend);
+        return _pActiveTCPClient->SendData(pSend->send_buf, pSend->send_len);
     }
 
     return FUNC_FAILED;

@@ -14,6 +14,7 @@
 #define __COMMUNICATE_H_
 
 #include "ModuleConstDef.h"
+#include "../common/MallocStructFactory.h"
 
 #include "./communicate/protoc/pb/jsbn_bss.pb.h"
 // 协议数据智能指针

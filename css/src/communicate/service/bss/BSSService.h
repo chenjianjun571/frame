@@ -14,6 +14,7 @@
 #define __BSS_SERVICE_H_
 
 #include "ModuleConstDef.h"
+#include "BssTcpClient.h"
 
 class BSSService :
         public sigslot::has_slots<>,
@@ -44,12 +45,12 @@ public:
     void Accept(SOCKET fd, struct sockaddr_in* sa);
 
 protected:
-    int AddClient(unsigned short, jsbn::PassiveTCPClient*);
+    int AddClient(unsigned short, BssTcpClient*);
     void DelClient(unsigned short);
 
 private:
     jsbn::ServerWorker* _pServerWorker;
-    std::map<unsigned short, jsbn::PassiveTCPClient*> _map_clients;
+    std::map<unsigned short, BssTcpClient*> _map_clients;
     jsbn::RWLock* _client_mutex;
 };
 

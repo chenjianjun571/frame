@@ -144,14 +144,14 @@ namespace NAME_SPACE {
         // 不要对_pPassiveTCPClientSignal置null，释放由外部传入者负责
     }
     
-    int PassiveTCPClient::SendData(const sSendDataPage_ptr& pData)
+    int PassiveTCPClient::SendData(const unsigned char* pData, size_t len)
     {
-        if (nullptr == _bev || nullptr == pData)
+        if (nullptr == _bev)
         {
             return FUNC_FAILED;
         }
 
-        if (bufferevent_write(_bev, pData->send_buf, pData->send_len) < 0)
+        if (bufferevent_write(_bev, pData, len) < 0)
         {
             LOG(INFO)<<"发送数据失败.";
             return FUNC_FAILED;

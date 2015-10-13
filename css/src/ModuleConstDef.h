@@ -50,5 +50,26 @@ const char* const gcv_module_name = "css";
 // 模块可执行文件名
 const char* const gcv_program_name = "css";
 
+typedef struct stSendData
+{
+    /// 发送数据缓冲区
+    unsigned char send_buf[SEND_DATA_MAX_PACKET_SIZE];
+    /// 发送数据长度
+    unsigned int send_len;
+    /// 连接序号
+    unsigned short sock_handle;
+
+    void Copy(const unsigned char* buf, unsigned int len) {
+        // 贴上包头
+        SetBE16(send_buf, len);
+        // 贴上包体
+        ::memcpy(send_buf+kPacketLenSize, buf, (len>SEND_DATA_MAX_PACKET_SIZE) ? SEND_DATA_MAX_PACKET_SIZE : len);
+
+        send_len = kPacketLenSize + ((len>SEND_DATA_MAX_PACKET_SIZE) ? SEND_DATA_MAX_PACKET_SIZE : len);
+    }
+}TSendData;
+// 发送数据智能指针
+typedef std::shared_ptr<TSendData> sSendDataPage_ptr;
+
 #endif //__MODULE_CONST_DEF_H_
 

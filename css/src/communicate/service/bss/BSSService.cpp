@@ -62,7 +62,7 @@ void BSSService::Stop()
     _pServerWorker->StopWork();
 
     WriteLockScoped wls(*_client_mutex);
-    std::map<unsigned short, PassiveTCPClient*>::iterator it = _map_clients.begin();
+    std::map<unsigned short, BssTcpClient*>::iterator it = _map_clients.begin();
     while (it != _map_clients.end())
     {
         it->second->StopWork();
@@ -75,19 +75,19 @@ void BSSService::Stop()
 int BSSService::SendData(const sSendDataPage_ptr& pSend)
 {
     ReadLockScoped rls(*_client_mutex);
-    std::map<unsigned short, PassiveTCPClient*>::iterator it = _map_clients.find(pSend->sock_handle);
+    std::map<unsigned short, BssTcpClient*>::iterator it = _map_clients.find(pSend->sock_handle);
     if (it != _map_clients.end())
     {
-        return it->second->SendData(pSend);
+        return it->second->SendData(pSend->send_buf, pSend->send_len);
     }
 
     return FUNC_FAILED;
 }
 
-int BSSService::AddClient(unsigned short seq, jsbn::PassiveTCPClient* p_client)
+int BSSService::AddClient(unsigned short seq, jsbn::BssTcpClient* p_client)
 {
     WriteLockScoped wls(*_client_mutex);
-    std::map<unsigned short, PassiveTCPClient*>::iterator it = _map_clients.find(seq);
+    std::map<unsigned short, BssTcpClient*>::iterator it = _map_clients.find(seq);
     if (it != _map_clients.end())
     {
         return FUNC_FAILED;
@@ -101,7 +101,7 @@ int BSSService::AddClient(unsigned short seq, jsbn::PassiveTCPClient* p_client)
 void BSSService::DelClient(unsigned short seq)
 {
     WriteLockScoped wls(*_client_mutex);
-    std::map<unsigned short, PassiveTCPClient*>::iterator it = _map_clients.find(seq);
+    std::map<unsigned short, BssTcpClient*>::iterator it = _map_clients.find(seq);
     if (it != _map_clients.end())
     {
         it->second->StopWork();
@@ -161,22 +161,22 @@ void BSSService::Accept(SOCKET fd, struct sockaddr_in* sa)
     // 获取一个连接序号
     unsigned short seq = NetFrame::GetGloabSeq();
 
-    PassiveTCPClient* pPassiveTCPClient = new(std::nothrow) PassiveTCPClient(
+    BssTcpClient* pBssTcpClient = new(std::nothrow) BssTcpClient(
                 seq, sa, SYS_CONFIG->get_module_config().bss_service_heartbeat_detection);
     do
     {
-        if (nullptr == pPassiveTCPClient)
+        if (nullptr == pBssTcpClient)
         {
             break;
         }
 
-        if (!pPassiveTCPClient->StartWork(fd, this))
+        if (!pBssTcpClient->StartWork(fd, this))
         {
             LOG(ERROR)<<"启动客户端失败.";
             break;
         }
 
-        if (AddClient(seq, pPassiveTCPClient) != FUNC_SUCCESS)
+        if (AddClient(seq, pBssTcpClient) != FUNC_SUCCESS)
         {
             LOG(ERROR)<<"客户端添加失败.";
             break;
@@ -188,10 +188,10 @@ void BSSService::Accept(SOCKET fd, struct sockaddr_in* sa)
 
     }while(0);
 
-    if (pPassiveTCPClient)
+    if (pBssTcpClient)
     {
-        pPassiveTCPClient->StopWork();
-        delete pPassiveTCPClient;
+        pBssTcpClient->StopWork();
+        delete pBssTcpClient;
     }
 
     close(fd);
