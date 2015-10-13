@@ -14,9 +14,7 @@
 #define __COMMUNICATE_SERVICE_H_
 
 #include "ModuleConstDef.h"
-#include "./service/iss/ISSService.h"
-#include "./service/tss/TSSService.h"
-#include "./client/css/CSSClient.h"
+#include "./service/bss/BSSService.h"
 
 class CommunicateService : public COperationObject
 {
@@ -30,12 +28,8 @@ public:
     virtual int dump(const char* first_param = nullptr, const char* second_param = nullptr);
 
 private:
-    // 接入服务器监听服务器
-    ISSService _mISSService;
-    // 终端服务器监听服务器
-    TSSService _mTSSService;
-    // 中心服务器客户端
-    CSSClient _mCSSClient;
+    // 业务服务器监听服务器
+    BSSService _mBSSService;
 };
 
 #endif

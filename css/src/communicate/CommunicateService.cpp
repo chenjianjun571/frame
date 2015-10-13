@@ -14,21 +14,9 @@
 
 bool CommunicateService::start_operation()
 {
-    if (_mISSService.Start() != FUNC_SUCCESS)
+    if (_mBSSService.Start() != FUNC_SUCCESS)
     {
-        LOG(ERROR)<<"接入服务器模块启动失败";
-        return false;
-    }
-
-    if (_mTSSService.Start() != FUNC_SUCCESS)
-    {
-        LOG(ERROR)<<"终端服务器模块启动失败";
-        return false;
-    }
-
-    if (_mCSSClient.Start() != FUNC_SUCCESS)
-    {
-        LOG(ERROR)<<"终端服务器模块启动失败";
+        LOG(ERROR)<<"业务服务器模块启动失败";
         return false;
     }
 
@@ -37,9 +25,7 @@ bool CommunicateService::start_operation()
 
 bool CommunicateService::stop_operation()
 {
-    _mISSService.Stop();
-    _mTSSService.Stop();
-    _mCSSClient.Stop();
+    _mBSSService.Stop();
     return true;
 }
 
