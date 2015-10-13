@@ -162,7 +162,7 @@ void BSSService::Accept(SOCKET fd, struct sockaddr_in* sa)
     unsigned short seq = NetFrame::GetGloabSeq();
 
     PassiveTCPClient* pPassiveTCPClient = new(std::nothrow) PassiveTCPClient(
-                seq, sa, SYS_CONFIG->get_module_config().tss_service_heartbeat_detection);
+                seq, sa, SYS_CONFIG->get_module_config().bss_service_heartbeat_detection);
     do
     {
         if (nullptr == pPassiveTCPClient)
