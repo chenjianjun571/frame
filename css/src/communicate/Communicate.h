@@ -17,7 +17,11 @@
 #include "../common/MallocStructFactory.h"
 
 #include "./communicate/protoc/pb/jsbn_css.pb.h"
-// 协议数据智能指针
-typedef std::shared_ptr<jsbn::protoc::CSSNetProtocol> sNetProtocolDataPage_ptr;
+
+// BSS与CSS的协议数据智能指针
+typedef std::shared_ptr<jsbn::protoc::BCNetProtocol> sBCNetProtocolDataPage_ptr;
+
+// SMS与CSS的协议数据智能指针
+typedef std::shared_ptr<jsbn::protoc::SCNetProtocol> sSCNetProtocolDataPage_ptr;
 
 #endif

@@ -33,26 +33,39 @@ void  protobuf_AddDesc_jsbn_5fcss_2eproto();
 void protobuf_AssignDesc_jsbn_5fcss_2eproto();
 void protobuf_ShutdownFile_jsbn_5fcss_2eproto();
 
-class CSSNetProtocol;
+class BCRegisterRequest;
+class BCRegisterResponse;
+class BCNetProtocol;
+class SCNetProtocol;
 
-enum MSG {
-  Heart_Beat = 0
+enum BC_MSG {
+  EBC_Heart_Beat = 0,
+  EBC_Register_Request = 4097,
+  EBC_Register_Response = 4098
 };
-bool MSG_IsValid(int value);
-const MSG MSG_MIN = Heart_Beat;
-const MSG MSG_MAX = Heart_Beat;
-const int MSG_ARRAYSIZE = MSG_MAX + 1;
+bool BC_MSG_IsValid(int value);
+const BC_MSG BC_MSG_MIN = EBC_Heart_Beat;
+const BC_MSG BC_MSG_MAX = EBC_Register_Response;
+const int BC_MSG_ARRAYSIZE = BC_MSG_MAX + 1;
+
+enum SC_MSG {
+  ESC_Heart_Beat = 0
+};
+bool SC_MSG_IsValid(int value);
+const SC_MSG SC_MSG_MIN = ESC_Heart_Beat;
+const SC_MSG SC_MSG_MAX = ESC_Heart_Beat;
+const int SC_MSG_ARRAYSIZE = SC_MSG_MAX + 1;
 
 // ===================================================================
 
-class CSSNetProtocol : public ::google::protobuf::MessageLite {
+class BCRegisterRequest : public ::google::protobuf::MessageLite {
  public:
-  CSSNetProtocol();
-  virtual ~CSSNetProtocol();
+  BCRegisterRequest();
+  virtual ~BCRegisterRequest();
 
-  CSSNetProtocol(const CSSNetProtocol& from);
+  BCRegisterRequest(const BCRegisterRequest& from);
 
-  inline CSSNetProtocol& operator=(const CSSNetProtocol& from) {
+  inline BCRegisterRequest& operator=(const BCRegisterRequest& from) {
     CopyFrom(from);
     return *this;
   }
@@ -65,26 +78,26 @@ class CSSNetProtocol : public ::google::protobuf::MessageLite {
     return &_unknown_fields_;
   }
 
-  static const CSSNetProtocol& default_instance();
+  static const BCRegisterRequest& default_instance();
 
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   // Returns the internal default instance pointer. This function can
   // return NULL thus should not be used by the user. This is intended
   // for Protobuf internal code. Please use default_instance() declared
   // above instead.
-  static inline const CSSNetProtocol* internal_default_instance() {
+  static inline const BCRegisterRequest* internal_default_instance() {
     return default_instance_;
   }
   #endif
 
-  void Swap(CSSNetProtocol* other);
+  void Swap(BCRegisterRequest* other);
 
   // implements Message ----------------------------------------------
 
-  CSSNetProtocol* New() const;
+  BCRegisterRequest* New() const;
   void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
-  void CopyFrom(const CSSNetProtocol& from);
-  void MergeFrom(const CSSNetProtocol& from);
+  void CopyFrom(const BCRegisterRequest& from);
+  void MergeFrom(const BCRegisterRequest& from);
   void Clear();
   bool IsInitialized() const;
 
@@ -106,14 +119,326 @@ class CSSNetProtocol : public ::google::protobuf::MessageLite {
 
   // accessors -------------------------------------------------------
 
-  // required .jsbn.protoc.MSG type = 1;
+  // required fixed32 cityID = 1;
+  inline bool has_cityid() const;
+  inline void clear_cityid();
+  static const int kCityIDFieldNumber = 1;
+  inline ::google::protobuf::uint32 cityid() const;
+  inline void set_cityid(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:jsbn.protoc.BCRegisterRequest)
+ private:
+  inline void set_has_cityid();
+  inline void clear_has_cityid();
+
+  ::std::string _unknown_fields_;
+
+  ::google::protobuf::uint32 _has_bits_[1];
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 cityid_;
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  friend void  protobuf_AddDesc_jsbn_5fcss_2eproto_impl();
+  #else
+  friend void  protobuf_AddDesc_jsbn_5fcss_2eproto();
+  #endif
+  friend void protobuf_AssignDesc_jsbn_5fcss_2eproto();
+  friend void protobuf_ShutdownFile_jsbn_5fcss_2eproto();
+
+  void InitAsDefaultInstance();
+  static BCRegisterRequest* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class BCRegisterResponse : public ::google::protobuf::MessageLite {
+ public:
+  BCRegisterResponse();
+  virtual ~BCRegisterResponse();
+
+  BCRegisterResponse(const BCRegisterResponse& from);
+
+  inline BCRegisterResponse& operator=(const BCRegisterResponse& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::std::string& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::std::string* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const BCRegisterResponse& default_instance();
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  // Returns the internal default instance pointer. This function can
+  // return NULL thus should not be used by the user. This is intended
+  // for Protobuf internal code. Please use default_instance() declared
+  // above instead.
+  static inline const BCRegisterResponse* internal_default_instance() {
+    return default_instance_;
+  }
+  #endif
+
+  void Swap(BCRegisterResponse* other);
+
+  // implements Message ----------------------------------------------
+
+  BCRegisterResponse* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const BCRegisterResponse& from);
+  void MergeFrom(const BCRegisterResponse& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  void DiscardUnknownFields();
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  ::std::string GetTypeName() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required fixed32 result = 1;
+  inline bool has_result() const;
+  inline void clear_result();
+  static const int kResultFieldNumber = 1;
+  inline ::google::protobuf::uint32 result() const;
+  inline void set_result(::google::protobuf::uint32 value);
+
+  // optional string error_description = 2;
+  inline bool has_error_description() const;
+  inline void clear_error_description();
+  static const int kErrorDescriptionFieldNumber = 2;
+  inline const ::std::string& error_description() const;
+  inline void set_error_description(const ::std::string& value);
+  inline void set_error_description(const char* value);
+  inline void set_error_description(const char* value, size_t size);
+  inline ::std::string* mutable_error_description();
+  inline ::std::string* release_error_description();
+  inline void set_allocated_error_description(::std::string* error_description);
+
+  // @@protoc_insertion_point(class_scope:jsbn.protoc.BCRegisterResponse)
+ private:
+  inline void set_has_result();
+  inline void clear_has_result();
+  inline void set_has_error_description();
+  inline void clear_has_error_description();
+
+  ::std::string _unknown_fields_;
+
+  ::google::protobuf::uint32 _has_bits_[1];
+  mutable int _cached_size_;
+  ::std::string* error_description_;
+  ::google::protobuf::uint32 result_;
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  friend void  protobuf_AddDesc_jsbn_5fcss_2eproto_impl();
+  #else
+  friend void  protobuf_AddDesc_jsbn_5fcss_2eproto();
+  #endif
+  friend void protobuf_AssignDesc_jsbn_5fcss_2eproto();
+  friend void protobuf_ShutdownFile_jsbn_5fcss_2eproto();
+
+  void InitAsDefaultInstance();
+  static BCRegisterResponse* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class BCNetProtocol : public ::google::protobuf::MessageLite {
+ public:
+  BCNetProtocol();
+  virtual ~BCNetProtocol();
+
+  BCNetProtocol(const BCNetProtocol& from);
+
+  inline BCNetProtocol& operator=(const BCNetProtocol& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::std::string& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::std::string* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const BCNetProtocol& default_instance();
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  // Returns the internal default instance pointer. This function can
+  // return NULL thus should not be used by the user. This is intended
+  // for Protobuf internal code. Please use default_instance() declared
+  // above instead.
+  static inline const BCNetProtocol* internal_default_instance() {
+    return default_instance_;
+  }
+  #endif
+
+  void Swap(BCNetProtocol* other);
+
+  // implements Message ----------------------------------------------
+
+  BCNetProtocol* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const BCNetProtocol& from);
+  void MergeFrom(const BCNetProtocol& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  void DiscardUnknownFields();
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  ::std::string GetTypeName() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required .jsbn.protoc.BC_MSG type = 1;
   inline bool has_type() const;
   inline void clear_type();
   static const int kTypeFieldNumber = 1;
-  inline ::jsbn::protoc::MSG type() const;
-  inline void set_type(::jsbn::protoc::MSG value);
+  inline ::jsbn::protoc::BC_MSG type() const;
+  inline void set_type(::jsbn::protoc::BC_MSG value);
 
-  // @@protoc_insertion_point(class_scope:jsbn.protoc.CSSNetProtocol)
+  // optional .jsbn.protoc.BCRegisterRequest registerRequest = 2;
+  inline bool has_registerrequest() const;
+  inline void clear_registerrequest();
+  static const int kRegisterRequestFieldNumber = 2;
+  inline const ::jsbn::protoc::BCRegisterRequest& registerrequest() const;
+  inline ::jsbn::protoc::BCRegisterRequest* mutable_registerrequest();
+  inline ::jsbn::protoc::BCRegisterRequest* release_registerrequest();
+  inline void set_allocated_registerrequest(::jsbn::protoc::BCRegisterRequest* registerrequest);
+
+  // optional .jsbn.protoc.BCRegisterResponse registerResponse = 3;
+  inline bool has_registerresponse() const;
+  inline void clear_registerresponse();
+  static const int kRegisterResponseFieldNumber = 3;
+  inline const ::jsbn::protoc::BCRegisterResponse& registerresponse() const;
+  inline ::jsbn::protoc::BCRegisterResponse* mutable_registerresponse();
+  inline ::jsbn::protoc::BCRegisterResponse* release_registerresponse();
+  inline void set_allocated_registerresponse(::jsbn::protoc::BCRegisterResponse* registerresponse);
+
+  // @@protoc_insertion_point(class_scope:jsbn.protoc.BCNetProtocol)
+ private:
+  inline void set_has_type();
+  inline void clear_has_type();
+  inline void set_has_registerrequest();
+  inline void clear_has_registerrequest();
+  inline void set_has_registerresponse();
+  inline void clear_has_registerresponse();
+
+  ::std::string _unknown_fields_;
+
+  ::google::protobuf::uint32 _has_bits_[1];
+  mutable int _cached_size_;
+  ::jsbn::protoc::BCRegisterRequest* registerrequest_;
+  ::jsbn::protoc::BCRegisterResponse* registerresponse_;
+  int type_;
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  friend void  protobuf_AddDesc_jsbn_5fcss_2eproto_impl();
+  #else
+  friend void  protobuf_AddDesc_jsbn_5fcss_2eproto();
+  #endif
+  friend void protobuf_AssignDesc_jsbn_5fcss_2eproto();
+  friend void protobuf_ShutdownFile_jsbn_5fcss_2eproto();
+
+  void InitAsDefaultInstance();
+  static BCNetProtocol* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class SCNetProtocol : public ::google::protobuf::MessageLite {
+ public:
+  SCNetProtocol();
+  virtual ~SCNetProtocol();
+
+  SCNetProtocol(const SCNetProtocol& from);
+
+  inline SCNetProtocol& operator=(const SCNetProtocol& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::std::string& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::std::string* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const SCNetProtocol& default_instance();
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  // Returns the internal default instance pointer. This function can
+  // return NULL thus should not be used by the user. This is intended
+  // for Protobuf internal code. Please use default_instance() declared
+  // above instead.
+  static inline const SCNetProtocol* internal_default_instance() {
+    return default_instance_;
+  }
+  #endif
+
+  void Swap(SCNetProtocol* other);
+
+  // implements Message ----------------------------------------------
+
+  SCNetProtocol* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const SCNetProtocol& from);
+  void MergeFrom(const SCNetProtocol& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  void DiscardUnknownFields();
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  ::std::string GetTypeName() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required .jsbn.protoc.SC_MSG type = 1;
+  inline bool has_type() const;
+  inline void clear_type();
+  static const int kTypeFieldNumber = 1;
+  inline ::jsbn::protoc::SC_MSG type() const;
+  inline void set_type(::jsbn::protoc::SC_MSG value);
+
+  // @@protoc_insertion_point(class_scope:jsbn.protoc.SCNetProtocol)
  private:
   inline void set_has_type();
   inline void clear_has_type();
@@ -132,38 +457,289 @@ class CSSNetProtocol : public ::google::protobuf::MessageLite {
   friend void protobuf_ShutdownFile_jsbn_5fcss_2eproto();
 
   void InitAsDefaultInstance();
-  static CSSNetProtocol* default_instance_;
+  static SCNetProtocol* default_instance_;
 };
 // ===================================================================
 
 
 // ===================================================================
 
-// CSSNetProtocol
+// BCRegisterRequest
 
-// required .jsbn.protoc.MSG type = 1;
-inline bool CSSNetProtocol::has_type() const {
+// required fixed32 cityID = 1;
+inline bool BCRegisterRequest::has_cityid() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void CSSNetProtocol::set_has_type() {
+inline void BCRegisterRequest::set_has_cityid() {
   _has_bits_[0] |= 0x00000001u;
 }
-inline void CSSNetProtocol::clear_has_type() {
+inline void BCRegisterRequest::clear_has_cityid() {
   _has_bits_[0] &= ~0x00000001u;
 }
-inline void CSSNetProtocol::clear_type() {
+inline void BCRegisterRequest::clear_cityid() {
+  cityid_ = 0u;
+  clear_has_cityid();
+}
+inline ::google::protobuf::uint32 BCRegisterRequest::cityid() const {
+  // @@protoc_insertion_point(field_get:jsbn.protoc.BCRegisterRequest.cityID)
+  return cityid_;
+}
+inline void BCRegisterRequest::set_cityid(::google::protobuf::uint32 value) {
+  set_has_cityid();
+  cityid_ = value;
+  // @@protoc_insertion_point(field_set:jsbn.protoc.BCRegisterRequest.cityID)
+}
+
+// -------------------------------------------------------------------
+
+// BCRegisterResponse
+
+// required fixed32 result = 1;
+inline bool BCRegisterResponse::has_result() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void BCRegisterResponse::set_has_result() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void BCRegisterResponse::clear_has_result() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void BCRegisterResponse::clear_result() {
+  result_ = 0u;
+  clear_has_result();
+}
+inline ::google::protobuf::uint32 BCRegisterResponse::result() const {
+  // @@protoc_insertion_point(field_get:jsbn.protoc.BCRegisterResponse.result)
+  return result_;
+}
+inline void BCRegisterResponse::set_result(::google::protobuf::uint32 value) {
+  set_has_result();
+  result_ = value;
+  // @@protoc_insertion_point(field_set:jsbn.protoc.BCRegisterResponse.result)
+}
+
+// optional string error_description = 2;
+inline bool BCRegisterResponse::has_error_description() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void BCRegisterResponse::set_has_error_description() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void BCRegisterResponse::clear_has_error_description() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void BCRegisterResponse::clear_error_description() {
+  if (error_description_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    error_description_->clear();
+  }
+  clear_has_error_description();
+}
+inline const ::std::string& BCRegisterResponse::error_description() const {
+  // @@protoc_insertion_point(field_get:jsbn.protoc.BCRegisterResponse.error_description)
+  return *error_description_;
+}
+inline void BCRegisterResponse::set_error_description(const ::std::string& value) {
+  set_has_error_description();
+  if (error_description_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    error_description_ = new ::std::string;
+  }
+  error_description_->assign(value);
+  // @@protoc_insertion_point(field_set:jsbn.protoc.BCRegisterResponse.error_description)
+}
+inline void BCRegisterResponse::set_error_description(const char* value) {
+  set_has_error_description();
+  if (error_description_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    error_description_ = new ::std::string;
+  }
+  error_description_->assign(value);
+  // @@protoc_insertion_point(field_set_char:jsbn.protoc.BCRegisterResponse.error_description)
+}
+inline void BCRegisterResponse::set_error_description(const char* value, size_t size) {
+  set_has_error_description();
+  if (error_description_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    error_description_ = new ::std::string;
+  }
+  error_description_->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:jsbn.protoc.BCRegisterResponse.error_description)
+}
+inline ::std::string* BCRegisterResponse::mutable_error_description() {
+  set_has_error_description();
+  if (error_description_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    error_description_ = new ::std::string;
+  }
+  // @@protoc_insertion_point(field_mutable:jsbn.protoc.BCRegisterResponse.error_description)
+  return error_description_;
+}
+inline ::std::string* BCRegisterResponse::release_error_description() {
+  clear_has_error_description();
+  if (error_description_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    return NULL;
+  } else {
+    ::std::string* temp = error_description_;
+    error_description_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+    return temp;
+  }
+}
+inline void BCRegisterResponse::set_allocated_error_description(::std::string* error_description) {
+  if (error_description_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    delete error_description_;
+  }
+  if (error_description) {
+    set_has_error_description();
+    error_description_ = error_description;
+  } else {
+    clear_has_error_description();
+    error_description_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  // @@protoc_insertion_point(field_set_allocated:jsbn.protoc.BCRegisterResponse.error_description)
+}
+
+// -------------------------------------------------------------------
+
+// BCNetProtocol
+
+// required .jsbn.protoc.BC_MSG type = 1;
+inline bool BCNetProtocol::has_type() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void BCNetProtocol::set_has_type() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void BCNetProtocol::clear_has_type() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void BCNetProtocol::clear_type() {
   type_ = 0;
   clear_has_type();
 }
-inline ::jsbn::protoc::MSG CSSNetProtocol::type() const {
-  // @@protoc_insertion_point(field_get:jsbn.protoc.CSSNetProtocol.type)
-  return static_cast< ::jsbn::protoc::MSG >(type_);
+inline ::jsbn::protoc::BC_MSG BCNetProtocol::type() const {
+  // @@protoc_insertion_point(field_get:jsbn.protoc.BCNetProtocol.type)
+  return static_cast< ::jsbn::protoc::BC_MSG >(type_);
 }
-inline void CSSNetProtocol::set_type(::jsbn::protoc::MSG value) {
-  assert(::jsbn::protoc::MSG_IsValid(value));
+inline void BCNetProtocol::set_type(::jsbn::protoc::BC_MSG value) {
+  assert(::jsbn::protoc::BC_MSG_IsValid(value));
   set_has_type();
   type_ = value;
-  // @@protoc_insertion_point(field_set:jsbn.protoc.CSSNetProtocol.type)
+  // @@protoc_insertion_point(field_set:jsbn.protoc.BCNetProtocol.type)
+}
+
+// optional .jsbn.protoc.BCRegisterRequest registerRequest = 2;
+inline bool BCNetProtocol::has_registerrequest() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void BCNetProtocol::set_has_registerrequest() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void BCNetProtocol::clear_has_registerrequest() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void BCNetProtocol::clear_registerrequest() {
+  if (registerrequest_ != NULL) registerrequest_->::jsbn::protoc::BCRegisterRequest::Clear();
+  clear_has_registerrequest();
+}
+inline const ::jsbn::protoc::BCRegisterRequest& BCNetProtocol::registerrequest() const {
+  // @@protoc_insertion_point(field_get:jsbn.protoc.BCNetProtocol.registerRequest)
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return registerrequest_ != NULL ? *registerrequest_ : *default_instance().registerrequest_;
+#else
+  return registerrequest_ != NULL ? *registerrequest_ : *default_instance_->registerrequest_;
+#endif
+}
+inline ::jsbn::protoc::BCRegisterRequest* BCNetProtocol::mutable_registerrequest() {
+  set_has_registerrequest();
+  if (registerrequest_ == NULL) registerrequest_ = new ::jsbn::protoc::BCRegisterRequest;
+  // @@protoc_insertion_point(field_mutable:jsbn.protoc.BCNetProtocol.registerRequest)
+  return registerrequest_;
+}
+inline ::jsbn::protoc::BCRegisterRequest* BCNetProtocol::release_registerrequest() {
+  clear_has_registerrequest();
+  ::jsbn::protoc::BCRegisterRequest* temp = registerrequest_;
+  registerrequest_ = NULL;
+  return temp;
+}
+inline void BCNetProtocol::set_allocated_registerrequest(::jsbn::protoc::BCRegisterRequest* registerrequest) {
+  delete registerrequest_;
+  registerrequest_ = registerrequest;
+  if (registerrequest) {
+    set_has_registerrequest();
+  } else {
+    clear_has_registerrequest();
+  }
+  // @@protoc_insertion_point(field_set_allocated:jsbn.protoc.BCNetProtocol.registerRequest)
+}
+
+// optional .jsbn.protoc.BCRegisterResponse registerResponse = 3;
+inline bool BCNetProtocol::has_registerresponse() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void BCNetProtocol::set_has_registerresponse() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void BCNetProtocol::clear_has_registerresponse() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void BCNetProtocol::clear_registerresponse() {
+  if (registerresponse_ != NULL) registerresponse_->::jsbn::protoc::BCRegisterResponse::Clear();
+  clear_has_registerresponse();
+}
+inline const ::jsbn::protoc::BCRegisterResponse& BCNetProtocol::registerresponse() const {
+  // @@protoc_insertion_point(field_get:jsbn.protoc.BCNetProtocol.registerResponse)
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return registerresponse_ != NULL ? *registerresponse_ : *default_instance().registerresponse_;
+#else
+  return registerresponse_ != NULL ? *registerresponse_ : *default_instance_->registerresponse_;
+#endif
+}
+inline ::jsbn::protoc::BCRegisterResponse* BCNetProtocol::mutable_registerresponse() {
+  set_has_registerresponse();
+  if (registerresponse_ == NULL) registerresponse_ = new ::jsbn::protoc::BCRegisterResponse;
+  // @@protoc_insertion_point(field_mutable:jsbn.protoc.BCNetProtocol.registerResponse)
+  return registerresponse_;
+}
+inline ::jsbn::protoc::BCRegisterResponse* BCNetProtocol::release_registerresponse() {
+  clear_has_registerresponse();
+  ::jsbn::protoc::BCRegisterResponse* temp = registerresponse_;
+  registerresponse_ = NULL;
+  return temp;
+}
+inline void BCNetProtocol::set_allocated_registerresponse(::jsbn::protoc::BCRegisterResponse* registerresponse) {
+  delete registerresponse_;
+  registerresponse_ = registerresponse;
+  if (registerresponse) {
+    set_has_registerresponse();
+  } else {
+    clear_has_registerresponse();
+  }
+  // @@protoc_insertion_point(field_set_allocated:jsbn.protoc.BCNetProtocol.registerResponse)
+}
+
+// -------------------------------------------------------------------
+
+// SCNetProtocol
+
+// required .jsbn.protoc.SC_MSG type = 1;
+inline bool SCNetProtocol::has_type() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void SCNetProtocol::set_has_type() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void SCNetProtocol::clear_has_type() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void SCNetProtocol::clear_type() {
+  type_ = 0;
+  clear_has_type();
+}
+inline ::jsbn::protoc::SC_MSG SCNetProtocol::type() const {
+  // @@protoc_insertion_point(field_get:jsbn.protoc.SCNetProtocol.type)
+  return static_cast< ::jsbn::protoc::SC_MSG >(type_);
+}
+inline void SCNetProtocol::set_type(::jsbn::protoc::SC_MSG value) {
+  assert(::jsbn::protoc::SC_MSG_IsValid(value));
+  set_has_type();
+  type_ = value;
+  // @@protoc_insertion_point(field_set:jsbn.protoc.SCNetProtocol.type)
 }
 
 

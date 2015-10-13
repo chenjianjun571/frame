@@ -14,13 +14,13 @@
 
 using namespace jsbn::protoc;
 
-void delete_recv_page(TProtocolBase* p)
+void delete_recv_bc_page(TBCProtocolBase* p)
 {
     switch(p->command_id)
     {
-        case jsbn::protoc::MSG::Heart_Beat:
+        case jsbn::protoc::BC_MSG::EBC_Heart_Beat:
         {
-            CObjectAllocator<TProtocolBase>::get_instance()->free((TProtocolBase*)p);
+            CObjectAllocator<TBCProtocolBase>::get_instance()->free((TBCProtocolBase*)p);
             break;
         }
         default:
@@ -31,10 +31,27 @@ void delete_recv_page(TProtocolBase* p)
     }
 }
 
-sProtocolData_ptr ProtocolProcManager::ParseProtocol(const unsigned char* buf, PacketLength len)
+void delete_recv_sc_page(TSCProtocolBase* p)
+{
+    switch(p->command_id)
+    {
+        case jsbn::protoc::SC_MSG::ESC_Heart_Beat:
+        {
+            CObjectAllocator<TSCProtocolBase>::get_instance()->free((TSCProtocolBase*)p);
+            break;
+        }
+        default:
+        {
+            LOG(ERROR)<<"无法释放此类型的指针,ID:"<<p->command_id;
+            break;
+        }
+    }
+}
+
+sBCProtocolData_ptr ProtocolProcManager::ParseBCProtocol(const unsigned char* buf, PacketLength len)
 {
     // 解析协议，生成一个协议的智能指针区域
-    static sNetProtocolDataPage_ptr protocol = std::make_shared<CSSNetProtocol>();
+    static sBCNetProtocolDataPage_ptr protocol = std::make_shared<BCNetProtocol>();
 
     protocol->Clear();
     if (!protocol->ParseFromArray(buf, len))
@@ -43,25 +60,53 @@ sProtocolData_ptr ProtocolProcManager::ParseProtocol(const unsigned char* buf, P
         return nullptr;
     }
 
-    return GetRecvData(protocol);
-}
-
-sProtocolData_ptr ProtocolProcManager::GetRecvData(sNetProtocolDataPage_ptr& protocol)
-{
-    sProtocolData_ptr ptr = nullptr;
+    sBCProtocolData_ptr ptr = nullptr;
     switch(protocol->type())
     {
-        case jsbn::protoc::MSG::Heart_Beat:
+        case jsbn::protoc::BC_MSG::EBC_Heart_Beat:
         {
-            ptr = sProtocolData_ptr(CObjectAllocator<TProtocolBase>::get_instance()->malloc(), delete_recv_page);
+            ptr = sBCProtocolData_ptr(CObjectAllocator<TBCProtocolBase>::get_instance()->malloc(), delete_recv_bc_page);
 
-            ptr->command_id = jsbn::protoc::MSG::Heart_Beat;
+            ptr->command_id = jsbn::protoc::BC_MSG::EBC_Heart_Beat;
 
             break;
         }
         default:
         {
-            LOG(ERROR)<<"协议不支持";
+            LOG(ERROR)<<"BSS与CSS之前的通信协议不支持";
+            break;
+        }
+    }
+
+    return ptr;
+}
+
+sSCProtocolData_ptr ProtocolProcManager::ParseSCProtocol(const unsigned char* buf, PacketLength len)
+{
+    // 解析协议，生成一个协议的智能指针区域
+    static sSCNetProtocolDataPage_ptr protocol = std::make_shared<SCNetProtocol>();
+
+    protocol->Clear();
+    if (!protocol->ParseFromArray(buf, len))
+    {
+        LOG(ERROR)<<"协议解析失败";
+        return nullptr;
+    }
+
+    sSCProtocolData_ptr ptr = nullptr;
+    switch(protocol->type())
+    {
+        case jsbn::protoc::SC_MSG::ESC_Heart_Beat:
+        {
+            ptr = sSCProtocolData_ptr(CObjectAllocator<TSCProtocolBase>::get_instance()->malloc(), delete_recv_sc_page);
+
+            ptr->command_id = jsbn::protoc::SC_MSG::ESC_Heart_Beat;
+
+            break;
+        }
+        default:
+        {
+            LOG(ERROR)<<"SMS与CSS之前的通信协议不支持";
             break;
         }
     }

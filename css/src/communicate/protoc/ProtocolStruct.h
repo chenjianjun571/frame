@@ -16,16 +16,27 @@
 #include "ModuleConstDef.h"
 #include "../Communicate.h"
 
-typedef struct stProtocolBase
+// BSS与CSS的通信协议基类
+typedef struct stBCProtocolBase
 {
     /// 消息ID
-    jsbn::protoc::MSG command_id;
+    jsbn::protoc::BC_MSG command_id;
     /// 连接序号
     unsigned short sock_handle;
 
-}TProtocolBase;
+}TBCProtocolBase;
+typedef std::shared_ptr<TBCProtocolBase> sBCProtocolData_ptr;
 
-typedef std::shared_ptr<TProtocolBase> sProtocolData_ptr;
+// SMS与CSS的通信协议基类
+typedef struct stSCProtocolBase
+{
+    /// 消息ID
+    jsbn::protoc::SC_MSG command_id;
+    /// 连接序号
+    unsigned short sock_handle;
+
+}TSCProtocolBase;
+typedef std::shared_ptr<TSCProtocolBase> sSCProtocolData_ptr;
 
 #endif //__PROTOCOL_STRUCT_H_
 

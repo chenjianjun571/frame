@@ -20,11 +20,11 @@
 class ProtocolProcManager
 {
 public:
-    // 解析通信协议
-    static sProtocolData_ptr ParseProtocol(const unsigned char*, PacketLength);
+    // 解析BSS与CSS的通信协议
+    static sBCProtocolData_ptr ParseBCProtocol(const unsigned char*, PacketLength);
 
-private:
-    static sProtocolData_ptr GetRecvData(sNetProtocolDataPage_ptr&);
+    // 解析SMS与CSS的通信协议
+    static sSCProtocolData_ptr ParseSCProtocol(const unsigned char*, PacketLength);
 };
 
 #endif //__PROTOCOL_PROC_MANAGER_H_

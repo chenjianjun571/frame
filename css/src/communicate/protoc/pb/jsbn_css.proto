@@ -8,15 +8,56 @@ option optimize_for = LITE_RUNTIME;
 //               因此我们在C++中链接Protocol Buffer库时仅需链接libprotobuf-lite，而非libprotobuf。
 //               在Java中仅需包含protobuf-java-2.4.1-lite.jar，而非protobuf-java-2.4.1.jar。
 
-// 命令类型
-enum MSG
+/*******************************BSS到CSS的通信协议start**************************/
+// BSS到CSS的消息命令类型
+enum BC_MSG
 {
-    Heart_Beat  = 0x00000000;// 心跳
+    EBC_Heart_Beat  = 0x00000000;// 心跳
+    EBC_Register_Request  = 0x00001001;// 业务服务器注册请求
+    EBC_Register_Response = 0x00001002;// 业务服务器注册应答
+}
+
+// 业务服务器注册请求
+message BCRegisterRequest
+{
+    // 城市ID
+    required fixed32 cityID = 1;
+}
+
+// 业务服务器注册应答
+message BCRegisterResponse
+{
+    // 应答结果
+    required fixed32 result = 1;
+    // 应答结果描述
+    optional string error_description = 2;
 }
 
 // 传输通信协议
-message CSSNetProtocol
+message BCNetProtocol
 {
     // 消息类型
-    required MSG type = 1;
+    required BC_MSG type = 1;
+    // 业务服务器注册请求
+    optional BCRegisterRequest registerRequest = 2;
+    // 业务服务器注册应答
+    optional BCRegisterResponse registerResponse = 3;
 }
+
+/*******************************BSS到CSS的通信协议end****************************/
+
+/*******************************SMS到CSS的通信协议start**************************/
+// SMS到CSS的消息命令类型
+enum SC_MSG
+{
+    ESC_Heart_Beat  = 0x00000000;// 心跳
+}
+
+// 传输通信协议
+message SCNetProtocol
+{
+    // 消息类型
+    required SC_MSG type = 1;
+}
+
+/*******************************SMS到CSS的通信协议end****************************/
