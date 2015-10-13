@@ -1,0 +1,150 @@
+# Compute sources and objects
+CXX=g++
+#-fprofile-arcs -ftest-coverage
+
+cc=gcc
+#-fprofile-arcs -ftest-coverage
+
+#ifndef SRC
+# CPPS=$(shell find . -name '.release' -prune -o -name '.debug' -prune -o -name '*.cpp' -print)
+# SRC=$(filter-out %.moc.cpp, $(CPPS:./%.cpp=%.cpp)) # filter out temporary qt moc files
+# SRC:=$(filter-out %_win.cpp, $(SRC)) # filter out all win32 only source files
+# SRC:=$(filter-out %_Smr.cpp, $(SRC))
+#endif
+
+# 主要针对64位编译
+ifdef BUILD64
+ CXXFLAGS+=-m64
+ CFLAGS+=-m64
+endif
+
+ifdef BUILD64_CHECK
+ CXXFLAGS+=-Wcast-align -Wpointer-arith -Wconversion  -Wpadded -Wformat
+ CLAGS+=-Wcast-align -Wpointer-arith -Wconversion  -Wpadded -Wformat
+endif
+
+ifdef DETAIL
+ CXXFLAGS+=-d+2
+ CLAGS+=-d+2
+endif
+
+LIB_DIR+=
+
+ifdef NDEBUG
+ OBJDIR=release
+else
+ OBJDIR=debug
+endif
+
+OBJ=$(SRC:%.cpp=$(OBJDIR)/%.o)
+OBJ_C=$(SRC_C:%.c=$(OBJDIR)/%.o)
+OBJ_CC=$(SRC_CC:%.cc=$(OBJDIR)/%.o)
+
+ifdef SHARED
+ CXXFLAGS+=-fPIC
+ LDFLAGS+=-shared
+endif
+
+ifdef NDEBUG
+ CXXFLAGS+=-O2
+ MACRO+=-DNDEBUG
+else
+ CXXFLAGS+=-g
+endif
+
+# Compute preprocessor options
+CPPFLAGS=$(SYS_INC) $(INC) $(MACRO) -D_FILE_OFFSET_BITS=64
+
+# Compute target name
+ifndef NAME
+    NAME=$(notdir $(shell pwd))
+endif
+
+ifdef SHARED
+  NAME:=lib$(NAME).so
+endif
+
+TARGET=$(TARGETDIR)/$(NAME)
+
+# Rules
+all : $(DEPCOMP) $(TARGET)
+
+$(TARGET) : $(OBJ) $(OBJ_CC) $(OBJ_C) $(MOCOBJ)
+	@echo ---------- Making $@
+	@$(CXX) $(LDFLAGS) $(OBJ) $(MOCOBJ) $(OBJ_CC) $(OBJ_C) $(LIB_DIR) $(LIB) -o $(TARGET)
+
+$(OBJDIR)/%.moc.cpp : %.h
+	@echo ---------- mocing $<
+	@moc -o $@ $<
+
+%.moc.o : %.moc.cpp
+	@echo ---------- Compiling $<
+	@$(CXX) -c $(CPPFLAGS) $(CCFLAGS) $(CXXFLAGS) -o $@ $<
+
+$(OBJDIR)/%.o : %.cpp
+	@echo ---------- Compiling $<
+	@$(CXX) -c $(CPPFLAGS) $(CCFLAGS) $(CXXFLAGS) -o $@ $<
+
+$(OBJDIR)/%.d : %.cpp
+	@echo ---------- Updating dependency of $<
+	@[ -d $(@D) ] || mkdir -p $(@D)
+	@set -e; $(CPP) -MM $(CPPFLAGS) $< \
+	| sed 's&\($(*F)*\)\.o[ :]*&$(OBJDIR)/$*.o $@ : &g' > $@; \
+	[ -s $@ ] || rm -f $@
+
+$(OBJDIR)/%.moc.cc : %.h
+	@echo ---------- mocing $<
+	@moc -o $@ $<
+
+%.moc.o : %.moc.cc
+	@echo ---------- Compiling $<
+	@$(CXX) -c $(CPPFLAGS) $(CCFLAGS) $(CXXFLAGS) -o $@ $<
+
+$(OBJDIR)/%.o : %.cc
+	@echo ---------- Compiling $<
+	@$(CXX) -c $(CPPFLAGS) $(CCFLAGS) $(CXXFLAGS) -o $@ $<
+
+$(OBJDIR)/%.d : %.cc
+	@echo ---------- Updating dependency of $<
+	@[ -d $(@D) ] || mkdir -p $(@D)
+	@set -e; $(CPP) -MM $(CPPFLAGS) $< \
+	| sed 's&\($(*F)*\)\.o[ :]*&$(OBJDIR)/$*.o $@ : &g' > $@; \
+	[ -s $@ ] || rm -f $@
+
+$(OBJDIR)/%.moc.c : %.h
+	@echo ---------- mocing $<
+	@moc -o $@ $<
+
+%.moc.o : %.moc.c
+	@echo ---------- Compiling $<
+	@$(cc) -c $(CPPFLAGS) $(CCFLAGS) $(CXXFLAGS) -o $@ $<
+
+$(OBJDIR)/%.o : %.c
+	@echo ---------- Compiling $<
+	@$(cc) -c $(CPPFLAGS) $(CCFLAGS) $(CXXFLAGS) -o $@ $<
+
+$(OBJDIR)/%.d : %.c
+	@echo ---------- Updating dependency of $<
+	@[ -d $(@D) ] || mkdir -p $(@D)
+	@set -e; $(CPP) -MM $(INC) $< \
+	| sed 's&\($(*F)*\)\.o[ :]*&$(OBJDIR)/$*.o $@ : &g' > $@; \
+	[ -s $@ ] || rm -f $@
+
+# Compute dependencies
+DEP=$(SRC:%.cpp=$(OBJDIR)/%.d)
+DEP+=$(SRC_C:%.c=$(OBJDIR)/%.d)
+DEP+=$(SRC_CC:%.cc=$(OBJDIR)/%.d)
+
+ifeq ($(MAKECMDGOALS),)
+    -include $(DEP)
+else
+    ifneq ($(MAKECMDGOALS), clean)
+        DEP=$(MAKECMDGOALS:%.o=%.d)
+        -include $(DEP)
+    endif
+endif
+
+# clean
+.PHONY : clean
+clean:
+	-rm -rf $(TARGET) $(OBJDIR)

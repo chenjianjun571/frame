@@ -1,0 +1,43 @@
+package jsbn.protoc;
+option java_package = "com.jsbn.protoc";
+option java_outer_classname = "protocol";
+option optimize_for = LITE_RUNTIME;
+// SPEED: 表示生成的代码运行效率高，但是由此生成的代码编译后会占用更多的空间。
+// CODE_SIZE: 和SPEED恰恰相反，代码运行效率较低，但是由此生成的代码编译后会占用更少的空间，通常用于资源有限的平台，如Mobile。
+// LITE_RUNTIME: 生成的代码执行效率高，同时生成代码编译后的所占用的空间也是非常少。这是以牺牲Protocol Buffer提供的反射功能为代价的。
+//               因此我们在C++中链接Protocol Buffer库时仅需链接libprotobuf-lite，而非libprotobuf。
+//               在Java中仅需包含protobuf-java-2.4.1-lite.jar，而非protobuf-java-2.4.1.jar。
+
+// 命令类型
+enum MSG {
+    Heart_Beat  = 0x00000000;// 心跳
+    Login_Request  = 0x00001001;// 登录请求
+    Login_Response = 0x00001002;// 登录应答
+}
+
+// 登录请求
+message LoginRequest
+{
+    required bytes username = 1;
+    required string password = 2;
+}
+
+// 登录应答
+message LoginResponse
+{
+    // 应答结果
+    required fixed32 result = 1;
+    // 应答结果描述
+    optional bytes error_description = 2;
+}
+
+// 传输通信协议
+message BSSNetProtocol
+{
+    // 消息类型
+    required MSG type = 1;
+    // 登录请求
+    optional LoginRequest loginrequest = 3;
+    // 登录应答
+    optional LoginResponse loginresponse = 4;
+}
