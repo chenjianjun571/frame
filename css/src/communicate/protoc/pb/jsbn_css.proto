@@ -9,35 +9,14 @@ option optimize_for = LITE_RUNTIME;
 //               在Java中仅需包含protobuf-java-2.4.1-lite.jar，而非protobuf-java-2.4.1.jar。
 
 // 命令类型
-enum MSG {
+enum MSG
+{
     Heart_Beat  = 0x00000000;// 心跳
-    Login_Request  = 0x00001001;// 登录请求
-    Login_Response = 0x00001002;// 登录应答
-}
-
-// 登录请求
-message LoginRequest
-{
-    required bytes username = 1;
-    required string password = 2;
-}
-
-// 登录应答
-message LoginResponse
-{
-    // 应答结果
-    required fixed32 result = 1;
-    // 应答结果描述
-    optional bytes error_description = 2;
 }
 
 // 传输通信协议
-message BSSNetProtocol
+message CSSNetProtocol
 {
     // 消息类型
     required MSG type = 1;
-    // 登录请求
-    optional LoginRequest loginrequest = 3;
-    // 登录应答
-    optional LoginResponse loginresponse = 4;
 }

@@ -25,35 +25,6 @@ typedef struct stProtocolBase
 
 }TProtocolBase;
 
-typedef struct stLogin:public TProtocolBase
-{
-    char user_name[15];
-    char pass_word[15];
-
-    stLogin() {
-        clear();
-    }
-
-    void clear() {
-        ::memset(user_name, 0x00, sizeof(user_name));
-        ::memset(pass_word, 0x00, sizeof(pass_word));
-    }
-}TLogin;
-
-typedef struct stLoginResp:public TProtocolBase
-{
-    int result;
-    char desc[15];
-
-    stLoginResp() {
-        clear();
-    }
-
-    void clear() {
-        ::memset(desc, 0x00, sizeof(desc));
-    }
-}TLoginResp;
-
 typedef std::shared_ptr<TProtocolBase> sProtocolData_ptr;
 
 #endif //__PROTOCOL_STRUCT_H_
