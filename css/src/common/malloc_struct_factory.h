@@ -12,7 +12,7 @@
 ///************************************************************
 #ifndef __MALLOC_STRUCT_FACTORY_H_
 #define __MALLOC_STRUCT_FACTORY_H_
-#include "ModuleConstDef.h"
+#include "module_const_def.h"
 
 class MallocStructFactory
 {

@@ -113,7 +113,7 @@ void BSSService::DelClient(unsigned short seq)
 void BSSService::RecvData(unsigned short seq, const unsigned char* buf, PacketLength len)
 {
     // 解析数据协议
-    sBCProtocolData_ptr prt = ProtocolProcManager::ParseProtocol(buf, len);
+    sBCProtocolData_ptr prt = ProtocolProcManager::ParseBCProtocol(buf, len);
     if (nullptr == prt)
     {
         LOG(ERROR)<<"协议解析失败，关闭连接.";
@@ -125,7 +125,7 @@ void BSSService::RecvData(unsigned short seq, const unsigned char* buf, PacketLe
     prt->sock_handle = seq;
 
     // 判断是否心跳
-    if (prt->command_id == Heart_Beat)
+    if (prt->command_id == EBC_Heart_Beat)
     {
         sSendDataPage_ptr pSend = MallocStructFactory::Instance().get_send_page();
         pSend->sock_handle = prt->sock_handle;

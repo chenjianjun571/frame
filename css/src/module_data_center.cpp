@@ -107,7 +107,7 @@ sSCProtocolData_ptr ModuleDataCenter::GetSCProtocolData(unsigned long max_time_i
         return nullptr;
     }
 
-    sBCProtocolData_ptr pData = _recv_sc_data_lists.front();
+    sSCProtocolData_ptr pData = _recv_sc_data_lists.front();
     _recv_sc_data_lists.pop_front();
 
     return pData;

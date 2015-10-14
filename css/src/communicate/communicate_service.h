@@ -13,7 +13,7 @@
 #ifndef __COMMUNICATE_SERVICE_H_
 #define __COMMUNICATE_SERVICE_H_
 
-#include "ModuleConstDef.h"
+#include "module_const_def.h"
 #include "./service/bss/bss_service.h"
 
 class CommunicateService : public COperationObject

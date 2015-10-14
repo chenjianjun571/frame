@@ -11,7 +11,7 @@
 /// @History
 ///************************************************************
 #include "module_const_def.h"
-#include "module_config_Collection.h"
+#include "module_config_collection.h"
 #include "module_business_control.h"
 #include <iostream>
 #include <unistd.h>
