@@ -1,7 +1,7 @@
 ///************************************************************
 /// @Copyright (C), 1993-2022, hzcw  Information Technologies Co., Ltd.
 /// @URL
-/// @file           ProtocolProcManager.h
+/// @file           protocol_proc_manager.h
 /// @brief          协议处理管理类
 /// @attention
 /// @Author         chenjianjun
@@ -13,9 +13,9 @@
 #ifndef __PROTOCOL_PROC_MANAGER_H_
 #define __PROTOCOL_PROC_MANAGER_H_
 
-#include "ModuleConstDef.h"
-#include "ProtocolStruct.h"
-#include "../Communicate.h"
+#include "module_const_def.h"
+#include "protocol_struct.h"
+#include "../communicate.h"
 
 class ProtocolProcManager
 {

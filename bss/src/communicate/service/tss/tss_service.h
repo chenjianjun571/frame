@@ -1,8 +1,8 @@
 ///************************************************************
 /// @Copyright (C), 2015-2030, hzcw  Information Technologies Co., Ltd.
 /// @URL
-/// @file           ISSService.h
-/// @brief          接入服务器监听服务器
+/// @file           tss_service.h
+/// @brief          终端服务器监听服务器
 /// @attention
 /// @Author         chenjianjun
 /// @Version        0.1
@@ -10,20 +10,20 @@
 /// @Description
 /// @History
 ///************************************************************
-#ifndef __ISS_SERVICE_H_
-#define __ISS_SERVICE_H_
+#ifndef __TSS_SERVICE_H_
+#define __TSS_SERVICE_H_
 
-#include "ModuleConstDef.h"
+#include "module_const_def.h"
 
-class ISSService :
+class TSSService :
         public sigslot::has_slots<>,
         public jsbn::TCPClientSignal,
         public jsbn::TCPServerSignal
 {
 public:
-    ISSService();
+    TSSService();
 
-    ~ISSService();
+    ~TSSService();
 
     // 启动服务器
     int Start();

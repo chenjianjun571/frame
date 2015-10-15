@@ -13,9 +13,8 @@
 #ifndef __COMMUNICATE_H_
 #define __COMMUNICATE_H_
 
-#include "ModuleConstDef.h"
-#include "../common/MallocStructFactory.h"
-
+#include "module_const_def.h"
+#include "../common/malloc_struct_factory.h"
 #include "./communicate/protoc/pb/jsbn_bss.pb.h"
 // 协议数据智能指针
 typedef std::shared_ptr<jsbn::protoc::BSSNetProtocol> sNetProtocolDataPage_ptr;

@@ -1,7 +1,7 @@
 ///************************************************************
 /// @Copyright (C), 2015-2030, hzcw  Information Technologies Co., Ltd.
 /// @URL
-/// @file           CommunicateService.h
+/// @file           communicate_service.h
 /// @brief          通信服务模块
 /// @attention
 /// @Author         chenjianjun
@@ -10,7 +10,7 @@
 /// @Description
 /// @History
 ///************************************************************
-#include "CommunicateService.h"
+#include "communicate_service.h"
 
 bool CommunicateService::start_operation()
 {

@@ -1,7 +1,7 @@
 ///************************************************************
 /// @Copyright (C), 2015-2022, hzcw  Information Technologies Co., Ltd.
 /// @URL
-/// @file           ModuleConstDef.h
+/// @file           module_data_struct.h
 /// @brief          模块静态定义类
 /// @attention
 /// @Author         chenjianjun
@@ -13,7 +13,7 @@
 #ifndef __MODULE_DATA_STRUCT_H_
 #define __MODULE_DATA_STRUCT_H_
 
-#include "ModuleConstDef.h"
+#include "module_const_def.h"
 
 #endif //__MODULE_DATA_STRUCT_H_
 

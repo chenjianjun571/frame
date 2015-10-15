@@ -1,7 +1,7 @@
 ///************************************************************
 /// @Copyright (C), 1993-2022, hzcw  Information Technologies Co., Ltd.
 /// @URL
-/// @file           ProtocolStruct.h
+/// @file           protocol_struct.h
 /// @brief          协议结构类
 /// @attention
 /// @Author         chenjianjun
@@ -13,8 +13,8 @@
 #ifndef __PROTOCOL_STRUCT_H_
 #define __PROTOCOL_STRUCT_H_
 
-#include "ModuleConstDef.h"
-#include "../Communicate.h"
+#include "module_const_def.h"
+#include "../communicate.h"
 
 typedef struct stProtocolBase
 {

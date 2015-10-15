@@ -1,7 +1,7 @@
 ///************************************************************
 /// @Copyright (C), 1993-2022, hzcw  Information Technologies Co., Ltd.
 /// @URL
-/// @file           ProtocolProcManager.cpp
+/// @file           protocol_proc_manager.cpp
 /// @brief          协议处理管理类
 /// @attention
 /// @Author         chenjianjun
@@ -10,7 +10,7 @@
 /// @Description
 /// @History
 ///************************************************************
-#include "ProtocolProcManager.h"
+#include "protocol_proc_manager.h"
 
 using namespace jsbn::protoc;
 

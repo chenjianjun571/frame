@@ -39,7 +39,7 @@
 #include <list>
 
 /// 包含框架库头文件
-#include <ExInclude.h>
+#include <export_include.h>
 
 // 模块配置文件名
 #define MODULE_CONFIG_FILENAME "config/bss.ini"

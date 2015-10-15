@@ -1,8 +1,8 @@
 ///************************************************************
 /// @Copyright (C), 2015-2030, hzcw  Information Technologies Co., Ltd.
 /// @URL
-/// @file           TSSService.cpp
-/// @brief          业务服务器
+/// @file           iss_service.cpp
+/// @brief          接入服务器监听服务器
 /// @attention
 /// @Author         chenjianjun
 /// @Version        0.1
@@ -10,10 +10,10 @@
 /// @Description
 /// @History
 ///************************************************************
-#include "TSSService.h"
-#include "ModuleConfigCollection.h"
-#include "../../protoc/ProtocolProcManager.h"
-#include "../../../ModuleDataCenter.h"
+#include "iss_service.h"
+#include "module_config_collection.h"
+#include "../../protoc/protocol_proc_manager.h"
+#include "../../../module_data_center.h"
 
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -22,26 +22,26 @@
 using namespace jsbn;
 using namespace jsbn::protoc;
 
-TSSService::TSSService():_pServerWorker(nullptr),_client_mutex(RWLock::Create())
+ISSService::ISSService():_pServerWorker(nullptr),_client_mutex(RWLock::Create())
 {}
 
-TSSService::~TSSService()
+ISSService::~ISSService()
 {
     delete _client_mutex;
 }
 
-int TSSService::Start()
+int ISSService::Start()
 {
-    _pServerWorker = new(std::nothrow) ServerWorker(SYS_CONFIG->get_module_config().tss_service_listen_ip,
-                                                    SYS_CONFIG->get_module_config().tss_service_listen_port);
+    _pServerWorker = new(std::nothrow) ServerWorker(SYS_CONFIG->get_module_config().iss_service_listen_ip,
+                                                    SYS_CONFIG->get_module_config().iss_service_listen_port);
     if (nullptr == _pServerWorker)
     {
         return FUNC_FAILED;
     }
 
-    SignalAccept.connect(this, &TSSService::Accept);
-    SignalRecvData.connect(this, &TSSService::RecvData);
-    SignalEvent.connect(this, &TSSService::Event);
+    SignalAccept.connect(this, &ISSService::Accept);
+    SignalRecvData.connect(this, &ISSService::RecvData);
+    SignalEvent.connect(this, &ISSService::Event);
 
     if (!_pServerWorker->StartWork(this))
     {
@@ -52,7 +52,7 @@ int TSSService::Start()
     return FUNC_SUCCESS;
 }
 
-void TSSService::Stop()
+void ISSService::Stop()
 {
     if (nullptr == _pServerWorker)
     {
@@ -72,7 +72,7 @@ void TSSService::Stop()
 
 }
 
-int TSSService::SendData(const sSendDataPage_ptr& pSend)
+int ISSService::SendData(const sSendDataPage_ptr& pSend)
 {
     ReadLockScoped rls(*_client_mutex);
     std::map<unsigned short, PassiveTCPClient*>::iterator it = _map_clients.find(pSend->sock_handle);
@@ -84,7 +84,7 @@ int TSSService::SendData(const sSendDataPage_ptr& pSend)
     return FUNC_FAILED;
 }
 
-int TSSService::AddClient(unsigned short seq, jsbn::PassiveTCPClient* p_client)
+int ISSService::AddClient(unsigned short seq, jsbn::PassiveTCPClient* p_client)
 {
     WriteLockScoped wls(*_client_mutex);
     std::map<unsigned short, PassiveTCPClient*>::iterator it = _map_clients.find(seq);
@@ -98,7 +98,7 @@ int TSSService::AddClient(unsigned short seq, jsbn::PassiveTCPClient* p_client)
     return FUNC_SUCCESS;
 }
 
-void TSSService::DelClient(unsigned short seq)
+void ISSService::DelClient(unsigned short seq)
 {
     WriteLockScoped wls(*_client_mutex);
     std::map<unsigned short, PassiveTCPClient*>::iterator it = _map_clients.find(seq);
@@ -110,7 +110,7 @@ void TSSService::DelClient(unsigned short seq)
     }
 }
 
-void TSSService::RecvData(unsigned short seq, const unsigned char* buf, PacketLength len)
+void ISSService::RecvData(unsigned short seq, const unsigned char* buf, PacketLength len)
 {
     // 解析数据协议
     sProtocolData_ptr prt = ProtocolProcManager::ParseProtocol(buf, len);
@@ -139,7 +139,7 @@ void TSSService::RecvData(unsigned short seq, const unsigned char* buf, PacketLe
 }
 
 // 套接字事件处理器
-void TSSService::Event(unsigned short seq, EM_NET_EVENT msg)
+void ISSService::Event(unsigned short seq, EM_NET_EVENT msg)
 {
     switch (msg)
     {
@@ -156,7 +156,7 @@ void TSSService::Event(unsigned short seq, EM_NET_EVENT msg)
     }
 }
 
-void TSSService::Accept(SOCKET fd, struct sockaddr_in* sa)
+void ISSService::Accept(SOCKET fd, struct sockaddr_in* sa)
 {
     // 获取一个连接序号
     unsigned short seq = NetFrame::GetGloabSeq();

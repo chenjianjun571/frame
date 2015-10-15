@@ -1,7 +1,7 @@
 ///************************************************************
 /// @Copyright (C), 2015-2030, hzcw  Information Technologies Co., Ltd.
 /// @URL
-/// @file           ModuleBusinessControl.h
+/// @file           module_business_control.h
 /// @brief          业务控制器
 /// @attention
 /// @Author         chenjianjun
@@ -13,7 +13,7 @@
 #ifndef __MODULE_BUSINESS_CONTROL_H_
 #define __MODULE_BUSINESS_CONTROL_H_
 
-#include "ModuleConstDef.h"
+#include "module_const_def.h"
 
 /// @class CModuleBusinessControl 
 /// @brief 模块业务控制类，用于创建并挂接各子业务

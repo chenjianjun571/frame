@@ -1,7 +1,7 @@
 ///************************************************************
 /// @Copyright (C), 2015-2030, hzcw  Information Technologies Co., Ltd.
 /// @URL
-/// @file           ModuleConfigCollection.h
+/// @file           module_config_collection.h
 /// @brief          配置信息解析
 /// @attention
 /// @Author         chenjianjun
@@ -13,7 +13,7 @@
 #ifndef __MODULE_CONFIG_COLLECTION_H_
 #define __MODULE_CONFIG_COLLECTION_H_
 
-#include "ModuleConstDef.h"
+#include "module_const_def.h"
 
 /// @brief 通信服务器配置信息
 struct stModuleConfig

@@ -1,8 +1,8 @@
 ///************************************************************
 /// @Copyright (C), 2015-2030, hzcw  Information Technologies Co., Ltd.
 /// @URL
-/// @file           CSSClient.h
-/// @brief          中心服务器客户端
+/// @file           iss_service.h
+/// @brief          接入服务器监听服务器
 /// @attention
 /// @Author         chenjianjun
 /// @Version        0.1
@@ -10,20 +10,20 @@
 /// @Description
 /// @History
 ///************************************************************
-#ifndef __CSS_CLIENT_H_
-#define __CSS_CLIENT_H_
+#ifndef __ISS_SERVICE_H_
+#define __ISS_SERVICE_H_
 
-#include "ModuleConstDef.h"
+#include "module_const_def.h"
 
-class CSSClient :
+class ISSService :
         public sigslot::has_slots<>,
         public jsbn::TCPClientSignal,
-        public jsbn::Runnable
+        public jsbn::TCPServerSignal
 {
 public:
-    CSSClient();
+    ISSService();
 
-    ~CSSClient();
+    ~ISSService();
 
     // 启动服务器
     int Start();
@@ -40,15 +40,17 @@ public:
     // 套接字事件处理器
     void Event(unsigned short fd, EM_NET_EVENT msg);
 
+    // 客户端连接触发器
+    void Accept(SOCKET fd, struct sockaddr_in* sa);
+
 protected:
-    virtual void Run(void* arg);
+    int AddClient(unsigned short, jsbn::PassiveTCPClient*);
+    void DelClient(unsigned short);
 
 private:
-    jsbn::ActiveTCPClient* _pActiveTCPClient;
-    // 运行标志
-    volatile bool _is_run_flg;
-    // 连接检测线程
-    jsbn::Thread _connect_thread;
+    jsbn::ServerWorker* _pServerWorker;
+    std::map<unsigned short, jsbn::PassiveTCPClient*> _map_clients;
+    jsbn::RWLock* _client_mutex;
 };
 
 #endif

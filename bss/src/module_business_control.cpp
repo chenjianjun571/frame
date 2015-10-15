@@ -1,9 +1,9 @@
-#include "ModuleBusinessControl.h"
-#include "ModuleConfigCollection.h"
-#include "ModuleConstDef.h"
+#include "module_business_control.h"
+#include "module_config_collection.h"
+#include "module_const_def.h"
 #include <new>
 
-#include "./communicate/CommunicateService.h"
+#include "./communicate/communicate_service.h"
 
 using namespace std;
 using namespace jsbn;

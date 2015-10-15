@@ -1,7 +1,7 @@
 ///************************************************************
 /// @Copyright (C), 2015-2030, hzcw  Information Technologies Co., Ltd.
 /// @URL
-/// @file           CommunicateService.h
+/// @file           communicate_service.h
 /// @brief          通信服务模块
 /// @attention
 /// @Author         chenjianjun
@@ -13,10 +13,10 @@
 #ifndef __COMMUNICATE_SERVICE_H_
 #define __COMMUNICATE_SERVICE_H_
 
-#include "ModuleConstDef.h"
-#include "./service/iss/ISSService.h"
-#include "./service/tss/TSSService.h"
-#include "./client/css/CSSClient.h"
+#include "module_const_def.h"
+#include "./service/iss/iss_service.h"
+#include "./service/tss/tss_service.h"
+#include "./client/css/css_client.h"
 
 class CommunicateService : public COperationObject
 {

@@ -1,7 +1,7 @@
 ///************************************************************
 /// @Copyright (C), 2015-2025, bafei  Information Technologies Co., Ltd.
 /// @URL
-/// @file           MallocStructFactory.h
+/// @file           malloc_struct_factory.h
 /// @brief          内存分配类
 /// @attention
 /// @Author         chenjianjun
@@ -10,7 +10,7 @@
 /// @Description
 /// @History
 ///************************************************************
-#include "./MallocStructFactory.h"
+#include "./malloc_struct_factory.h"
 
 using namespace jsbn;
 
