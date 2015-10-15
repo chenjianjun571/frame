@@ -23,7 +23,7 @@
 #include <list>
 #include <map>
 
-#include "./DumpObject.h"
+#include "./dump_object.h"
 
 #include "ace/Task.h"
 #include "ace/OS.h"
