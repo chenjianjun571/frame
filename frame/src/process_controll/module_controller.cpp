@@ -17,6 +17,7 @@
 #include "../console_resource.h"
 #include "../config/system_config_collection.h"
 #include <glog/logging.h>
+#include <sys/vfs.h>
 
 extern SSystemControl    gv_system_control;
 extern ACE_Process_Mutex g_ini_mutex;
