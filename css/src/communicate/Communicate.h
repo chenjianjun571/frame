@@ -1,7 +1,7 @@
 ///************************************************************
 /// @Copyright (C), 2015-2030, hzcw  Information Technologies Co., Ltd.
 /// @URL
-/// @file           Communicate.h
+/// @file           communicate.h
 /// @brief          通信模块头文件
 /// @attention
 /// @Author         chenjianjun
@@ -13,9 +13,8 @@
 #ifndef __COMMUNICATE_H_
 #define __COMMUNICATE_H_
 
-#include "ModuleConstDef.h"
-#include "../common/MallocStructFactory.h"
-
+#include "module_const_def.h"
+#include "../common/malloc_struct_factory.h"
 #include "./communicate/protoc/pb/jsbn_css.pb.h"
 
 // BSS与CSS的协议数据智能指针

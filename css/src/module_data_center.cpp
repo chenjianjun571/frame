@@ -1,7 +1,7 @@
 ///************************************************************
 /// @Copyright (C), 1993-2022, hzcw  Information Technologies Co., Ltd.
 /// @URL
-/// @file           ModuleDataCenter.h
+/// @file           module_data_center.h
 /// @brief          数据存取中心
 /// @attention
 /// @Author         chenjianjun
@@ -10,7 +10,7 @@
 /// @Description
 /// @History
 ///************************************************************
-#include "ModuleDataCenter.h"
+#include "module_data_center.h"
 
 ModuleDataCenter* ModuleDataCenter::Instance() {
     static ModuleDataCenter mInstance;

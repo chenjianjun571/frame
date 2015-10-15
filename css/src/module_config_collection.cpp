@@ -1,4 +1,4 @@
-#include "ModuleConfigCollection.h"
+#include "module_config_collection.h"
 
 CModuleConfigCollection::CModuleConfigCollection(void)
 {

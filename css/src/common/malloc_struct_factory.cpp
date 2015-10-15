@@ -10,7 +10,7 @@
 /// @Description
 /// @History
 ///************************************************************
-#include "./MallocStructFactory.h"
+#include "./malloc_struct_factory.h"
 
 using namespace jsbn;
 

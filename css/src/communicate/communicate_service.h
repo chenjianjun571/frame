@@ -1,7 +1,7 @@
 ///************************************************************
 /// @Copyright (C), 2015-2030, hzcw  Information Technologies Co., Ltd.
 /// @URL
-/// @file           CommunicateService.h
+/// @file           communicate_service.h
 /// @brief          通信服务模块
 /// @attention
 /// @Author         chenjianjun
@@ -14,7 +14,7 @@
 #define __COMMUNICATE_SERVICE_H_
 
 #include "ModuleConstDef.h"
-#include "./service/bss/BSSService.h"
+#include "./service/bss/bss_service.h"
 
 class CommunicateService : public COperationObject
 {

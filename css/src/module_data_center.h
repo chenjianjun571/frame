@@ -1,7 +1,7 @@
 ///************************************************************
 /// @Copyright (C), 1993-2022, hzcw  Information Technologies Co., Ltd.
 /// @URL
-/// @file           ModuleDataCenter.h
+/// @file           module_data_center.h
 /// @brief          数据存取中心
 /// @attention
 /// @Author         chenjianjun
@@ -13,8 +13,8 @@
 #ifndef __MODULE_DATA_CENTER_H_
 #define __MODULE_DATA_CENTER_H_
 
-#include "ModuleConstDef.h"
-#include "./communicate/protoc/ProtocolStruct.h"
+#include "module_const_def.h"
+#include "./communicate/protoc/protocol_struct.h"
 
 class ModuleDataCenter
 {

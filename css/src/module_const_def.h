@@ -1,7 +1,7 @@
 ///************************************************************
 /// @Copyright (C), 2015-2022, hzcw  Information Technologies Co., Ltd.
 /// @URL
-/// @file           ModuleConstDef.h
+/// @file           module_const_def.h
 /// @brief          模块静态定义类
 /// @attention
 /// @Author         chenjianjun
@@ -39,7 +39,7 @@
 #include <list>
 
 /// 包含框架库头文件
-#include <ExInclude.h>
+#include <export_include.h>
 
 // 模块配置文件名
 #define MODULE_CONFIG_FILENAME "config/css.ini"

@@ -1,7 +1,7 @@
 ///************************************************************
 /// @Copyright (C), 2015-2030, hzcw  Information Technologies Co., Ltd.
 /// @URL
-/// @file           BssTcpClient.cpp
+/// @file           bss_tcp_client.cpp
 /// @brief          业务服务器客户端
 /// @attention
 /// @Author         chenjianjun
@@ -10,7 +10,7 @@
 /// @Description
 /// @History
 ///************************************************************
-#include "BssTcpClient.h"
+#include "bss_tcp_client.h"
 
 using namespace jsbn;
 

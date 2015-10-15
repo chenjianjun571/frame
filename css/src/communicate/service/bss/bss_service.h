@@ -1,7 +1,7 @@
 ///************************************************************
 /// @Copyright (C), 2015-2030, hzcw  Information Technologies Co., Ltd.
 /// @URL
-/// @file           BSSService.h
+/// @file           bss_service.h
 /// @brief          业务服务器(地域服务器)监听服务器
 /// @attention
 /// @Author         chenjianjun
@@ -13,8 +13,8 @@
 #ifndef __BSS_SERVICE_H_
 #define __BSS_SERVICE_H_
 
-#include "ModuleConstDef.h"
-#include "BssTcpClient.h"
+#include "module_const_def.h"
+#include "bss_tcp_client.h"
 
 class BSSService :
         public sigslot::has_slots<>,

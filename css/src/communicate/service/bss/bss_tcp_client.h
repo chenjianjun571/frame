@@ -13,7 +13,7 @@
 #ifndef __BSS_TCP_CLIENT_H_
 #define __BSS_TCP_CLIENT_H_
 
-#include "ModuleConstDef.h"
+#include "module_const_def.h"
 
 class BssTcpClient:public jsbn::PassiveTCPClient
 {

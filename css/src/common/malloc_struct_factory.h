@@ -1,7 +1,7 @@
 ///************************************************************
 /// @Copyright (C), 1993-2012, bafei  Information Technologies Co., Ltd.
 /// @URL
-/// @file           MallocStructFactory.h
+/// @file           malloc_struct_factory.h
 /// @brief          内存池接口封装
 /// @attention
 /// @Author         chenjianjun
