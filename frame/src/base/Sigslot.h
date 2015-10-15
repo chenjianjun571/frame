@@ -12,7 +12,7 @@
 #include <list>
 #include <set>
 #include <stdlib.h>
-#include "./Common.h"
+#include "./common.h"
 // On our copy of sigslot.h, we set single threading as default.
 #define SIGSLOT_DEFAULT_MT_POLICY single_threaded
 #define MULTI_MT_POLICY multi_threaded_local

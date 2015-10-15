@@ -7,6 +7,7 @@ export PROJECT_SRC_ROOT=src/
 PROJECT_INC_DIR=" -I/home/bfjs/jsbn/HtProjet/third/include/ "
 PROJECT_INC_DIR+=" -I/home/bfjs/jsbn/HtProjet/third/include/google/ "
 PROJECT_INC_DIR+=" -I/home/bfjs/jsbn/HtProjet/third/include/event/ "
+PROJECT_INC_DIR+=" -I/home/bfjs/jsbn/HtProjet/third/include/thrift/ "
 export PROJECT_INC_DIR
 
 #生成可执行文件的目录

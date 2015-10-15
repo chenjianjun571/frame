@@ -31,7 +31,7 @@
 #include <mysql++/scopedconnection.h>
 #include <mysql++/connection.h>
 
-#include "../SystemPublicDef.h"
+#include "../system_public_def.h"
 
 #define NAME_SPACE jsbn
 

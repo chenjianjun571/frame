@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 jsbn. All rights reserved.
 //
 
-#include "Thread.h"
+#include "thread.h"
 #include <time.h>
 #include <glog/logging.h>
 

@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 jsbn. All rights reserved.
 //
 
-#include "Sigslot.h"
+#include "sigslot.h"
 
 namespace sigslot {
     
