@@ -26,6 +26,7 @@
 
 #include "ace/Signal.h"
 #include "ace/Sig_Handler.h"
+#include "../base/common.h"
 
 #include <cstdio>
 #include <string>
