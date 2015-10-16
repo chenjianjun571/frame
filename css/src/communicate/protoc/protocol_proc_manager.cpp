@@ -59,11 +59,11 @@ sBCProtocolData_ptr ProtocolProcManager::ParseBCProtocol(const unsigned char* bu
         }
         case jsbn::protoc::bc::CommandID::Register_Request:
         {
-            prt = sBCProtocolData_ptr(CObjectAllocator<TBCRegisterRequest>::get_instance()->malloc(), delete_recv_bc_page);
+            ptr = sBCProtocolData_ptr(CObjectAllocator<TBCRegisterRequest>::get_instance()->malloc(), delete_recv_bc_page);
 
             ptr->command_id = jsbn::protoc::bc::CommandID::Register_Request;
 
-            ((TBCRegisterRequest*)ptr.get())->city_id = protocol->registerRequest().city_id();
+            ((TBCRegisterRequest*)ptr.get())->city_id = protocol->registerrequest().cityid();
 
             LOG(INFO)<<"收到业务服务器注册请求,城市ID:"<< ((TBCRegisterRequest*)ptr.get())->city_id;
 
