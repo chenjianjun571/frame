@@ -65,7 +65,7 @@ sBCProtocolData_ptr ProtocolProcManager::ParseBCProtocol(const unsigned char* bu
 
             ((TBCRegisterRequest*)ptr.get())->city_id = protocol->registerrequest().cityid();
 
-            LOG(INFO)<<"收到业务服务器注册请求,城市ID:"<< ((TBCRegisterRequest*)ptr.get())->city_id;
+            LOG(INFO)<<"收到业务服务器注册请求,城市ID:"<< ((TBCRegisterRequest*)ptr.get())->city_id<<":"<<protocol->registerrequest().cityid();
 
             break;
         }
