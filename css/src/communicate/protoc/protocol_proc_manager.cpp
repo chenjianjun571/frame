@@ -47,7 +47,7 @@ sBCProtocolData_ptr ProtocolProcManager::ParseBCProtocol(const unsigned char* bu
     }
 
     sBCProtocolData_ptr ptr = nullptr;
-    switch(protocol->commandID())
+    switch(protocol->commandid())
     {
         case jsbn::protoc::bc::CommandID::Heart_Beat:
         {
