@@ -156,6 +156,21 @@ void BSSService::RecvData(unsigned short seq, const unsigned char* buf, PacketLe
                 }
             }
 
+            {
+                // 测试一个注册应答
+                std::string response;
+                jsbn::protoc::bc::NetProtocol pc;
+                pc.set_type(jsbn::protoc::bc::CommandID::Register_Response);
+                pc.mutable_registerresponse()->set_result(0);
+                pc.mutable_registerresponse()->has_error_description("注册成功");
+                pc.SerializeToString(&response);
+
+                sSendDataPage_ptr pSend = MallocStructFactory::Instance().get_send_page();
+                pSend->sock_handle = prt->sock_handle;
+                pSend->Copy(response.c_str(), response.length());
+                SendData(pSend);
+            }
+
             break;
         }
         default:
