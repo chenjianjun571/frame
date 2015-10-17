@@ -135,13 +135,28 @@ void BSSService::RecvData(unsigned short seq, const unsigned char* buf, PacketLe
 
     switch(prt->command_id)
     {
-        case EBC_Heart_Beat://心跳
+        case jsbn::protoc::bc::CommandID::Heart_Beat://心跳
         {
             sSendDataPage_ptr pSend = MallocStructFactory::Instance().get_send_page();
             pSend->sock_handle = prt->sock_handle;
             pSend->Copy(buf, len);
             SendData(pSend);
             return;
+        }
+        case jsbn::protoc::bc::CommandID::Register_Request:// 注册请求
+        {
+            TBssClientInfo info;
+            info.city_id = ((TBCRegisterRequest*)prt.get())->city_id;
+            {
+                ReadLockScoped rls(*_client_mutex);
+                std::map<unsigned short, BssTcpClient*>::iterator it = _map_clients.find(seq);
+                if (it != _map_clients.end())
+                {
+                    it->second->SetBssClinentInfo(info);
+                }
+            }
+
+            break;
         }
         default:
         {

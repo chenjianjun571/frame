@@ -20,23 +20,28 @@
 typedef struct stBCProtocolBase
 {
     /// 消息ID
-    jsbn::protoc::BC_MSG command_id;
+    jsbn::protoc::bc::CommandID command_id;
     /// 连接序号
     unsigned short sock_handle;
 
 }TBCProtocolBase;
 typedef std::shared_ptr<TBCProtocolBase> sBCProtocolData_ptr;
 
-// SMS与CSS的通信协议基类
-typedef struct stSCProtocolBase
+typedef struct stBCRegisterRequest
 {
-    /// 消息ID
-    jsbn::protoc::SC_MSG command_id;
-    /// 连接序号
-    unsigned short sock_handle;
+    // 城市ID
+    unsigned int city_id;
 
-}TSCProtocolBase;
-typedef std::shared_ptr<TSCProtocolBase> sSCProtocolData_ptr;
+}TBCRegisterRequest;
+
+typedef struct stBCRegisterResponse
+{
+    // 城市ID
+    unsigned int result;
+    // 描述
+    std::string error_description;
+
+}TBCRegisterResponse;
 
 #endif //__PROTOCOL_STRUCT_H_
 

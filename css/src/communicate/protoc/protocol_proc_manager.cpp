@@ -12,15 +12,18 @@
 ///************************************************************
 #include "protocol_proc_manager.h"
 
-using namespace jsbn::protoc;
-
 void delete_recv_bc_page(TBCProtocolBase* p)
 {
     switch(p->command_id)
     {
-        case jsbn::protoc::BC_MSG::EBC_Heart_Beat:
+        case jsbn::protoc::bc::CommandID::Heart_Beat:
         {
             CObjectAllocator<TBCProtocolBase>::get_instance()->free((TBCProtocolBase*)p);
+            break;
+        }
+        case jsbn::protoc::bc::CommandID::RegisterRequest:
+        {
+            CObjectAllocator<TBCRegisterRequest>::get_instance()->free((TBCRegisterRequest*)p);
             break;
         }
         default:
@@ -34,7 +37,7 @@ void delete_recv_bc_page(TBCProtocolBase* p)
 sBCProtocolData_ptr ProtocolProcManager::ParseBCProtocol(const unsigned char* buf, PacketLength len)
 {
     // 解析协议，生成一个协议的智能指针区域
-    static sBCNetProtocolDataPage_ptr protocol = std::make_shared<BCNetProtocol>();
+    static sBCNetProtocolDataPage_ptr protocol = std::make_shared<jsbn::protoc::bc::BCNetProtocol>();
 
     protocol->Clear();
     if (!protocol->ParseFromArray(buf, len))
@@ -46,11 +49,23 @@ sBCProtocolData_ptr ProtocolProcManager::ParseBCProtocol(const unsigned char* bu
     sBCProtocolData_ptr ptr = nullptr;
     switch(protocol->type())
     {
-        case jsbn::protoc::BC_MSG::EBC_Heart_Beat:
+        case jsbn::protoc::bc::CommandID::Heart_Beat:
         {
             ptr = sBCProtocolData_ptr(CObjectAllocator<TBCProtocolBase>::get_instance()->malloc(), delete_recv_bc_page);
 
-            ptr->command_id = jsbn::protoc::BC_MSG::EBC_Heart_Beat;
+            ptr->command_id = jsbn::protoc::bc::CommandID::Heart_Beat;
+
+            break;
+        }
+        case jsbn::protoc::bc::CommandID::RegisterRequest:
+        {
+            prt = sBCProtocolData_ptr(CObjectAllocator<TBCRegisterRequest>::get_instance()->malloc(), delete_recv_bc_page);
+
+            ptr->command_id = jsbn::protoc::bc::CommandID::RegisterRequest;
+
+            ((TBCRegisterRequest*)ptr.get())->city_id = protocol->registerRequest().city_id();
+
+            LOG(INFO)<<"收到业务服务器注册请求,城市ID:"<< ((TBCRegisterRequest*)ptr.get())->city_id;
 
             break;
         }

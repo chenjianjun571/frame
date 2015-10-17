@@ -15,13 +15,10 @@
 
 #include "module_const_def.h"
 #include "../common/malloc_struct_factory.h"
-#include "./communicate/protoc/pb/jsbn_css.pb.h"
+#include "./communicate/protoc/pb/jsbn_bc.pb.h"
 
 // BSS与CSS的协议数据智能指针
-typedef std::shared_ptr<jsbn::protoc::BCNetProtocol> sBCNetProtocolDataPage_ptr;
-
-// SMS与CSS的协议数据智能指针
-typedef std::shared_ptr<jsbn::protoc::SCNetProtocol> sSCNetProtocolDataPage_ptr;
+typedef std::shared_ptr<jsbn::protoc::bc::NetProtocol> sBCNetProtocolDataPage_ptr;
 
 // 地域信息
 typedef struct stBssClientInfo
