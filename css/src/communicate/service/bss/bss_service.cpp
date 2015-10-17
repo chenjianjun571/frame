@@ -167,7 +167,7 @@ void BSSService::RecvData(unsigned short seq, const unsigned char* buf, PacketLe
 
                 sSendDataPage_ptr pSend = MallocStructFactory::Instance().get_send_page();
                 pSend->sock_handle = prt->sock_handle;
-                pSend->Copy(static_cast<const unsigned char*>(response.c_str()), response.length());
+                pSend->Copy(response.c_str(), response.length());
                 SendData(pSend);
             }
 
