@@ -14,6 +14,7 @@
 #define __BSS_TCP_CLIENT_H_
 
 #include "module_const_def.h"
+#include "../communicate.h"
 
 class BssTcpClient:public jsbn::PassiveTCPClient
 {
@@ -22,12 +23,13 @@ public:
 
     ~BssTcpClient();
 
-    void SetCityID(EM_CITY_ID id);
-    EM_CITY_ID GetCityID();
+    bool Isvalid();
+    void SetBssClinentInfo(TBssClientInfo info);
+    TBssClientInfo& GetBssClinentInfo();
 
 private:
     // 地域ID
-    EM_CITY_ID _city_id;
+    TBssClientInfo _bss_client_info;
 };
 
 #endif

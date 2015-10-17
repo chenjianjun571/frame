@@ -23,4 +23,17 @@ typedef std::shared_ptr<jsbn::protoc::BCNetProtocol> sBCNetProtocolDataPage_ptr;
 // SMS与CSS的协议数据智能指针
 typedef std::shared_ptr<jsbn::protoc::SCNetProtocol> sSCNetProtocolDataPage_ptr;
 
+// 地域信息
+typedef struct stBssClientInfo
+{
+    // 城市ID
+    EM_CITY_ID city_id;
+
+    stBssClientInfo()
+    {
+        city_id = ECID_INIT;
+    }
+
+}TBssClientInfo;
+
 #endif

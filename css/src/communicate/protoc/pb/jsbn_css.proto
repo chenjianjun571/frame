@@ -1,6 +1,6 @@
-package jsbn.protoc;
-option java_package = "com.jsbn.protoc";
-option java_outer_classname = "protocol";
+package jsbn.protoc.bc;
+option java_package = "com.jsbn.protoc.bc";
+option java_outer_classname = "BCProtocol";
 option optimize_for = LITE_RUNTIME;
 // SPEED: 表示生成的代码运行效率高，但是由此生成的代码编译后会占用更多的空间。
 // CODE_SIZE: 和SPEED恰恰相反，代码运行效率较低，但是由此生成的代码编译后会占用更少的空间，通常用于资源有限的平台，如Mobile。
@@ -9,23 +9,23 @@ option optimize_for = LITE_RUNTIME;
 //               在Java中仅需包含protobuf-java-2.4.1-lite.jar，而非protobuf-java-2.4.1.jar。
 
 /*******************************BSS到CSS的通信协议start**************************/
-// BSS到CSS的消息命令类型
-enum BC_MSG
+// 消息命令类型
+enum CommandID
 {
-    EBC_Heart_Beat  = 0x00000000;// 心跳
-    EBC_Register_Request  = 0x00001001;// 业务服务器注册请求
-    EBC_Register_Response = 0x00001002;// 业务服务器注册应答
+    Heart_Beat  = 0x00000000;// 心跳
+    Register_Request  = 0x00001001;// 业务服务器注册请求
+    Register_Response = 0x00001002;// 业务服务器注册应答
 }
 
 // 业务服务器注册请求
-message BCRegisterRequest
+message RegisterRequest
 {
     // 城市ID
     required fixed32 cityID = 1;
 }
 
 // 业务服务器注册应答
-message BCRegisterResponse
+message RegisterResponse
 {
     // 应答结果
     required fixed32 result = 1;
@@ -34,30 +34,14 @@ message BCRegisterResponse
 }
 
 // 传输通信协议
-message BCNetProtocol
+message NetProtocol
 {
     // 消息类型
-    required BC_MSG type = 1;
+    required CommandID commandID = 1;
     // 业务服务器注册请求
-    optional BCRegisterRequest registerRequest = 2;
+    optional RegisterRequest registerRequest = 2;
     // 业务服务器注册应答
-    optional BCRegisterResponse registerResponse = 3;
+    optional RegisterResponse registerResponse = 3;
 }
 
 /*******************************BSS到CSS的通信协议end****************************/
-
-/*******************************SMS到CSS的通信协议start**************************/
-// SMS到CSS的消息命令类型
-enum SC_MSG
-{
-    ESC_Heart_Beat  = 0x00000000;// 心跳
-}
-
-// 传输通信协议
-message SCNetProtocol
-{
-    // 消息类型
-    required SC_MSG type = 1;
-}
-
-/*******************************SMS到CSS的通信协议end****************************/

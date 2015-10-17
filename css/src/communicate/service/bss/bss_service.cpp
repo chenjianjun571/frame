@@ -110,6 +110,18 @@ void BSSService::DelClient(unsigned short seq)
     }
 }
 
+bool BSSService::CheckClient(unsigned short seq)
+{
+    ReadLockScoped rls(*_client_mutex);
+    std::map<unsigned short, BssTcpClient*>::iterator it = _map_clients.find(seq);
+    if (it != _map_clients.end())
+    {
+        return it->second->Isvalid();
+    }
+
+    return false;
+}
+
 void BSSService::RecvData(unsigned short seq, const unsigned char* buf, PacketLength len)
 {
     // 解析数据协议
@@ -121,17 +133,29 @@ void BSSService::RecvData(unsigned short seq, const unsigned char* buf, PacketLe
         return;
     }
 
-    // 标记是那个连接收到的数据，便于业务处理完以后应答
-    prt->sock_handle = seq;
-
-    // 判断是否心跳
-    if (prt->command_id == EBC_Heart_Beat)
+    switch(prt->command_id)
     {
-        sSendDataPage_ptr pSend = MallocStructFactory::Instance().get_send_page();
-        pSend->sock_handle = prt->sock_handle;
-        pSend->Copy(buf, len);
-        SendData(pSend);
-        return;
+        case EBC_Heart_Beat://心跳
+        {
+            sSendDataPage_ptr pSend = MallocStructFactory::Instance().get_send_page();
+            pSend->sock_handle = prt->sock_handle;
+            pSend->Copy(buf, len);
+            SendData(pSend);
+            return;
+        }
+        default:
+        {
+            // 检测该客户端是否已经注册，未注册的客户端不提供服务
+            if (!CheckClient(seq))
+            {
+                LOG(ERROR)<<"非法客户端试图发送数据，断开连接.";
+                DelClient(seq);
+                return;
+            }
+
+            // 标记是那个连接收到的数据，便于业务处理完以后应答
+            prt->sock_handle = seq;
+        }
     }
 
     // 丢队列

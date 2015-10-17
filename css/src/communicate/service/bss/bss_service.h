@@ -47,6 +47,7 @@ public:
 protected:
     int AddClient(unsigned short, BssTcpClient*);
     void DelClient(unsigned short);
+    bool CheckClient(unsigned short);
 
 private:
     jsbn::ServerWorker* _pServerWorker;

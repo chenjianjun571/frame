@@ -18,19 +18,23 @@ BssTcpClient::BssTcpClient(unsigned short seq,
                            struct sockaddr_in* sa,
                            short heart_time):PassiveTCPClient(seq, sa, heart_time)
 {
-    _city_id = ECID_INIT;
 }
 
 BssTcpClient::~BssTcpClient()
 {
 }
 
-void BssTcpClient::SetCityID(EM_CITY_ID id)
+bool BssTcpClient::Isvalid()
 {
-    _city_id = id;
+    return _bss_client_info.city_id != ECID_INIT;
 }
 
-EM_CITY_ID BssTcpClient::GetCityID()
+void BssTcpClient::SetBssClinentInfo(TBssClientInfo info)
 {
-    return _city_id;
+    _bss_client_info = info;
+}
+
+TBssClientInfo& BssTcpClient::GetBssClinentInfo()
+{
+    return _bss_client_info;
 }
