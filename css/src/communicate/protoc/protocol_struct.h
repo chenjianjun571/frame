@@ -27,14 +27,14 @@ typedef struct stBCProtocolBase
 }TBCProtocolBase;
 typedef std::shared_ptr<TBCProtocolBase> sBCProtocolData_ptr;
 
-typedef struct stBCRegisterRequest
+typedef struct stBCRegisterRequest : public TBCProtocolBase
 {
     // 城市ID
     unsigned int city_id;
 
 }TBCRegisterRequest;
 
-typedef struct stBCRegisterResponse
+typedef struct stBCRegisterResponse : public TBCProtocolBase
 {
     // 城市ID
     unsigned int result;
