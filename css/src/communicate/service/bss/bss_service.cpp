@@ -146,7 +146,7 @@ void BSSService::RecvData(unsigned short seq, const unsigned char* buf, PacketLe
         case jsbn::protoc::bc::CommandID::Register_Request:// 注册请求
         {
             TBssClientInfo info;
-            info.city_id = ((TBCRegisterRequest*)prt.get())->city_id;
+            info.city_id = static_cast<EM_CITY_ID>(((TBCRegisterRequest*)prt.get())->city_id);
             {
                 ReadLockScoped rls(*_client_mutex);
                 std::map<unsigned short, BssTcpClient*>::iterator it = _map_clients.find(seq);
