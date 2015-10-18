@@ -33,23 +33,23 @@ RpcStubService::RpcStubService()
 
 int RpcStubService::Start()
 {
-    std::shared_ptr<TProtocolFactory> protocolFactory(new TBinaryProtocolFactory());
-    std::shared_ptr<RpcServiceHandler> handler(new RpcServiceHandler());
-    std::shared_ptr<TProcessor> processor(new RpcServiceProcessor(handler));
+    boost::shared_ptr<TProtocolFactory> protocolFactory(new TBinaryProtocolFactory());
+    boost::shared_ptr<RpcServiceHandler> handler(new RpcServiceHandler());
+    boost::shared_ptr<TProcessor> processor(new RpcServiceProcessor(handler));
 
-    std::shared_ptr<ThreadManager> threadManager = ThreadManager::newSimpleThreadManager(20);
-    std::shared_ptr<PosixThreadFactory> threadFactory = shared_ptr<PosixThreadFactory>(new PosixThreadFactory());
+    boost::shared_ptr<ThreadManager> threadManager = ThreadManager::newSimpleThreadManager(20);
+    boost::shared_ptr<PosixThreadFactory> threadFactory = boost::shared_ptr<PosixThreadFactory>(new PosixThreadFactory());
     threadManager->threadFactory(threadFactory);
     threadManager->start();
 
-    _service = TNonblockingServer(processor, protocolFactory, 6889, threadManager);
+    _service =new TNonblockingServer(processor, protocolFactory, 6889, threadManager);
 
-    _service.serve();
+    _service->serve();
 
     return FUNC_SUCCESS;
 }
 
-int RpcStubService::Stop()
+void RpcStubService::Stop()
 {
-    _service.stop();
+    _service->stop();
 }
