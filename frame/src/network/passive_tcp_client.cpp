@@ -30,14 +30,14 @@ namespace NAME_SPACE {
         do
         {
             nbytes = EVBUFFER_LENGTH(bev->input);
-            if (nbytes < kPacketLenSize)
+	    if (nbytes < kPacketLenSize)
             {
                 return;
             }
             
             // 如果大于系统定义的最大包长度，为防止恶意行为需要做断开处理
             // 如果换成用四字节作为头部的话，客户端短时间发送大量的包情况下会出现“接收客户端的数据超过缓冲区大小”的错误
-            datalen = GetBE16(EVBUFFER_DATA(bev->input));
+            datalen = GetLE16(EVBUFFER_DATA(bev->input));
             if (datalen > RECV_DATA_MAX_PACKET_SIZE-kPacketLenSize)
             {
                 LOG(INFO)<<"接收服务器的数据超过缓冲区大小,断开客户端.收到的数据长度:"<<datalen<<"缓冲区长度:"<<nbytes;
