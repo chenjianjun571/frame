@@ -33,12 +33,12 @@ RpcStubService::RpcStubService()
 
 int RpcStubService::Start()
 {
-    shared_ptr<TProtocolFactory> protocolFactory(new TBinaryProtocolFactory());
-    shared_ptr<FastHandsHandler> handler(new RpcServiceHandler());
-    shared_ptr<TProcessor> processor(new RpcServiceProcessor(handler));
+    std::shared_ptr<TProtocolFactory> protocolFactory(new TBinaryProtocolFactory());
+    std::shared_ptr<RpcServiceHandler> handler(new RpcServiceHandler());
+    std::shared_ptr<TProcessor> processor(new RpcServiceProcessor(handler));
 
-    shared_ptr<ThreadManager> threadManager = ThreadManager::newSimpleThreadManager(20);
-    shared_ptr<PosixThreadFactory> threadFactory = shared_ptr<PosixThreadFactory>(new PosixThreadFactory());
+    std::shared_ptr<ThreadManager> threadManager = ThreadManager::newSimpleThreadManager(20);
+    std::shared_ptr<PosixThreadFactory> threadFactory = shared_ptr<PosixThreadFactory>(new PosixThreadFactory());
     threadManager->threadFactory(threadFactory);
     threadManager->start();
 

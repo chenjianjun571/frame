@@ -8,6 +8,7 @@ PROJECT_INC_DIR=" -I../frame/src/ "
 PROJECT_INC_DIR+=" -I/home/bfjs/jsbn/HtProjet/third/include/ "
 PROJECT_INC_DIR+=" -I/home/bfjs/jsbn/HtProjet/third/include/google "
 PROJECT_INC_DIR+=" -I/home/bfjs/jsbn/HtProjet/third/include/event "
+PROJECT_INC_DIR+=" -I/home/bfjs/jsbn/HtProjet/third/include/thrift "
 export PROJECT_INC_DIR
 
 #定义库文件目录
