@@ -15,6 +15,7 @@
 
 #include "module_const_def.h"
 #include "./service/bss/bss_service.h"
+#include "./rpc/rpc_stub_service.h"
 
 class CommunicateService : public COperationObject
 {
@@ -30,6 +31,9 @@ public:
 private:
     // 业务服务器监听服务器
     BSSService _mBSSService;
+
+    // RPC服务器
+    RpcStubService _mRpcStubService;
 };
 
 #endif

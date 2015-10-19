@@ -20,12 +20,19 @@ bool CommunicateService::start_operation()
         return false;
     }
 
+    if (_mRpcStubService.Start() != FUNC_SUCCESS)
+    {
+        LOG(ERROR)<<"RPC服务器模块启动失败";
+        return false;
+    }
+
     return true;
 }
 
 bool CommunicateService::stop_operation()
 {
     _mBSSService.Stop();
+    _mRpcStubService.Stop();
     return true;
 }
 

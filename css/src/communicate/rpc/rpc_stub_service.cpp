@@ -28,28 +28,71 @@ using namespace apache::thrift::transport;
 using namespace apache::thrift::server;
 using namespace apache::thrift::concurrency;
 
-RpcStubService::RpcStubService()
+RpcStubService::RpcStubService():_thread_manager(nullptr),_service(nullptr)
 {}
 
 int RpcStubService::Start()
 {
+    if (_service)
+    {
+        return FUNC_SUCCESS;
+    }
+
     boost::shared_ptr<TProtocolFactory> protocolFactory(new TBinaryProtocolFactory());
     boost::shared_ptr<RpcServiceHandler> handler(new RpcServiceHandler());
     boost::shared_ptr<TProcessor> processor(new RpcServiceProcessor(handler));
-
-    boost::shared_ptr<ThreadManager> threadManager = ThreadManager::newSimpleThreadManager(20);
     boost::shared_ptr<PosixThreadFactory> threadFactory = boost::shared_ptr<PosixThreadFactory>(new PosixThreadFactory());
-    threadManager->threadFactory(threadFactory);
-    threadManager->start();
 
-    _service =new TNonblockingServer(processor, protocolFactory, 6889, threadManager);
+    do
+    {
+        _thread_manager = ThreadManager::newSimpleThreadManager(20);
+        if (_thread_manager == nullptr) {
+            break;
+        }
 
-    _service->serve();
+        _service = new TNonblockingServer(processor, protocolFactory, 6889, _thread_manager);
+        if (_service == nullptr) {
+            break;
+        }
 
-    return FUNC_SUCCESS;
+        threadManager->threadFactory(threadFactory);
+        threadManager->start();
+        _service->serve();
+
+        return FUNC_SUCCESS;
+
+    }while(0);
+
+    if (_thread_manager)
+    {
+        _thread_manager->stop();
+        delete _thread_manager;
+        _thread_manager = nullptr;
+    }
+
+    if (_service)
+    {
+        _service->stop();
+        delete _service;
+        _service = nullptr;
+    }
+
+    return FUNC_FAILED;
 }
 
 void RpcStubService::Stop()
 {
-    _service->stop();
+    if (_thread_manager)
+    {
+        _thread_manager->stop();
+        delete _thread_manager;
+        _thread_manager = nullptr;
+    }
+
+    if (_service)
+    {
+        _service->stop();
+        delete _service;
+        _service = nullptr;
+    }
 }

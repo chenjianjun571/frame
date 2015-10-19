@@ -15,6 +15,7 @@
 #include "module_const_def.h"
 
 #include <server/TNonblockingServer.h>
+#include <concurrency/ThreadManager.h>
 
 class RpcStubService
 {
@@ -29,6 +30,7 @@ public:
 
 private:
     apache::thrift::server::TNonblockingServer* _service;
+    apache::thrift::concurrency::ThreadManager* _thread_manager;
 };
 
 #endif
