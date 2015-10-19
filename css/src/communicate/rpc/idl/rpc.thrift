@@ -1,42 +1,45 @@
-namespace cpp jsbn.rpc
-//namespace java com.jsbn.rpc
+namespace cpp jsbn.rpc.bc
+namespace java com.jsbn.rpc.bc
 
-enum TweetType {
-    TWEET,
-    RETWEET = 2,
-    DM = 0xa,
-    REPLY
+// 城市ID
+enum CityID {
+    CID_INIT = -1,
+    CID_CQ,
+    CID_CD,
+    CID_HZ
 }
 
-struct Location {
-    1: required double latitude;
-    2: required double longitude;
-}
-
-struct Tweet {
+struct UserInfo {
     1: required i32 userId;
     2: required string userName;
     3: required string text;
-    4: optional Location loc;
-    5: optional TweetType tweetType = TweetType.TWEET;
+    4: optional CityID cityID = CityID.CID_INIT;
     16: optional string language = "english";
 }
 
-typedef list<Tweet> TweetList
+typedef list<UserInfo> UserInfoList
 
-struct TweetSearchResult {
-    1: TweetList tweets;
+struct UserInfoSearchResult {
+    1: UserInfoList userinfos;
 }
 
-exception TwitterUnavailable {
+exception Unavailable {
     1: string message;
 }
 
-const i32 MAX_RESULTS = 100;
+service BCRpc {
 
-service Twitter {
-    void ping(),
-    bool postTweet(1:Tweet tweet) throws (1:TwitterUnavailable unavailable),
-    TweetSearchResult searchTweets(1:string query);
-    oneway void zip()
+    /*
+    */
+    bool postUserInfo(1:UserInfo userInfo) throws (1:Unavailable unavailable),
+
+    /**/
+    UserInfoSearchResult searchUserInfos(1:string query);
+
+    /*
+    ”oneway”标识符表示client发出请求后不必等待回复（非阻塞）直接进行下面的操作，
+    ”oneway”方法的返回值必须是void
+    */
+    oneway void hello()
+
 }

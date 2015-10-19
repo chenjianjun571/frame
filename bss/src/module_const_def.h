@@ -33,6 +33,8 @@
 #include <ace/TP_Reactor.h>
 #include <ace/RW_Thread_Mutex.h>
 
+#include <glog/logging.h>
+
 #include <map>
 #include <string>
 #include <vector>
