@@ -133,6 +133,8 @@ void BSSService::RecvData(unsigned short seq, const unsigned char* buf, PacketLe
         return;
     }
 
+    // 标记是那个连接收到的数据，便于业务处理完以后应答
+    prt->sock_handle = seq;
     switch(prt->command_id)
     {
         case jsbn::protoc::bc::CommandID::Heart_Beat://心跳
@@ -182,9 +184,6 @@ void BSSService::RecvData(unsigned short seq, const unsigned char* buf, PacketLe
                 DelClient(seq);
                 return;
             }
-
-            // 标记是那个连接收到的数据，便于业务处理完以后应答
-            prt->sock_handle = seq;
         }
     }
 
