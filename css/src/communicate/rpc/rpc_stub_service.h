@@ -29,8 +29,8 @@ public:
     void Stop();
 
 private:
-    apache::thrift::server::TNonblockingServer* _service;
-    apache::thrift::concurrency::ThreadManager* _thread_manager;
+    boost::shared_ptr<apache::thrift::server::TNonblockingServer> _service;
+    boost::shared_ptr<apache::thrift::concurrency::ThreadManager> _thread_manager;
 };
 
 #endif

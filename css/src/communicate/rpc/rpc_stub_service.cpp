@@ -50,7 +50,7 @@ int RpcStubService::Start()
             break;
         }
 
-        _service = new TNonblockingServer(processor, protocolFactory, 6889, _thread_manager);
+        _service = shared_ptr<TNonblockingServer>(new TNonblockingServer(processor, protocolFactory, 6889, _thread_manager));
         if (_service == nullptr) {
             break;
         }
@@ -66,15 +66,13 @@ int RpcStubService::Start()
     if (_thread_manager)
     {
         _thread_manager->stop();
-        delete _thread_manager;
-        _thread_manager = nullptr;
+        _thread_manager->reset(nullptr);
     }
 
     if (_service)
     {
         _service->stop();
-        delete _service;
-        _service = nullptr;
+        _service->reset(nullptr);
     }
 
     return FUNC_FAILED;
@@ -85,14 +83,12 @@ void RpcStubService::Stop()
     if (_thread_manager)
     {
         _thread_manager->stop();
-        delete _thread_manager;
-        _thread_manager = nullptr;
+        _thread_manager->reset(nullptr);
     }
 
     if (_service)
     {
         _service->stop();
-        delete _service;
-        _service = nullptr;
+        _service->reset(nullptr);
     }
 }
