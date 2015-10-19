@@ -166,7 +166,7 @@ void BSSService::RecvData(unsigned short seq, const unsigned char* buf, PacketLe
                 pc.mutable_registerresponse()->set_result(0);
                 pc.mutable_registerresponse()->set_error_description("注册成功");
                 pc.SerializeToString(&response);
-
+                
                 sSendDataPage_ptr pSend = MallocStructFactory::Instance().get_send_page();
                 pSend->sock_handle = prt->sock_handle;
                 pSend->Copy(response.c_str(), response.length());
