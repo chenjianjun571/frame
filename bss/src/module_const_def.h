@@ -69,6 +69,16 @@ typedef struct stSendData
 
         send_len = kPacketLenSize + ((len>SEND_DATA_MAX_PACKET_SIZE) ? SEND_DATA_MAX_PACKET_SIZE : len);
     }
+
+    void Copy(const char* buf, unsigned int len) {
+        // 贴上包头
+        SetLE16(send_buf, len);
+        // 贴上包体
+        ::memcpy(send_buf+kPacketLenSize, buf, (len>SEND_DATA_MAX_PACKET_SIZE) ? SEND_DATA_MAX_PACKET_SIZE : len);
+
+        send_len = kPacketLenSize + ((len>SEND_DATA_MAX_PACKET_SIZE) ? SEND_DATA_MAX_PACKET_SIZE : len);
+    }
+
 }TSendData;
 // 发送数据智能指针
 typedef std::shared_ptr<TSendData> sSendDataPage_ptr;
