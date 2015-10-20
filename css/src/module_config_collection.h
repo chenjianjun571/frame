@@ -25,10 +25,16 @@ struct stModuleConfig
     // 业务服务器心跳检测间隔时间
     int bss_service_heartbeat_detection;
 
+    // rpc配置参数
+    int rpc_listen_port;
+    int rpc_proc_thread_num;
+
     stModuleConfig()
     {
         bss_service_listen_ip.clear();
         bss_service_heartbeat_detection = 15;
+        rpc_listen_port = 6889;
+        rpc_proc_thread_num = 20;
     }
 };
 
@@ -59,14 +65,14 @@ public:
     inline stModuleConfig& get_module_config ();
 private:
     // 通信服务器配置信息
-    stModuleConfig m_net_srv_config;
+    stModuleConfig m_srv_config;
 };
 
 #define SYS_CONFIG (CModuleConfigCollection::get_instance ())
 
 inline stModuleConfig& CModuleConfigCollection::get_module_config ()
 {
-    return m_net_srv_config;
+    return m_srv_config;
 }
 
 #endif //__MODULE_CONFIG_COLLECTION_H_

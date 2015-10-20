@@ -11,6 +11,7 @@
 /// @History
 ///************************************************************
 #include "rpc_stub_service.h"
+#include "module_config_collection.h"
 #include "./server/RpcServiceHandler.h"
 
 #include <concurrency/ThreadManager.h>
@@ -45,12 +46,16 @@ int RpcStubService::Start()
 
     do
     {
-        _thread_manager = ThreadManager::newSimpleThreadManager(20);
+        _thread_manager = ThreadManager::newSimpleThreadManager(SYS_CONFIG->get_module_config().rpc_proc_thread_num);
         if (_thread_manager == nullptr) {
             break;
         }
 
-        _service = boost::shared_ptr<TNonblockingServer>(new TNonblockingServer(processor, protocolFactory, 6889, _thread_manager));
+        _service = boost::shared_ptr<TNonblockingServer>(
+                    new TNonblockingServer(processor,
+                                           protocolFactory,
+                                           SYS_CONFIG->get_module_config().rpc_listen_port,
+                                           _thread_manager));
         if (_service == nullptr) {
             break;
         }

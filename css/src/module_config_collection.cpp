@@ -34,7 +34,7 @@ int CModuleConfigCollection::load_module_file_config (CIniFile &ini_reader)
     if (FUNC_SUCCESS != load_string_item (ini_reader,
                                           "BSS_SVR_INFO",
                                           "BSS_SVR_IP",
-                                          m_net_srv_config.bss_service_listen_ip))
+                                          m_srv_config.bss_service_listen_ip))
     {
         return FUNC_FAILED;
     }
@@ -43,7 +43,7 @@ int CModuleConfigCollection::load_module_file_config (CIniFile &ini_reader)
     if (FUNC_SUCCESS != load_int_item(ini_reader,
                                       "BSS_SVR_INFO",
                                       "BSS_SVR_PORT",
-                                      m_net_srv_config.bss_service_listen_port,
+                                      m_srv_config.bss_service_listen_port,
                                       1024,
                                       65523))
     {
@@ -53,9 +53,29 @@ int CModuleConfigCollection::load_module_file_config (CIniFile &ini_reader)
     if (FUNC_SUCCESS != load_int_item(ini_reader,
                                       "BSS_SVR_INFO",
                                       "BSS_HEARTBEAT_TIME",
-                                      m_net_srv_config.bss_service_heartbeat_detection,
+                                      m_srv_config.bss_service_heartbeat_detection,
                                       5,
                                       6000))
+    {
+        return FUNC_FAILED;
+    }
+
+    if (FUNC_SUCCESS != load_int_item(ini_reader,
+                                      "RPC_INFO",
+                                      "RPC_SRV_PORT",
+                                      m_srv_config.rpc_listen_port,
+                                      1024,
+                                      65523))
+    {
+        return FUNC_FAILED;
+    }
+
+    if (FUNC_SUCCESS != load_int_item(ini_reader,
+                                      "RPC_INFO",
+                                      "PRC_PROC_THREAD_NUM",
+                                      m_srv_config.rpc_proc_thread_num,
+                                      1,
+                                      150))
     {
         return FUNC_FAILED;
     }
