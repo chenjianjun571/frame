@@ -19,6 +19,8 @@
 class CoreDataService : public COperationObject
 {
 public:
+    CoreDataService();
+
     /// @brief 启动业务模块
     virtual bool start_operation();
 
@@ -28,9 +30,23 @@ public:
     virtual int dump(const char* first_param = nullptr,
                      const char* second_param = nullptr);
 
+protected:
+    class ProcDataRunnable:public jsbn::Runnable
+    {
+    public:
+        ProcDataRunnable();
+        ~ProcDataRunnable();
+    protected:
+        virtual void Run(void*);
+    };
+
+    friend class CoreDataService;
+
 private:
     // 数据处理线程组
     std::vector<jsbn::Thread*> _proc_thread;
+    volatile bool _run_flg;
+    ProcDataRunnable _runnable;
 };
 
 #endif
