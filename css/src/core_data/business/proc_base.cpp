@@ -12,6 +12,8 @@
 ///************************************************************
 #include "proc_base.h"
 
+std::map<jsbn::protoc::CommandID, ProcBase*> ProcBase::_handers;
+
 ProcBase::ProcBase()
 {}
 
