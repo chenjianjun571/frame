@@ -12,11 +12,11 @@
 ///************************************************************
 #include "rpc_stub_service.h"
 #include "module_config_collection.h"
-#include "./server/RpcServiceHandler.h"
+#include "RpcServiceHandler.h"
+#include "./server/RpcService.h"
 
 #include <concurrency/ThreadManager.h>
 #include <concurrency/PosixThreadFactory.h>
-#include "./server/RpcService.h"
 #include <protocol/TBinaryProtocol.h>
 #include <server/TSimpleServer.h>
 #include <transport/TServerSocket.h>

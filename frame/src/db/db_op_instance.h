@@ -27,7 +27,7 @@ namespace NAME_SPACE {
                      std::string db_user,
                      std::string db_passwd,
                      unsigned short max_con_num,
-                     unsigned short db_port = 21);
+                     unsigned short db_port = 3376);
         
         void Exit();
         

@@ -13,8 +13,8 @@ option optimize_for = LITE_RUNTIME;
 enum CommandID
 {
     Heart_Beat  = 0x00000000;// 心跳
-    Register_Request  = 0x00001001;// 业务服务器注册请求
-    Register_Response = 0x00001002;// 业务服务器注册应答
+    Register_Request  = 0x00000001;// 业务服务器注册请求
+    Register_Response = 0x00010002;// 业务服务器注册应答
 }
 
 // 业务服务器注册请求

@@ -32,7 +32,7 @@ BSSService::~BSSService()
 
 int BSSService::Start()
 {
-    _pServerWorker = new(std::nothrow) ServerWorker(SYS_CONFIG->get_module_config().bss_service_listen_ip,
+    _pServerWorker = new(std::nothrow) ServerWorker(SYS_CONFIG->get_module_config().host_ip,
                                                     SYS_CONFIG->get_module_config().bss_service_listen_port);
     if (nullptr == _pServerWorker)
     {

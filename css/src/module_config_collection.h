@@ -18,8 +18,11 @@
 /// @brief 通信服务器配置信息
 struct stModuleConfig
 {
-    // 业务服务器监听IP
-    std::string bss_service_listen_ip;
+    // 服务器IP
+    std::string host_ip;
+    // 数据中心数据处理线程个数
+    int data_proc_thread_num;
+
     // 业务服务器监听port
     int bss_service_listen_port;
     // 业务服务器心跳检测间隔时间
@@ -29,13 +32,13 @@ struct stModuleConfig
     int rpc_listen_port;
     int rpc_proc_thread_num;
 
-    stModuleConfig()
-    {
-        bss_service_listen_ip.clear();
-        bss_service_heartbeat_detection = 15;
-        rpc_listen_port = 6889;
-        rpc_proc_thread_num = 20;
-    }
+    // 数据库信息
+    std::string db_host;
+    int db_port;
+    std::string db_name;
+    std::string db_user;
+    std::string db_password;
+    int db_max_con_num;
 };
 
 /// @class CModuleConfigCollection 
