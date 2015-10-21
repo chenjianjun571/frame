@@ -63,9 +63,9 @@ sProtocolData_ptr ProtocolProcManager::ParseProtocol(const unsigned char* buf, P
 
             ptr->command_id = jsbn::protoc::CommandID::Register_Req;
 
-            ((TRegisterRequest*)ptr.get())->city_id = protocol->registerrequest().cityid();
+            ((TRegisterRequest*)ptr.get())->city_id = protocol->registerreq().cityid();
 
-            LOG(INFO)<<"收到业务服务器注册请求,城市ID:"<< ((TRegisterRequest*)ptr.get())->city_id<<":"<<protocol->registerrequest().cityid();
+            LOG(INFO)<<"收到业务服务器注册请求,城市ID:"<< ((TRegisterRequest*)ptr.get())->city_id<<":"<<protocol->registerreq().cityid();
 
             break;
         }
