@@ -62,11 +62,17 @@ int RpcStubService::Start()
 
         _thread_manager->threadFactory(threadFactory);
         _thread_manager->start();
-        _service->serve();
+
+        if (!_thread_main_rpc.Start(this))
+        {
+            break;
+        }
 
         return FUNC_SUCCESS;
 
     }while(0);
+
+    _thread_main_rpc.Stop();
 
     if (_thread_manager)
     {
@@ -96,4 +102,9 @@ void RpcStubService::Stop()
         _service->stop();
         _service=nullptr;
     }
+}
+
+void RpcStubService::Run(void*)
+{
+    _service->serve();
 }

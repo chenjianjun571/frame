@@ -17,7 +17,7 @@
 #include <server/TNonblockingServer.h>
 #include <concurrency/ThreadManager.h>
 
-class RpcStubService
+class RpcStubService:public jsbn::Runnable
 {
 public:
     RpcStubService();
@@ -28,9 +28,13 @@ public:
     // 停止服务器
     void Stop();
 
+protected:
+    virtual void Run(void*);
+
 private:
     boost::shared_ptr<apache::thrift::server::TNonblockingServer> _service;
     boost::shared_ptr<apache::thrift::concurrency::ThreadManager> _thread_manager;
+    jsbn::Thread _thread_main_rpc;
 };
 
 #endif
