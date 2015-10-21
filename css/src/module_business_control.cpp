@@ -20,7 +20,7 @@ int CModuleBusinessControl::init_business_info()
 
     // 添加各模块私有的初始化信息///////////////////////////////////////////
     // 初期化数据库
-    if (DBOpInstance::Instance()->EnvInit(
+    if (!DBOpInstance::Instance()->EnvInit(
                 CModuleConfigCollection::get_instance()->get_module_config().db_name,
                 CModuleConfigCollection::get_instance()->get_module_config().db_host,
                 CModuleConfigCollection::get_instance()->get_module_config().db_user,
