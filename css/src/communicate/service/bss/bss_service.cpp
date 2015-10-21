@@ -1,5 +1,5 @@
 ///************************************************************
-/// @Copyright (C), 2015-2030, hzcw  Information Technologies Co., Ltd.
+/// @Copyright (C), 2015-2030, jsbn  Information Technologies Co., Ltd.
 /// @URL
 /// @file           bss_service.cpp
 /// @brief          业务服务器(地域服务器)监听服务器

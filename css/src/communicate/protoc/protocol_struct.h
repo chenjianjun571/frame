@@ -1,5 +1,5 @@
 ///************************************************************
-/// @Copyright (C), 1993-2022, hzcw  Information Technologies Co., Ltd.
+/// @Copyright (C), 1993-2022, jsbn  Information Technologies Co., Ltd.
 /// @URL
 /// @file           protocol_struct.h
 /// @brief          协议结构类

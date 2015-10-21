@@ -1,5 +1,5 @@
 ///************************************************************
-/// @Copyright (C), 2015-2022, hzcw  Information Technologies Co., Ltd.
+/// @Copyright (C), 2015-2022, jsbn  Information Technologies Co., Ltd.
 /// @URL
 /// @file           module_const_def.h
 /// @brief          模块静态定义类

@@ -1,5 +1,5 @@
 ///************************************************************
-/// @Copyright (C), 2015-2030, hzcw  Information Technologies Co., Ltd.
+/// @Copyright (C), 2015-2030, jsbn  Information Technologies Co., Ltd.
 /// @URL
 /// @file           module_business_control.h
 /// @brief          业务控制器

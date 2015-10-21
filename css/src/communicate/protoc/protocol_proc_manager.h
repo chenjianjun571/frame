@@ -1,5 +1,5 @@
 ///************************************************************
-/// @Copyright (C), 1993-2022, hzcw  Information Technologies Co., Ltd.
+/// @Copyright (C), 1993-2022, jsbn  Information Technologies Co., Ltd.
 /// @URL
 /// @file           protocol_proc_manager.h
 /// @brief          协议处理管理类

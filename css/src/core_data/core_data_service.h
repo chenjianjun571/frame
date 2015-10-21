@@ -1,5 +1,5 @@
 ///************************************************************
-/// @Copyright (C), 2015-2030, hzcw  Information Technologies Co., Ltd.
+/// @Copyright (C), 2015-2030, jsbn  Information Technologies Co., Ltd.
 /// @URL
 /// @file           core_data_service.h
 /// @brief          核心数据服务模块
