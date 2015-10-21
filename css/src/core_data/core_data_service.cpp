@@ -21,7 +21,7 @@ CoreDataService::CoreDataService():_run_flg(false)
 bool CoreDataService::start_operation()
 {
     _proc_thread.clear();
-    _run_flg = false;
+    _run_flg = true;
 
     for(int i = 0; i < CModuleConfigCollection::get_instance()->get_module_config().data_proc_thread_num; ++i)
     {
