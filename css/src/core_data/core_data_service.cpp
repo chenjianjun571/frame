@@ -26,7 +26,7 @@ bool CoreDataService::start_operation()
     for(int i = 0; i < CModuleConfigCollection::get_instance()->get_module_config().data_proc_thread_num; ++i)
     {
         jsbn::Thread* pThread = new(std::nothrow) jsbn::Thread();
-        if (!pThread->Start(&_runnable))
+        if (!pThread->Start(&_runnable, this))
         {
             LOG(ERROR)<<"处理线程创建失败";
             return false;
@@ -60,7 +60,6 @@ CoreDataService::ProcDataRunnable::~ProcDataRunnable() {}
 
 void CoreDataService::ProcDataRunnable::Run(void* arg)
 {
-
     CoreDataService* pCoreDataService = (CoreDataService*)arg;
     sProtocolData_ptr prt;
     while (pCoreDataService->_run_flg)
