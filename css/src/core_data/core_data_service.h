@@ -40,7 +40,7 @@ protected:
         virtual void Run(void*);
     };
 
-    friend class CoreDataService;
+    friend class ProcDataRunnable;
 
 private:
     // 数据处理线程组
