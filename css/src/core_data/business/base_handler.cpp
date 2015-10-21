@@ -10,3 +10,13 @@
 /// @Description
 /// @History
 ///************************************************************
+#include "module_const_def.h"
+
+class ProcBase
+{
+protected:
+    ProcBase();
+    virtual ~ProcBase();
+
+    virtual void ProcData();
+};

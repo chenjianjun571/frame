@@ -12,18 +12,18 @@
 ///************************************************************
 #include "protocol_proc_manager.h"
 
-void delete_recv_bc_page(TBCProtocolBase* p)
+void delete_recv_bc_page(TProtocolBase* p)
 {
     switch(p->command_id)
     {
-        case jsbn::protoc::bc::CommandID::Heart_Beat:
+        case jsbn::protoc::CommandID::Heart_Beat:
         {
-            CObjectAllocator<TBCProtocolBase>::get_instance()->free((TBCProtocolBase*)p);
+            CObjectAllocator<TProtocolBase>::get_instance()->free((TProtocolBase*)p);
             break;
         }
-        case jsbn::protoc::bc::CommandID::Register_Request:
+        case jsbn::protoc::CommandID::Register_Req:
         {
-            CObjectAllocator<TBCRegisterRequest>::get_instance()->free((TBCRegisterRequest*)p);
+            CObjectAllocator<TRegisterRequest>::get_instance()->free((TRegisterRequest*)p);
             break;
         }
         default:
@@ -34,10 +34,10 @@ void delete_recv_bc_page(TBCProtocolBase* p)
     }
 }
 
-sBCProtocolData_ptr ProtocolProcManager::ParseBCProtocol(const unsigned char* buf, PacketLength len)
+sProtocolData_ptr ProtocolProcManager::ParseProtocol(const unsigned char* buf, PacketLength len)
 {
     // 解析协议，生成一个协议的智能指针区域
-    static sBCNetProtocolDataPage_ptr protocol = std::make_shared<jsbn::protoc::bc::NetProtocol>();
+    static sNetProtocolDataPage_ptr protocol = std::make_shared<jsbn::protoc::NetProtocol>();
 
     protocol->Clear();
     if (!protocol->ParseFromArray(buf, len))
@@ -46,32 +46,32 @@ sBCProtocolData_ptr ProtocolProcManager::ParseBCProtocol(const unsigned char* bu
         return nullptr;
     }
 
-    sBCProtocolData_ptr ptr = nullptr;
+    sProtocolData_ptr ptr = nullptr;
     switch(protocol->commandid())
     {
-        case jsbn::protoc::bc::CommandID::Heart_Beat:
+        case jsbn::protoc::CommandID::Heart_Beat:
         {
-            ptr = sBCProtocolData_ptr(CObjectAllocator<TBCProtocolBase>::get_instance()->malloc(), delete_recv_bc_page);
+            ptr = sProtocolData_ptr(CObjectAllocator<TProtocolBase>::get_instance()->malloc(), delete_recv_bc_page);
 
-            ptr->command_id = jsbn::protoc::bc::CommandID::Heart_Beat;
+            ptr->command_id = jsbn::protoc::CommandID::Heart_Beat;
 
             break;
         }
-        case jsbn::protoc::bc::CommandID::Register_Request:
+        case jsbn::protoc::CommandID::Register_Req:
         {
-            ptr = sBCProtocolData_ptr(CObjectAllocator<TBCRegisterRequest>::get_instance()->malloc(), delete_recv_bc_page);
+            ptr = sProtocolData_ptr(CObjectAllocator<TRegisterRequest>::get_instance()->malloc(), delete_recv_bc_page);
 
-            ptr->command_id = jsbn::protoc::bc::CommandID::Register_Request;
+            ptr->command_id = jsbn::protoc::CommandID::Register_Req;
 
-            ((TBCRegisterRequest*)ptr.get())->city_id = protocol->registerrequest().cityid();
+            ((TRegisterRequest*)ptr.get())->city_id = protocol->registerrequest().cityid();
 
-            LOG(INFO)<<"收到业务服务器注册请求,城市ID:"<< ((TBCRegisterRequest*)ptr.get())->city_id<<":"<<protocol->registerrequest().cityid();
+            LOG(INFO)<<"收到业务服务器注册请求,城市ID:"<< ((TRegisterRequest*)ptr.get())->city_id<<":"<<protocol->registerrequest().cityid();
 
             break;
         }
         default:
         {
-            LOG(ERROR)<<"BSS与CSS之前的通信协议不支持";
+            LOG(ERROR)<<"通信协议不支持";
             break;
         }
     }

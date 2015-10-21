@@ -16,32 +16,32 @@
 #include "module_const_def.h"
 #include "../communicate.h"
 
-// BSS与CSS的通信协议基类
-typedef struct stBCProtocolBase
+// 通信协议基类
+typedef struct stProtocolBase
 {
     /// 消息ID
-    jsbn::protoc::bc::CommandID command_id;
+    jsbn::protoc::CommandID command_id;
     /// 连接序号
     unsigned short sock_handle;
 
-}TBCProtocolBase;
-typedef std::shared_ptr<TBCProtocolBase> sBCProtocolData_ptr;
+}TProtocolBase;
+typedef std::shared_ptr<TProtocolBase> sProtocolData_ptr;
 
-typedef struct stBCRegisterRequest : public TBCProtocolBase
+typedef struct stRegisterRequest : public TProtocolBase
 {
     // 城市ID
     unsigned int city_id;
 
-}TBCRegisterRequest;
+}TRegisterRequest;
 
-typedef struct stBCRegisterResponse : public TBCProtocolBase
+typedef struct stRegisterResponse : public TProtocolBase
 {
     // 城市ID
     unsigned int result;
     // 描述
     std::string error_description;
 
-}TBCRegisterResponse;
+}TRegisterResponse;
 
 #endif //__PROTOCOL_STRUCT_H_
 

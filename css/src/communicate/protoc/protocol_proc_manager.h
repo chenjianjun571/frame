@@ -20,8 +20,7 @@
 class ProtocolProcManager
 {
 public:
-    // 解析BSS与CSS的通信协议
-    static sBCProtocolData_ptr ParseBCProtocol(const unsigned char*, PacketLength);
+    static sProtocolData_ptr ParseProtocol(const unsigned char*, PacketLength);
 };
 
 #endif //__PROTOCOL_PROC_MANAGER_H_

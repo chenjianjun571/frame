@@ -125,7 +125,7 @@ bool BSSService::CheckClient(unsigned short seq)
 void BSSService::RecvData(unsigned short seq, const unsigned char* buf, PacketLength len)
 {
     // 解析数据协议
-    sBCProtocolData_ptr prt = ProtocolProcManager::ParseBCProtocol(buf, len);
+    sProtocolData_ptr prt = ProtocolProcManager::ParseProtocol(buf, len);
     if (nullptr == prt)
     {
         LOG(ERROR)<<"协议解析失败，关闭连接.";
@@ -137,7 +137,7 @@ void BSSService::RecvData(unsigned short seq, const unsigned char* buf, PacketLe
     prt->sock_handle = seq;
     switch(prt->command_id)
     {
-        case jsbn::protoc::bc::CommandID::Heart_Beat://心跳
+        case jsbn::protoc::CommandID::Heart_Beat://心跳
         {
             sSendDataPage_ptr pSend = MallocStructFactory::Instance().get_send_page();
             pSend->sock_handle = prt->sock_handle;
@@ -145,10 +145,10 @@ void BSSService::RecvData(unsigned short seq, const unsigned char* buf, PacketLe
             SendData(pSend);
             return;
         }
-        case jsbn::protoc::bc::CommandID::Register_Request:// 注册请求
+        case jsbn::protoc::CommandID::Register_Req:// 注册请求
         {
             TBssClientInfo info;
-            info.city_id = static_cast<EM_CITY_ID>(((TBCRegisterRequest*)prt.get())->city_id);
+            info.city_id = static_cast<EM_CITY_ID>(((TRegisterRequest*)prt.get())->city_id);
             {
                 ReadLockScoped rls(*_client_mutex);
                 std::map<unsigned short, BssTcpClient*>::iterator it = _map_clients.find(seq);
@@ -161,10 +161,10 @@ void BSSService::RecvData(unsigned short seq, const unsigned char* buf, PacketLe
             {
                 // 测试一个注册应答
                 std::string response;
-                jsbn::protoc::bc::NetProtocol pc;
-                pc.set_commandid(jsbn::protoc::bc::CommandID::Register_Response);
-                pc.mutable_registerresponse()->set_result(0);
-                pc.mutable_registerresponse()->set_error_description("注册成功");
+                jsbn::protoc::NetProtocol pc;
+                pc.set_commandid(jsbn::protoc::CommandID::Register_Rsp);
+                pc.mutable_registerrsp()->set_result(0);
+                pc.mutable_registerrsp()->set_error_description("注册成功");
                 pc.SerializeToString(&response);
                 
                 sSendDataPage_ptr pSend = MallocStructFactory::Instance().get_send_page();
@@ -188,7 +188,7 @@ void BSSService::RecvData(unsigned short seq, const unsigned char* buf, PacketLe
     }
 
     // 丢队列
-    ModuleDataCenter::Instance()->PutBCProtocolData(prt);
+    ModuleDataCenter::Instance()->PutProtocolData(prt);
 }
 
 // 套接字事件处理器
