@@ -10,6 +10,9 @@
 /// @Description
 /// @History
 ///************************************************************
+#ifndef __PROC_BASE_H_
+#define __PROC_BASE_H_
+
 #include "module_const_def.h"
 #include "../../communicate/communicate.h"
 #include "../../communicate/protoc/protocol_struct.h"
@@ -36,3 +39,6 @@ public:
 private:
     static std::map<jsbn::protoc::CommandID, ProcBase*> _handers;
 };
+
+#endif
+

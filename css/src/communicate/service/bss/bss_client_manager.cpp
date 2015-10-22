@@ -128,7 +128,7 @@ bool BssClientManager::CheckClient(unsigned short seq)
     return false;
 }
 
-void BssClientManager::SetBssClinentInfo(unsigned short seq, TBssClientInfo& info)
+void BssClientManager::SetBssClinentInfo(unsigned short seq, const TBssClientInfo& info)
 {
     ReadLockScoped rls(*_client_mutex);
     std::map<unsigned short, BssTcpClient*>::iterator it = _map_clients.find(seq);

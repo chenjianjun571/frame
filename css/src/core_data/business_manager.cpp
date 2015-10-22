@@ -28,7 +28,7 @@ BusinessManager::BusinessManager():_run_flg(false)
 bool BusinessManager::Start()
 {
     // 注册业务服务器注册业务
-    ProcBase::Register(jsbn::protoc::CommandID::RegisterReq, new ProcBssRegister);
+    ProcBase::Register(jsbn::protoc::CommandID::Register_Req, new ProcBssRegister);
 
     // 启动业务处理线程
     _proc_thread.clear();
