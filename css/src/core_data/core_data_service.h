@@ -14,6 +14,7 @@
 #define __CORE_DATA_SERVICE_H_
 
 #include "module_const_def.h"
+#include "business_control.h"
 #include <vector>
 
 class CoreDataService : public COperationObject
@@ -30,23 +31,9 @@ public:
     virtual int dump(const char* first_param = nullptr,
                      const char* second_param = nullptr);
 
-protected:
-    class ProcDataRunnable:public jsbn::Runnable
-    {
-    public:
-        ProcDataRunnable();
-        ~ProcDataRunnable();
-    protected:
-        virtual void Run(void*);
-    };
-
-    friend class ProcDataRunnable;
-
 private:
     // 数据处理线程组
-    std::vector<jsbn::Thread*> _proc_thread;
-    volatile bool _run_flg;
-    ProcDataRunnable _runnable;
+    BusinessControl _business_control;
 };
 
 #endif
