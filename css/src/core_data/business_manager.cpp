@@ -1,8 +1,8 @@
 ///************************************************************
 /// @Copyright (C), 2015-2030, jsbn  Information Technologies Co., Ltd.
 /// @URL
-/// @file           business_control.cpp
-/// @brief          业务控制中心
+/// @file           business_manager.cpp
+/// @brief          业务管理中心
 /// @attention
 /// @Author         chenjianjun
 /// @Version        0.1
@@ -10,21 +10,21 @@
 /// @Description
 /// @History
 ///************************************************************
-#include "business_control.h"
+#include "business_manager.h"
 #include "../module_config_collection.h"
 #include "../module_data_center.h"
 #include "./business/proc_base.h"
 
-BusinessControl& BusinessControl::Instance()
+BusinessManager& BusinessManager::Instance()
 {
-    static BusinessControl instance;
+    static BusinessManager instance;
     return instance;
 }
 
-BusinessControl::BusinessControl():_run_flg(false)
+BusinessManager::BusinessManager():_run_flg(false)
 {}
 
-bool BusinessControl::Start()
+bool BusinessManager::Start()
 {
     // 注册业务
 
@@ -46,7 +46,7 @@ bool BusinessControl::Start()
     return true;
 }
 
-bool BusinessControl::Stop()
+bool BusinessManager::Stop()
 {
     _run_flg = false;
 
@@ -58,14 +58,14 @@ bool BusinessControl::Stop()
     return true;
 }
 
-BusinessControl::ProcDataRunnable::ProcDataRunnable() {}
-BusinessControl::ProcDataRunnable::~ProcDataRunnable() {}
+BusinessManager::ProcDataRunnable::ProcDataRunnable() {}
+BusinessManager::ProcDataRunnable::~ProcDataRunnable() {}
 
-void BusinessControl::ProcDataRunnable::Run(void* arg)
+void BusinessManager::ProcDataRunnable::Run(void* arg)
 {
-    BusinessControl* pBusinessControl = (BusinessControl*)arg;
+    BusinessManager* pBusinessManager = (BusinessManager*)arg;
     sProtocolData_ptr prt;
-    while (pBusinessControl->_run_flg)
+    while (pBusinessManager->_run_flg)
     {
         prt = ModuleDataCenter::Instance()->GetProtocolData(1000);
         if (prt != nullptr)

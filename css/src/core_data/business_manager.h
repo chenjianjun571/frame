@@ -1,8 +1,8 @@
 ///************************************************************
 /// @Copyright (C), 2015-2030, jsbn  Information Technologies Co., Ltd.
 /// @URL
-/// @file           business_control.h
-/// @brief          业务控制中心
+/// @file           business_manager.h
+/// @brief          业务管理中心
 /// @attention
 /// @Author         chenjianjun
 /// @Version        0.1
@@ -10,16 +10,16 @@
 /// @Description
 /// @History
 ///************************************************************
-#ifndef __BUSINESS_CONTROL_H_
-#define __BUSINESS_CONTROL_H_
+#ifndef __BUSINESS_MANAGER_H_
+#define __BUSINESS_MANAGER_H_
 
 #include "module_const_def.h"
 #include <vector>
 
-class BusinessControl
+class BusinessManager
 {
 public:
-    static BusinessControl& Instance();
+    static BusinessManager& Instance();
 
     /// @brief 启动业务模块
     virtual bool Start();
@@ -28,7 +28,7 @@ public:
     virtual bool Stop();
 
 protected:
-    BusinessControl();
+    BusinessManager();
 
     class ProcDataRunnable:public jsbn::Runnable
     {

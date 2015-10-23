@@ -11,14 +11,14 @@
 /// @History
 ///************************************************************
 #include "core_data_service.h"
-#include "business_control.h"
+#include "business_manager.h"
 
 CoreDataService::CoreDataService()
 {}
 
 bool CoreDataService::start_operation()
 {
-    if (!BusinessControl::Instance().Start())
+    if (!BusinessManager::Instance().Start())
     {
         LOG(ERROR)<<"业务控制中心启动失败";
         return false;
@@ -29,7 +29,7 @@ bool CoreDataService::start_operation()
 
 bool CoreDataService::stop_operation()
 {
-    BusinessControl::Instance().Stop();
+    BusinessManager::Instance().Stop();
     return true;
 }
 
