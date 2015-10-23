@@ -36,11 +36,11 @@ void ProcBase::Register(jsbn::protoc::CommandID msgID, ProcBase* proc)
 {
     if (_handers.find(msgID) != _handers.end())
     {
-        _handers[msgID] = proc;
+        LOG(ERROR)<<"不能重复注册业务处理handler";
     }
     else
     {
-        LOG(ERROR)<<"不能重复注册业务处理handler";
+        _handers[msgID] = proc;
     }
 }
 
