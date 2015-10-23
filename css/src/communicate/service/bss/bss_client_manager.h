@@ -34,7 +34,7 @@ public:
     int SendData(const sSendDataPage_ptr& pSend);
 
     // BSS注册以后设置客户端信息
-    void SetBssClinentInfo(unsigned short, const TBssClientInfo&);
+    void SetBssClinentInfo(unsigned short seq, const TBssClientInfo& info);
 
 protected:
     BssClientManager();

@@ -22,7 +22,7 @@
 using namespace jsbn;
 using namespace jsbn::protoc;
 
-static BssClientManager& BssClientManager::Instance()
+BssClientManager& BssClientManager::Instance()
 {
     static BssClientManager instance;
     return instance;
