@@ -19,7 +19,7 @@
 class BusinessControl
 {
 public:
-    BusinessControl();
+    static BusinessControl& Instance();
 
     /// @brief 启动业务模块
     virtual bool Start();
@@ -28,6 +28,8 @@ public:
     virtual bool Stop();
 
 protected:
+    BusinessControl();
+
     class ProcDataRunnable:public jsbn::Runnable
     {
     public:

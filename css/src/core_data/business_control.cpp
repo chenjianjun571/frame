@@ -15,6 +15,12 @@
 #include "../module_data_center.h"
 #include "./business/proc_base.h"
 
+BusinessControl& BusinessControl::Instance()
+{
+    static BusinessControl instance;
+    return instance;
+}
+
 BusinessControl::BusinessControl():_run_flg(false)
 {}
 
