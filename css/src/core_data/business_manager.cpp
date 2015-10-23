@@ -14,6 +14,7 @@
 #include "../module_config_collection.h"
 #include "../module_data_center.h"
 #include "./business/proc_base.h"
+#include "./business/bss_register/proc_bss_register.h"
 
 BusinessManager& BusinessManager::Instance()
 {
@@ -26,7 +27,8 @@ BusinessManager::BusinessManager():_run_flg(false)
 
 bool BusinessManager::Start()
 {
-    // 注册业务
+    // 注册业务服务器注册业务
+    ProcBase::Register(jsbn::protoc::CommandID::RegisterReq, new ProcBssRegister);
 
     // 启动业务处理线程
     _proc_thread.clear();
@@ -54,6 +56,8 @@ bool BusinessManager::Stop()
     {
         delete *iter;
     }
+
+    ProcBase::Destroy();
 
     return true;
 }

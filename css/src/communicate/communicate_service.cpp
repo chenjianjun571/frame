@@ -11,10 +11,11 @@
 /// @History
 ///************************************************************
 #include "communicate_service.h"
+#include "./service/bss/bss_client_manager.h"
 
 bool CommunicateService::start_operation()
 {
-    if (_mBSSService.Start() != FUNC_SUCCESS)
+    if (BssClientManager::Instance().Start() != FUNC_SUCCESS)
     {
         LOG(ERROR)<<"业务服务器模块启动失败";
         return false;
@@ -31,7 +32,7 @@ bool CommunicateService::start_operation()
 
 bool CommunicateService::stop_operation()
 {
-    _mBSSService.Stop();
+    BssClientManager::Instance().Stop();
     _mRpcStubService.Stop();
     return true;
 }

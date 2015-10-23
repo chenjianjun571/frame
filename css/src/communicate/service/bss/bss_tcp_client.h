@@ -19,12 +19,15 @@
 class BssTcpClient:public jsbn::PassiveTCPClient
 {
 public:
+
     BssTcpClient(unsigned short seq, struct sockaddr_in* sa, short heart_time = 10);
 
     ~BssTcpClient();
 
     bool Isvalid();
+
     void SetBssClinentInfo(TBssClientInfo info);
+
     TBssClientInfo& GetBssClinentInfo();
 
 private:

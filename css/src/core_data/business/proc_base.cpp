@@ -20,6 +20,17 @@ ProcBase::ProcBase()
 ProcBase::~ProcBase()
 {}
 
+void ProcBase::Destroy()
+{
+    for(auto& kvp:_handers)
+    {
+        delete kvp.second;
+        kvp.second = nullptr;
+    }
+
+    _handers.clear();
+}
+
 //注册消息处理方法
 void ProcBase::Register(jsbn::protoc::CommandID msgID, ProcBase* proc)
 {

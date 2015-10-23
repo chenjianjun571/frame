@@ -1,29 +1,28 @@
 ///************************************************************
-/// @Copyright (C), 2015-2030, hzcw  Information Technologies Co., Ltd.
+/// @Copyright (C), 2015-2030, jsbn  Information Technologies Co., Ltd.
 /// @URL
-/// @file           iss_service.h
-/// @brief          接入服务器监听服务器
+/// @file           bss_client_manager.h
+/// @brief          业务服务器管理端
 /// @attention
 /// @Author         chenjianjun
 /// @Version        0.1
-/// @Date           2015年10月10日
+/// @Date           2015年10月13日
 /// @Description
 /// @History
 ///************************************************************
-#ifndef __ISS_SERVICE_H_
-#define __ISS_SERVICE_H_
+#ifndef __BSS_CLIENT_MANAGER_H_
+#define __BSS_CLIENT_MANAGER_H_
 
 #include "module_const_def.h"
+#include "../communicate.h"
+#include "bss_tcp_client.h"
 
-class ISSService :
-        public sigslot::has_slots<>,
+class BssClientManager : public sigslot::has_slots<>,
         public jsbn::TCPClientSignal,
         public jsbn::TCPServerSignal
 {
 public:
-    ISSService();
-
-    ~ISSService();
+    static BssClientManager& Instance();
 
     // 启动服务器
     int Start();
@@ -31,9 +30,17 @@ public:
     // 停止服务器
     void Stop();
 
+    // 发送数据
     int SendData(const sSendDataPage_ptr& pSend);
 
-public:
+    // BSS注册以后设置客户端信息
+    void SetBssClinentInfo(unsigned short, const TBssClientInfo&);
+
+protected:
+    BssClientManager();
+
+    ~BssClientManager();
+
     // 数据接收
     void RecvData(unsigned short, const unsigned char*, PacketLength);
 
@@ -44,12 +51,13 @@ public:
     void Accept(SOCKET fd, struct sockaddr_in* sa);
 
 protected:
-    int AddClient(unsigned short, jsbn::PassiveTCPClient*);
+    int AddClient(unsigned short, BssTcpClient*);
     void DelClient(unsigned short);
+    bool CheckClient(unsigned short);
 
 private:
     jsbn::ServerWorker* _pServerWorker;
-    std::map<unsigned short, jsbn::PassiveTCPClient*> _map_clients;
+    std::map<unsigned short, BssTcpClient*> _map_clients;
     jsbn::RWLock* _client_mutex;
 };
 

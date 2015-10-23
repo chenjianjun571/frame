@@ -14,7 +14,6 @@
 #define __COMMUNICATE_SERVICE_H_
 
 #include "module_const_def.h"
-#include "./service/bss/bss_service.h"
 #include "./rpc/rpc_stub_service.h"
 
 class CommunicateService : public COperationObject
@@ -29,8 +28,6 @@ public:
     virtual int dump(const char* first_param = nullptr, const char* second_param = nullptr);
 
 private:
-    // 业务服务器监听服务器
-    BSSService _mBSSService;
 
     // RPC服务器
     RpcStubService _mRpcStubService;

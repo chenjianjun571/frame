@@ -21,14 +21,17 @@ public:
 
     virtual ~ProcBase();
 
-    //具体处理方法，由派生类实现.
+    // 具体处理方法，由派生类实现.
     virtual void Process(const sProtocolData_ptr& msg) = 0;
 
-    //注册消息处理方法
+    // 注册消息处理方法
     static void Register(jsbn::protoc::CommandID, ProcBase*);
 
-    //执行指定的消息,查询处理方法，调用Process。
+    // 执行指定的消息,查询处理方法，调用Process。
     static void Execute(const sProtocolData_ptr& msg);
+
+    // 销毁注册的处理方法
+    static void Destroy();
 
 private:
     static std::map<jsbn::protoc::CommandID, ProcBase*> _handers;

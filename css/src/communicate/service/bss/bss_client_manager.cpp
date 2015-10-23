@@ -1,8 +1,8 @@
 ///************************************************************
 /// @Copyright (C), 2015-2030, jsbn  Information Technologies Co., Ltd.
 /// @URL
-/// @file           bss_service.cpp
-/// @brief          业务服务器(地域服务器)监听服务器
+/// @file           bss_client_manager.cpp
+/// @brief          业务服务器管理端
 /// @attention
 /// @Author         chenjianjun
 /// @Version        0.1
@@ -10,7 +10,7 @@
 /// @Description
 /// @History
 ///************************************************************
-#include "bss_service.h"
+#include "bss_client_manager.h"
 #include "module_config_collection.h"
 #include "../../protoc/protocol_proc_manager.h"
 #include "../../../module_data_center.h"
@@ -22,15 +22,21 @@
 using namespace jsbn;
 using namespace jsbn::protoc;
 
-BSSService::BSSService():_pServerWorker(nullptr),_client_mutex(RWLock::Create())
+static BssClientManager& BssClientManager::Instance()
+{
+    static BssClientManager instance;
+    return instance;
+}
+
+BssClientManager::BssClientManager():_pServerWorker(nullptr),_client_mutex(RWLock::Create())
 {}
 
-BSSService::~BSSService()
+BssClientManager::~BssClientManager()
 {
     delete _client_mutex;
 }
 
-int BSSService::Start()
+int BssClientManager::Start()
 {
     _pServerWorker = new(std::nothrow) ServerWorker(SYS_CONFIG->get_module_config().host_ip,
                                                     SYS_CONFIG->get_module_config().bss_service_listen_port);
@@ -39,9 +45,9 @@ int BSSService::Start()
         return FUNC_FAILED;
     }
 
-    SignalAccept.connect(this, &BSSService::Accept);
-    SignalRecvData.connect(this, &BSSService::RecvData);
-    SignalEvent.connect(this, &BSSService::Event);
+    SignalAccept.connect(this, &BssClientManager::Accept);
+    SignalRecvData.connect(this, &BssClientManager::RecvData);
+    SignalEvent.connect(this, &BssClientManager::Event);
 
     if (!_pServerWorker->StartWork(this))
     {
@@ -52,7 +58,7 @@ int BSSService::Start()
     return FUNC_SUCCESS;
 }
 
-void BSSService::Stop()
+void BssClientManager::Stop()
 {
     if (nullptr == _pServerWorker)
     {
@@ -72,7 +78,7 @@ void BSSService::Stop()
 
 }
 
-int BSSService::SendData(const sSendDataPage_ptr& pSend)
+int BssClientManager::SendData(const sSendDataPage_ptr& pSend)
 {
     ReadLockScoped rls(*_client_mutex);
     std::map<unsigned short, BssTcpClient*>::iterator it = _map_clients.find(pSend->sock_handle);
@@ -84,7 +90,7 @@ int BSSService::SendData(const sSendDataPage_ptr& pSend)
     return FUNC_FAILED;
 }
 
-int BSSService::AddClient(unsigned short seq, BssTcpClient* p_client)
+int BssClientManager::AddClient(unsigned short seq, BssTcpClient* p_client)
 {
     WriteLockScoped wls(*_client_mutex);
     std::map<unsigned short, BssTcpClient*>::iterator it = _map_clients.find(seq);
@@ -98,7 +104,7 @@ int BSSService::AddClient(unsigned short seq, BssTcpClient* p_client)
     return FUNC_SUCCESS;
 }
 
-void BSSService::DelClient(unsigned short seq)
+void BssClientManager::DelClient(unsigned short seq)
 {
     WriteLockScoped wls(*_client_mutex);
     std::map<unsigned short, BssTcpClient*>::iterator it = _map_clients.find(seq);
@@ -110,7 +116,7 @@ void BSSService::DelClient(unsigned short seq)
     }
 }
 
-bool BSSService::CheckClient(unsigned short seq)
+bool BssClientManager::CheckClient(unsigned short seq)
 {
     ReadLockScoped rls(*_client_mutex);
     std::map<unsigned short, BssTcpClient*>::iterator it = _map_clients.find(seq);
@@ -122,7 +128,17 @@ bool BSSService::CheckClient(unsigned short seq)
     return false;
 }
 
-void BSSService::RecvData(unsigned short seq, const unsigned char* buf, PacketLength len)
+void BssClientManager::SetBssClinentInfo(unsigned short seq, TBssClientInfo& info)
+{
+    ReadLockScoped rls(*_client_mutex);
+    std::map<unsigned short, BssTcpClient*>::iterator it = _map_clients.find(seq);
+    if (it != _map_clients.end())
+    {
+        it->second->SetBssClinentInfo(info);
+    }
+}
+
+void BssClientManager::RecvData(unsigned short seq, const unsigned char* buf, PacketLength len)
 {
     // 解析数据协议
     sProtocolData_ptr prt = ProtocolProcManager::ParseProtocol(buf, len);
@@ -140,38 +156,41 @@ void BSSService::RecvData(unsigned short seq, const unsigned char* buf, PacketLe
         case jsbn::protoc::CommandID::Heart_Beat://心跳
         {
             sSendDataPage_ptr pSend = MallocStructFactory::Instance().get_send_page();
+
             pSend->sock_handle = prt->sock_handle;
             pSend->Copy(buf, len);
+
             SendData(pSend);
+
             return;
         }
         case jsbn::protoc::CommandID::Register_Req:// 注册请求
         {
-            TBssClientInfo info;
-            info.city_id = static_cast<EM_CITY_ID>(((TRegisterRequest*)prt.get())->city_id);
-            {
-                ReadLockScoped rls(*_client_mutex);
-                std::map<unsigned short, BssTcpClient*>::iterator it = _map_clients.find(seq);
-                if (it != _map_clients.end())
-                {
-                    it->second->SetBssClinentInfo(info);
-                }
-            }
+//            TBssClientInfo info;
+//            info.city_id = static_cast<EM_CITY_ID>(((TRegisterRequest*)prt.get())->city_id);
+//            {
+//                ReadLockScoped rls(*_client_mutex);
+//                std::map<unsigned short, BssTcpClient*>::iterator it = _map_clients.find(seq);
+//                if (it != _map_clients.end())
+//                {
+//                    it->second->SetBssClinentInfo(info);
+//                }
+//            }
 
-            {
-                // 测试一个注册应答
-                std::string response;
-                jsbn::protoc::NetProtocol pc;
-                pc.set_commandid(jsbn::protoc::CommandID::Register_Rsp);
-                pc.mutable_registerrsp()->set_result(0);
-                pc.mutable_registerrsp()->set_error_description("注册成功");
-                pc.SerializeToString(&response);
+//            {
+//                // 测试一个注册应答
+//                std::string response;
+//                jsbn::protoc::NetProtocol pc;
+//                pc.set_commandid(jsbn::protoc::CommandID::Register_Rsp);
+//                pc.mutable_registerrsp()->set_result(0);
+//                pc.mutable_registerrsp()->set_error_description("注册成功");
+//                pc.SerializeToString(&response);
                 
-                sSendDataPage_ptr pSend = MallocStructFactory::Instance().get_send_page();
-                pSend->sock_handle = prt->sock_handle;
-                pSend->Copy(response.c_str(), response.length());
-                SendData(pSend);
-            }
+//                sSendDataPage_ptr pSend = MallocStructFactory::Instance().get_send_page();
+//                pSend->sock_handle = prt->sock_handle;
+//                pSend->Copy(response.c_str(), response.length());
+//                SendData(pSend);
+//            }
 
             break;
         }
@@ -192,7 +211,7 @@ void BSSService::RecvData(unsigned short seq, const unsigned char* buf, PacketLe
 }
 
 // 套接字事件处理器
-void BSSService::Event(unsigned short seq, EM_NET_EVENT msg)
+void BssClientManager::Event(unsigned short seq, EM_NET_EVENT msg)
 {
     switch (msg)
     {
@@ -209,7 +228,7 @@ void BSSService::Event(unsigned short seq, EM_NET_EVENT msg)
     }
 }
 
-void BSSService::Accept(SOCKET fd, struct sockaddr_in* sa)
+void BssClientManager::Accept(SOCKET fd, struct sockaddr_in* sa)
 {
     // 获取一个连接序号
     unsigned short seq = NetFrame::GetGloabSeq();
