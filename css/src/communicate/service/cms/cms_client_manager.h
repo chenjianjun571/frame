@@ -46,6 +46,10 @@ protected:
     // 客户端连接触发器
     void Accept(SOCKET fd, struct sockaddr_in* sa);
 
+    int AddClient(SOCKET fd, jsbn::PassiveTCPClient* p_client);
+    
+    void DelClient();
+
 private:
     jsbn::ServerWorker* _pServerWorker;
     jsbn::PassiveTCPClient* _cms_client;

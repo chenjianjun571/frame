@@ -26,7 +26,7 @@ BssTcpClient::~BssTcpClient()
 
 bool BssTcpClient::Isvalid()
 {
-    return _bss_client_info.city_id != ECID_INIT;
+    return _bss_client_info.city_id != jsbn::protoc::CityID::CID_INIT;
 }
 
 void BssTcpClient::SetBssClinentInfo(TBssClientInfo info)

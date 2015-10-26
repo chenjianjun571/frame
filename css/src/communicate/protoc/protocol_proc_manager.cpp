@@ -78,7 +78,7 @@ sProtocolData_ptr ProtocolProcManager::ParseProtocol(const unsigned char* buf, P
             ptr = sProtocolData_ptr(CObjectAllocator<TRelayRequest>::get_instance()->malloc(), delete_recv_page);
             ptr->command_id = jsbn::protoc::CommandID::Relay_Req;
 
-            TRelayRequest*& pData = (TRelayRequest*)ptr.get();
+            TRelayRequest* pData = (TRelayRequest*)ptr.get();
             pData->clear();
 
             pData->dst_srv_type = protocol->relayreq().dstsrvtype();

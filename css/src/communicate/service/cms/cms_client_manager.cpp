@@ -92,7 +92,7 @@ int CmsClientManager::SendData(const sSendDataPage_ptr& pSend)
     return FUNC_FAILED;
 }
 
-int CmsClientManager::AddClient(PassiveTCPClient* p_client)
+int CmsClientManager::AddClient(SOCKET fd, PassiveTCPClient* p_client)
 {
     WriteLockScoped wls(*_client_mutex);
     if(_cms_client)
@@ -101,7 +101,7 @@ int CmsClientManager::AddClient(PassiveTCPClient* p_client)
         return FUNC_FAILED;
     }
 
-    if (!pPassiveTCPClient->StartWork(fd, this))
+    if (!p_client->StartWork(fd, this))
     {
         LOG(ERROR)<<"启动客户端失败.";
         return FUNC_FAILED;
@@ -191,7 +191,7 @@ void CmsClientManager::Accept(SOCKET fd, struct sockaddr_in* sa)
             break;
         }
 
-        if (AddClient(pPassiveTCPClient) != FUNC_SUCCESS)
+        if (AddClient(fd, pPassiveTCPClient) != FUNC_SUCCESS)
         {
             break;
         }

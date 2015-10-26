@@ -71,15 +71,15 @@ void BssClientManager::Stop()
     WriteLockScoped wls(*_client_mutex);
     for(auto& it:_map_clients)
     {
-        it->second->StopWork();
-        delete it->second;
+        it.second->StopWork();
+        delete it.second;
     }
     _map_clients.clear();
 
     for(auto& it:_map_city_clients)
     {
-        it->second->StopWork();
-        delete it->second;
+        it.second->StopWork();
+        delete it.second;
     }
     _map_city_clients.clear();
 }
