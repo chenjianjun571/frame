@@ -188,7 +188,7 @@ void CmsClientManager::Accept(SOCKET fd, struct sockaddr_in* sa)
         if (!pPassiveTCPClient->StartWork(fd, this))
         {
             LOG(ERROR)<<"启动客户端失败.";
-            return FUNC_FAILED;
+            break;
         }
 
         if (AddClient(seq, pPassiveTCPClient) != FUNC_SUCCESS)
