@@ -1,7 +1,7 @@
 ///************************************************************
 /// @Copyright (C), 2015-2030, jsbn  Information Technologies Co., Ltd.
 /// @URL
-/// @file           bss_client_manager.h
+/// @file           cms_client_manager.h
 /// @brief          业务服务器管理端
 /// @attention
 /// @Author         chenjianjun
@@ -10,19 +10,18 @@
 /// @Description
 /// @History
 ///************************************************************
-#ifndef __BSS_CLIENT_MANAGER_H_
-#define __BSS_CLIENT_MANAGER_H_
+#ifndef __CMS_CLIENT_MANAGER_H_
+#define __CMS_CLIENT_MANAGER_H_
 
 #include "module_const_def.h"
 #include "../communicate.h"
-#include "bss_tcp_client.h"
 
-class BssClientManager : public sigslot::has_slots<>,
+class CmsClientManager : public sigslot::has_slots<>,
         public jsbn::TCPClientSignal,
         public jsbn::TCPServerSignal
 {
 public:
-    static BssClientManager& Instance();
+    static CmsClientManager& Instance();
 
     // 启动服务器
     int Start();
@@ -33,13 +32,10 @@ public:
     // 发送数据
     int SendData(const sSendDataPage_ptr& pSend);
 
-    // BSS注册以后设置客户端信息
-    void SetBssClinentInfo(unsigned short seq, const TBssClientInfo& info);
-
 protected:
-    BssClientManager();
+    CmsClientManager();
 
-    ~BssClientManager();
+    ~CmsClientManager();
 
     // 数据接收
     void RecvData(unsigned short, const unsigned char*, PacketLength);
@@ -50,16 +46,10 @@ protected:
     // 客户端连接触发器
     void Accept(SOCKET fd, struct sockaddr_in* sa);
 
-protected:
-    int AddClient(unsigned short, BssTcpClient*);
-    void DelClient(unsigned short);
-    bool CheckClient(unsigned short);
-
 private:
     jsbn::ServerWorker* _pServerWorker;
+    jsbn::PassiveTCPClient* _cms_client;
     jsbn::RWLock* _client_mutex;
-    std::map<unsigned short, BssTcpClient*> _map_clients;
-    std::map<jsbn::protoc::CityID, BssTcpClient*> _map_city_clients;
 };
 
 #endif

@@ -24,11 +24,11 @@ typedef std::shared_ptr<jsbn::protoc::NetProtocol> sNetProtocolDataPage_ptr;
 typedef struct stBssClientInfo
 {
     // 城市ID
-    EM_CITY_ID city_id;
+    jsbn::protoc::CityID city_id;
 
     stBssClientInfo()
     {
-        city_id = ECID_INIT;
+        city_id = jsbn::protoc::CityID::CID_INIT;
     }
 
 }TBssClientInfo;

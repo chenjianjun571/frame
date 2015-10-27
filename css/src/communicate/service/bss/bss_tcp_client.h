@@ -26,6 +26,7 @@ public:
 
     bool Isvalid();
 
+    void SetIp(std::string bss_client_ip) { _bss_client_ip = bss_client_ip; }
     void SetBssClinentInfo(TBssClientInfo info);
 
     TBssClientInfo& GetBssClinentInfo();
@@ -33,6 +34,8 @@ public:
 private:
     // 地域ID
     TBssClientInfo _bss_client_info;
+    // 服务器IP
+    std::string _bss_client_ip;
 };
 
 #endif

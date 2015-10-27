@@ -12,12 +12,19 @@
 ///************************************************************
 #include "communicate_service.h"
 #include "./service/bss/bss_client_manager.h"
+#include "./service/cms/cms_client_manager.h"
 
 bool CommunicateService::start_operation()
 {
     if (BssClientManager::Instance().Start() != FUNC_SUCCESS)
     {
         LOG(ERROR)<<"业务服务器模块启动失败";
+        return false;
+    }
+
+    if (CmsClientManager::Instance().Start() != FUNC_SUCCESS)
+    {
+        LOG(ERROR)<<"CMS服务器模块启动失败";
         return false;
     }
 
@@ -33,6 +40,7 @@ bool CommunicateService::start_operation()
 bool CommunicateService::stop_operation()
 {
     BssClientManager::Instance().Stop();
+    CmsClientManager::Instance().Stop();
     _mRpcStubService.Stop();
     return true;
 }

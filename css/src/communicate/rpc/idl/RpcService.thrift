@@ -4,9 +4,9 @@ namespace java com.jsbn.rpc.bc
 // 城市ID
 enum CityID {
     CID_INIT = -1,
-    CID_CQ,
-    CID_CD,
-    CID_HZ
+    CID_CQ = 0,
+    CID_CD = 1,
+    CID_HZ = 2
 }
 
 struct UserInfo {

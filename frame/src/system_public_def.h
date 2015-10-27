@@ -163,13 +163,6 @@ typedef enum emNetEvent {
     ENE_CLOSE// 连接关闭
 }EM_NET_EVENT;
 
-typedef enum emCityID {
-    ECID_INIT = -1,
-    ECID_CQ,// 重庆
-    ECID_CD,// 成都
-    ECID_HZ// 杭州
-}EM_CITY_ID;
-
 #define RECV_DATA_MAX_PACKET_SIZE 64*1024
 #define SEND_DATA_MAX_PACKET_SIZE 4096
 typedef uint16 PacketLength;

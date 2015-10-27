@@ -33,6 +33,7 @@ BssClientManager::BssClientManager():_pServerWorker(nullptr),_client_mutex(RWLoc
 
 BssClientManager::~BssClientManager()
 {
+    Stop();
     delete _client_mutex;
 }
 
@@ -60,22 +61,27 @@ int BssClientManager::Start()
 
 void BssClientManager::Stop()
 {
-    if (nullptr == _pServerWorker)
+    if (_pServerWorker)
     {
-        return;
+        _pServerWorker->StopWork();
+        delete _pServerWorker;
+        _pServerWorker = nullptr;
     }
 
-    _pServerWorker->StopWork();
-
     WriteLockScoped wls(*_client_mutex);
-    std::map<unsigned short, BssTcpClient*>::iterator it = _map_clients.begin();
-    while (it != _map_clients.end())
+    for(auto& it:_map_clients)
     {
         it->second->StopWork();
         delete it->second;
-        _map_clients.erase(it++);
     }
+    _map_clients.clear();
 
+    for(auto& it:_map_city_clients)
+    {
+        it->second->StopWork();
+        delete it->second;
+    }
+    _map_city_clients.clear();
 }
 
 int BssClientManager::SendData(const sSendDataPage_ptr& pSend)
@@ -88,6 +94,17 @@ int BssClientManager::SendData(const sSendDataPage_ptr& pSend)
     }
 
     return FUNC_FAILED;
+}
+
+void BssClientManager::SetBssClinentInfo(unsigned short seq, const TBssClientInfo& info)
+{
+    ReadLockScoped rls(*_client_mutex);
+    std::map<unsigned short, BssTcpClient*>::iterator it = _map_clients.find(seq);
+    if (it != _map_clients.end())
+    {
+        it->second->SetBssClinentInfo(info);
+        _map_city_clients[info.city_id] = it->second;
+    }
 }
 
 int BssClientManager::AddClient(unsigned short seq, BssTcpClient* p_client)
@@ -107,13 +124,17 @@ int BssClientManager::AddClient(unsigned short seq, BssTcpClient* p_client)
 void BssClientManager::DelClient(unsigned short seq)
 {
     WriteLockScoped wls(*_client_mutex);
+    jsbn::protoc::CityID city_id = jsbn::protoc::CityID::CID_INIT;
     std::map<unsigned short, BssTcpClient*>::iterator it = _map_clients.find(seq);
     if (it != _map_clients.end())
     {
         it->second->StopWork();
+        city_id = it->second->GetBssClinentInfo().city_id;
         delete it->second;
         _map_clients.erase(it);
     }
+
+    _map_city_clients.erase(city_id);
 }
 
 bool BssClientManager::CheckClient(unsigned short seq)
@@ -126,16 +147,6 @@ bool BssClientManager::CheckClient(unsigned short seq)
     }
 
     return false;
-}
-
-void BssClientManager::SetBssClinentInfo(unsigned short seq, const TBssClientInfo& info)
-{
-    ReadLockScoped rls(*_client_mutex);
-    std::map<unsigned short, BssTcpClient*>::iterator it = _map_clients.find(seq);
-    if (it != _map_clients.end())
-    {
-        it->second->SetBssClinentInfo(info);
-    }
 }
 
 void BssClientManager::RecvData(unsigned short seq, const unsigned char* buf, PacketLength len)
@@ -166,32 +177,6 @@ void BssClientManager::RecvData(unsigned short seq, const unsigned char* buf, Pa
         }
         case jsbn::protoc::CommandID::Register_Req:// 注册请求
         {
-//            TBssClientInfo info;
-//            info.city_id = static_cast<EM_CITY_ID>(((TRegisterRequest*)prt.get())->city_id);
-//            {
-//                ReadLockScoped rls(*_client_mutex);
-//                std::map<unsigned short, BssTcpClient*>::iterator it = _map_clients.find(seq);
-//                if (it != _map_clients.end())
-//                {
-//                    it->second->SetBssClinentInfo(info);
-//                }
-//            }
-
-//            {
-//                // 测试一个注册应答
-//                std::string response;
-//                jsbn::protoc::NetProtocol pc;
-//                pc.set_commandid(jsbn::protoc::CommandID::Register_Rsp);
-//                pc.mutable_registerrsp()->set_result(0);
-//                pc.mutable_registerrsp()->set_error_description("注册成功");
-//                pc.SerializeToString(&response);
-                
-//                sSendDataPage_ptr pSend = MallocStructFactory::Instance().get_send_page();
-//                pSend->sock_handle = prt->sock_handle;
-//                pSend->Copy(response.c_str(), response.length());
-//                SendData(pSend);
-//            }
-
             break;
         }
         default:
@@ -203,6 +188,8 @@ void BssClientManager::RecvData(unsigned short seq, const unsigned char* buf, Pa
                 DelClient(seq);
                 return;
             }
+
+            break;
         }
     }
 
@@ -254,6 +241,7 @@ void BssClientManager::Accept(SOCKET fd, struct sockaddr_in* sa)
             break;
         }
 
+        pBssTcpClient->SetIp(inet_ntoa(sa->sin_addr));
         LOG(INFO)<<"收到客户端连接:"<<inet_ntoa(sa->sin_addr)<<":"<<ntohs(sa->sin_port);
 
         return;

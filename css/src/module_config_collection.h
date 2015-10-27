@@ -28,6 +28,11 @@ struct stModuleConfig
     // 业务服务器心跳检测间隔时间
     int bss_service_heartbeat_detection;
 
+    // CMS监听port
+    int cms_service_listen_port;
+    // CMS心跳检测间隔时间
+    int cms_service_heartbeat_detection;
+
     // rpc配置参数
     int rpc_listen_port;
     int rpc_proc_thread_num;

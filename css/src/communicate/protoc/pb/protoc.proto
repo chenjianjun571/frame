@@ -1,6 +1,6 @@
 package jsbn.protoc;
-option java_package = "com.jsbn.protoc";
-option java_outer_classname = "Protocol";
+option java_package = "com.jsbn.protoc.css";
+option java_outer_classname = "CssProtocol";
 option optimize_for = LITE_RUNTIME;
 // SPEED: 表示生成的代码运行效率高，但是由此生成的代码编译后会占用更多的空间。
 // CODE_SIZE: 和SPEED恰恰相反，代码运行效率较低，但是由此生成的代码编译后会占用更少的空间，通常用于资源有限的平台，如Mobile。
@@ -8,22 +8,41 @@ option optimize_for = LITE_RUNTIME;
 //               因此我们在C++中链接Protocol Buffer库时仅需链接libprotobuf-lite，而非libprotobuf。
 //               在Java中仅需包含protobuf-java-2.4.1-lite.jar，而非protobuf-java-2.4.1.jar。
 
+// 城市ID
+enum CityID {
+    CID_INIT = -1;
+    CID_CQ = 0;
+    CID_CD = 1;
+    CID_HZ = 2;
+}
+
+// 服务器类型
+enum ServiceTpye {
+    ST_INIT = -1;
+    ST_CSS = 0;
+    ST_BSS = 1;
+    ST_SMS = 2;
+    ST_CMS = 3;
+}
+
 // 消息命令类型
 enum CommandID
 {
     Heart_Beat  = 0x00000000;// 心跳
     Register_Req  = 0x00000001;// 业务服务器注册请求
-    Register_Rsp = 0x00010002;// 业务服务器注册应答
+    Register_Rsp = 0x00010001;// 业务服务器注册应答
+    Relay_Req = 0x00000002;// 数据转发请求
+    Relay_Rsp = 0x00010002;// 数据转发应答
 }
 
-// 业务服务器注册请求
+// 业务服务器注册请求 bss==>>css
 message RegisterReq
 {
     // 城市ID
-    required fixed32 cityID = 1;
+    required CityID cityID = 1;
 }
 
-// 业务服务器注册应答
+// 业务服务器注册应答 css==>>bss
 message RegisterRsp
 {
     // 应答结果
@@ -32,15 +51,43 @@ message RegisterRsp
     optional string error_description = 2;
 }
 
+// 数据转发请求
+message RelayReq
+{
+    // 目的服务器
+    required ServiceTpye dstSrvType = 1;
+    // 城市ID
+    optional CityID cityID = 2;
+    // 消息内容
+    required string relayMsg = 3;
+}
+
+// 数据转发应答
+message RelayRsp
+{
+    // 目的服务器
+    required ServiceTpye dstSrvType = 1;
+    // 城市ID
+    optional CityID cityID = 2;
+    // 应答结果
+    required fixed32 result = 3;
+    // 应答结果描述
+    optional string error_description = 4;
+}
+
 // 传输通信协议
 message NetProtocol
 {
+    // 序号
+    optional fixed32 seq = 1;
     // 消息类型
-    required CommandID commandID = 1;
+    required CommandID commandID = 2;
     // 业务服务器注册请求
-    optional RegisterReq registerReq = 2;
+    optional RegisterReq registerReq = 3;
     // 业务服务器注册应答
-    optional RegisterRsp registerRsp = 3;
+    optional RegisterRsp registerRsp = 4;
+    // 数据转发请求
+    optional RelayReq relayReq = 5;
+    // 应答结果描述
+    optional RelayRsp relayRsp = 6;
 }
-
-

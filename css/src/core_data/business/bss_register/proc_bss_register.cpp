@@ -25,9 +25,10 @@ ProcBssRegister::~ProcBssRegister()
 void ProcBssRegister::Process(const sProtocolData_ptr& pMsg)
 {
     TBssClientInfo info;
-    info.city_id = static_cast<EM_CITY_ID>(((TRegisterRequest*)pMsg.get())->city_id);
+    info.city_id = ((TRegisterRequest*)pMsg.get())->city_id;
 
     LOG(INFO)<<"收到注册请求，注册城市id["<<info.city_id<<"]";
+    BssClientManager::Instance().SetBssClinentInfo(pMsg->sock_handle, info);
 
     // 注册应答
     std::string response;

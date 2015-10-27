@@ -62,8 +62,11 @@ bool BusinessManager::Stop()
     return true;
 }
 
-BusinessManager::ProcDataRunnable::ProcDataRunnable() {}
-BusinessManager::ProcDataRunnable::~ProcDataRunnable() {}
+BusinessManager::ProcDataRunnable::ProcDataRunnable()
+{}
+
+BusinessManager::ProcDataRunnable::~ProcDataRunnable()
+{}
 
 void BusinessManager::ProcDataRunnable::Run(void* arg)
 {

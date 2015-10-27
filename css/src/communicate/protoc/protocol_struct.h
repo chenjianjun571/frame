@@ -27,21 +27,31 @@ typedef struct stProtocolBase
 }TProtocolBase;
 typedef std::shared_ptr<TProtocolBase> sProtocolData_ptr;
 
+// 注册请求
 typedef struct stRegisterRequest : public TProtocolBase
 {
     // 城市ID
-    unsigned int city_id;
+    jsbn::protoc::CityID city_id;
 
 }TRegisterRequest;
 
-typedef struct stRegisterResponse : public TProtocolBase
+// 转发
+typedef struct stRelayRequest : public TProtocolBase
 {
+    // 目的服务器
+    jsbn::protoc::ServiceTpye dst_srv_type;
     // 城市ID
-    unsigned int result;
-    // 描述
-    std::string error_description;
+    jsbn::protoc::CityID city_id;
+    // 消息内容
+    char msg[4096];
 
-}TRegisterResponse;
+    void clear()
+    {
+        city_id = jsbn::protoc::CityID::CID_INIT;
+        ::memset(msg, 0x00, sizeof(msg));
+    }
+
+}TRelayRequest;
 
 #endif //__PROTOCOL_STRUCT_H_
 
