@@ -96,6 +96,18 @@ int BssClientManager::SendData(const sSendDataPage_ptr& pSend)
     return FUNC_FAILED;
 }
 
+int BssClientManager::SendData(jsbn::protoc::CityID city_id, const sSendDataPage_ptr& pSend)
+{
+    ReadLockScoped rls(*_client_mutex);
+    std::map<jsbn::protoc::CityID, BssTcpClient*>::iterator it =  _map_city_clients.find(city_id);
+    if (it != _map_city_clients.end())
+    {
+        return it->second->SendData(pSend->send_buf, pSend->send_len);
+    }
+
+    return FUNC_FAILED;
+}
+
 void BssClientManager::SetBssClinentInfo(unsigned short seq, const TBssClientInfo& info)
 {
     ReadLockScoped rls(*_client_mutex);

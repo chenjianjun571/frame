@@ -33,6 +33,9 @@ public:
     // 发送数据
     int SendData(const sSendDataPage_ptr& pSend);
 
+    // 发送数据
+    int SendData(jsbn::protoc::CityID, const sSendDataPage_ptr&);
+
     // BSS注册以后设置客户端信息
     void SetBssClinentInfo(unsigned short seq, const TBssClientInfo& info);
 
