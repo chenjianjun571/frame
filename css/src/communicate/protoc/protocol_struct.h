@@ -44,11 +44,14 @@ typedef struct stDataRelay : public TProtocolBase
     jsbn::protoc::CityID city_id;
     // 消息内容
     char msg[4096];
+    // 消息内容长度
+    size_t len;
 
     void clear()
     {
         city_id = jsbn::protoc::CityID::CID_INIT;
         ::memset(msg, 0x00, sizeof(msg));
+        len = 0;
     }
 
 }TDataRelay;

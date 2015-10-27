@@ -90,8 +90,10 @@ sProtocolData_ptr ProtocolProcManager::ParseProtocol(const unsigned char* buf, P
             {
                 pData->city_id = jsbn::protoc::CityID::CID_INIT;
             }
-            assert(protocol->datarelay().relaymsg().length() > sizeof(pData->msg));
-            ::memcpy(pData->msg, protocol->datarelay().relaymsg().c_str(), protocol->datarelay().relaymsg().length());
+
+            pData->len = protocol->datarelay().relaymsg().length();
+            assert(pData->len > sizeof(pData->msg));
+            ::memcpy(pData->msg, protocol->datarelay().relaymsg().c_str(), pData->len);
 
             break;
         }

@@ -28,7 +28,7 @@ void ProcRelay::Process(const sProtocolData_ptr& pMsg)
     TDataRelay* pData = (TDataRelay*)pMsg.get;
     sSendDataPage_ptr pSend = MallocStructFactory::Instance().get_send_page();
     pSend->sock_handle = pMsg->sock_handle;
-    pSend->Copy(pData->msg.c_str(), pData->msg.length());
+    pSend->Copy(pData->msg, pData->len);
 
     switch (pData->dst_srv_type)
     {
