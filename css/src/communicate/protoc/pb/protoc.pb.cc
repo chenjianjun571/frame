@@ -19,8 +19,7 @@ namespace protoc {
 void protobuf_ShutdownFile_protoc_2eproto() {
   delete RegisterReq::default_instance_;
   delete RegisterRsp::default_instance_;
-  delete RelayReq::default_instance_;
-  delete RelayRsp::default_instance_;
+  delete DataRelay::default_instance_;
   delete NetProtocol::default_instance_;
 }
 
@@ -38,13 +37,11 @@ void protobuf_AddDesc_protoc_2eproto() {
 #endif
   RegisterReq::default_instance_ = new RegisterReq();
   RegisterRsp::default_instance_ = new RegisterRsp();
-  RelayReq::default_instance_ = new RelayReq();
-  RelayRsp::default_instance_ = new RelayRsp();
+  DataRelay::default_instance_ = new DataRelay();
   NetProtocol::default_instance_ = new NetProtocol();
   RegisterReq::default_instance_->InitAsDefaultInstance();
   RegisterRsp::default_instance_->InitAsDefaultInstance();
-  RelayReq::default_instance_->InitAsDefaultInstance();
-  RelayRsp::default_instance_->InitAsDefaultInstance();
+  DataRelay::default_instance_->InitAsDefaultInstance();
   NetProtocol::default_instance_->InitAsDefaultInstance();
   ::google::protobuf::internal::OnShutdown(&protobuf_ShutdownFile_protoc_2eproto);
 }
@@ -94,7 +91,6 @@ bool CommandID_IsValid(int value) {
     case 1:
     case 2:
     case 65537:
-    case 65538:
       return true;
     default:
       return false;
@@ -536,28 +532,28 @@ void RegisterRsp::Swap(RegisterRsp* other) {
 // ===================================================================
 
 #ifndef _MSC_VER
-const int RelayReq::kDstSrvTypeFieldNumber;
-const int RelayReq::kCityIDFieldNumber;
-const int RelayReq::kRelayMsgFieldNumber;
+const int DataRelay::kDstSrvTypeFieldNumber;
+const int DataRelay::kCityIDFieldNumber;
+const int DataRelay::kRelayMsgFieldNumber;
 #endif  // !_MSC_VER
 
-RelayReq::RelayReq()
+DataRelay::DataRelay()
   : ::google::protobuf::MessageLite() {
   SharedCtor();
-  // @@protoc_insertion_point(constructor:jsbn.protoc.RelayReq)
+  // @@protoc_insertion_point(constructor:jsbn.protoc.DataRelay)
 }
 
-void RelayReq::InitAsDefaultInstance() {
+void DataRelay::InitAsDefaultInstance() {
 }
 
-RelayReq::RelayReq(const RelayReq& from)
+DataRelay::DataRelay(const DataRelay& from)
   : ::google::protobuf::MessageLite() {
   SharedCtor();
   MergeFrom(from);
-  // @@protoc_insertion_point(copy_constructor:jsbn.protoc.RelayReq)
+  // @@protoc_insertion_point(copy_constructor:jsbn.protoc.DataRelay)
 }
 
-void RelayReq::SharedCtor() {
+void DataRelay::SharedCtor() {
   ::google::protobuf::internal::GetEmptyString();
   _cached_size_ = 0;
   dstsrvtype_ = -1;
@@ -566,12 +562,12 @@ void RelayReq::SharedCtor() {
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
-RelayReq::~RelayReq() {
-  // @@protoc_insertion_point(destructor:jsbn.protoc.RelayReq)
+DataRelay::~DataRelay() {
+  // @@protoc_insertion_point(destructor:jsbn.protoc.DataRelay)
   SharedDtor();
 }
 
-void RelayReq::SharedDtor() {
+void DataRelay::SharedDtor() {
   if (relaymsg_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
     delete relaymsg_;
   }
@@ -583,12 +579,12 @@ void RelayReq::SharedDtor() {
   }
 }
 
-void RelayReq::SetCachedSize(int size) const {
+void DataRelay::SetCachedSize(int size) const {
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
 }
-const RelayReq& RelayReq::default_instance() {
+const DataRelay& DataRelay::default_instance() {
 #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   protobuf_AddDesc_protoc_2eproto();
 #else
@@ -597,13 +593,13 @@ const RelayReq& RelayReq::default_instance() {
   return *default_instance_;
 }
 
-RelayReq* RelayReq::default_instance_ = NULL;
+DataRelay* DataRelay::default_instance_ = NULL;
 
-RelayReq* RelayReq::New() const {
-  return new RelayReq;
+DataRelay* DataRelay::New() const {
+  return new DataRelay;
 }
 
-void RelayReq::Clear() {
+void DataRelay::Clear() {
   if (_has_bits_[0 / 32] & 7) {
     dstsrvtype_ = -1;
     cityid_ = -1;
@@ -617,7 +613,7 @@ void RelayReq::Clear() {
   mutable_unknown_fields()->clear();
 }
 
-bool RelayReq::MergePartialFromCodedStream(
+bool DataRelay::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
@@ -625,7 +621,7 @@ bool RelayReq::MergePartialFromCodedStream(
       mutable_unknown_fields());
   ::google::protobuf::io::CodedOutputStream unknown_fields_stream(
       &unknown_fields_string);
-  // @@protoc_insertion_point(parse_start:jsbn.protoc.RelayReq)
+  // @@protoc_insertion_point(parse_start:jsbn.protoc.DataRelay)
   for (;;) {
     ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
     tag = p.first;
@@ -699,17 +695,17 @@ bool RelayReq::MergePartialFromCodedStream(
     }
   }
 success:
-  // @@protoc_insertion_point(parse_success:jsbn.protoc.RelayReq)
+  // @@protoc_insertion_point(parse_success:jsbn.protoc.DataRelay)
   return true;
 failure:
-  // @@protoc_insertion_point(parse_failure:jsbn.protoc.RelayReq)
+  // @@protoc_insertion_point(parse_failure:jsbn.protoc.DataRelay)
   return false;
 #undef DO_
 }
 
-void RelayReq::SerializeWithCachedSizes(
+void DataRelay::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:jsbn.protoc.RelayReq)
+  // @@protoc_insertion_point(serialize_start:jsbn.protoc.DataRelay)
   // required .jsbn.protoc.ServiceTpye dstSrvType = 1;
   if (has_dstsrvtype()) {
     ::google::protobuf::internal::WireFormatLite::WriteEnum(
@@ -730,10 +726,10 @@ void RelayReq::SerializeWithCachedSizes(
 
   output->WriteRaw(unknown_fields().data(),
                    unknown_fields().size());
-  // @@protoc_insertion_point(serialize_end:jsbn.protoc.RelayReq)
+  // @@protoc_insertion_point(serialize_end:jsbn.protoc.DataRelay)
 }
 
-int RelayReq::ByteSize() const {
+int DataRelay::ByteSize() const {
   int total_size = 0;
 
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
@@ -765,12 +761,12 @@ int RelayReq::ByteSize() const {
   return total_size;
 }
 
-void RelayReq::CheckTypeAndMergeFrom(
+void DataRelay::CheckTypeAndMergeFrom(
     const ::google::protobuf::MessageLite& from) {
-  MergeFrom(*::google::protobuf::down_cast<const RelayReq*>(&from));
+  MergeFrom(*::google::protobuf::down_cast<const DataRelay*>(&from));
 }
 
-void RelayReq::MergeFrom(const RelayReq& from) {
+void DataRelay::MergeFrom(const DataRelay& from) {
   GOOGLE_CHECK_NE(&from, this);
   if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
     if (from.has_dstsrvtype()) {
@@ -786,19 +782,19 @@ void RelayReq::MergeFrom(const RelayReq& from) {
   mutable_unknown_fields()->append(from.unknown_fields());
 }
 
-void RelayReq::CopyFrom(const RelayReq& from) {
+void DataRelay::CopyFrom(const DataRelay& from) {
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool RelayReq::IsInitialized() const {
+bool DataRelay::IsInitialized() const {
   if ((_has_bits_[0] & 0x00000005) != 0x00000005) return false;
 
   return true;
 }
 
-void RelayReq::Swap(RelayReq* other) {
+void DataRelay::Swap(DataRelay* other) {
   if (other != this) {
     std::swap(dstsrvtype_, other->dstsrvtype_);
     std::swap(cityid_, other->cityid_);
@@ -809,321 +805,8 @@ void RelayReq::Swap(RelayReq* other) {
   }
 }
 
-::std::string RelayReq::GetTypeName() const {
-  return "jsbn.protoc.RelayReq";
-}
-
-
-// ===================================================================
-
-#ifndef _MSC_VER
-const int RelayRsp::kDstSrvTypeFieldNumber;
-const int RelayRsp::kCityIDFieldNumber;
-const int RelayRsp::kResultFieldNumber;
-const int RelayRsp::kErrorDescriptionFieldNumber;
-#endif  // !_MSC_VER
-
-RelayRsp::RelayRsp()
-  : ::google::protobuf::MessageLite() {
-  SharedCtor();
-  // @@protoc_insertion_point(constructor:jsbn.protoc.RelayRsp)
-}
-
-void RelayRsp::InitAsDefaultInstance() {
-}
-
-RelayRsp::RelayRsp(const RelayRsp& from)
-  : ::google::protobuf::MessageLite() {
-  SharedCtor();
-  MergeFrom(from);
-  // @@protoc_insertion_point(copy_constructor:jsbn.protoc.RelayRsp)
-}
-
-void RelayRsp::SharedCtor() {
-  ::google::protobuf::internal::GetEmptyString();
-  _cached_size_ = 0;
-  dstsrvtype_ = -1;
-  cityid_ = -1;
-  result_ = 0u;
-  error_description_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  ::memset(_has_bits_, 0, sizeof(_has_bits_));
-}
-
-RelayRsp::~RelayRsp() {
-  // @@protoc_insertion_point(destructor:jsbn.protoc.RelayRsp)
-  SharedDtor();
-}
-
-void RelayRsp::SharedDtor() {
-  if (error_description_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    delete error_description_;
-  }
-  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  if (this != &default_instance()) {
-  #else
-  if (this != default_instance_) {
-  #endif
-  }
-}
-
-void RelayRsp::SetCachedSize(int size) const {
-  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = size;
-  GOOGLE_SAFE_CONCURRENT_WRITES_END();
-}
-const RelayRsp& RelayRsp::default_instance() {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  protobuf_AddDesc_protoc_2eproto();
-#else
-  if (default_instance_ == NULL) protobuf_AddDesc_protoc_2eproto();
-#endif
-  return *default_instance_;
-}
-
-RelayRsp* RelayRsp::default_instance_ = NULL;
-
-RelayRsp* RelayRsp::New() const {
-  return new RelayRsp;
-}
-
-void RelayRsp::Clear() {
-  if (_has_bits_[0 / 32] & 15) {
-    dstsrvtype_ = -1;
-    cityid_ = -1;
-    result_ = 0u;
-    if (has_error_description()) {
-      if (error_description_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-        error_description_->clear();
-      }
-    }
-  }
-  ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  mutable_unknown_fields()->clear();
-}
-
-bool RelayRsp::MergePartialFromCodedStream(
-    ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!(EXPRESSION)) goto failure
-  ::google::protobuf::uint32 tag;
-  ::google::protobuf::io::StringOutputStream unknown_fields_string(
-      mutable_unknown_fields());
-  ::google::protobuf::io::CodedOutputStream unknown_fields_stream(
-      &unknown_fields_string);
-  // @@protoc_insertion_point(parse_start:jsbn.protoc.RelayRsp)
-  for (;;) {
-    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
-    tag = p.first;
-    if (!p.second) goto handle_unusual;
-    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // required .jsbn.protoc.ServiceTpye dstSrvType = 1;
-      case 1: {
-        if (tag == 8) {
-          int value;
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
-                 input, &value)));
-          if (::jsbn::protoc::ServiceTpye_IsValid(value)) {
-            set_dstsrvtype(static_cast< ::jsbn::protoc::ServiceTpye >(value));
-          } else {
-            unknown_fields_stream.WriteVarint32(tag);
-            unknown_fields_stream.WriteVarint32(value);
-          }
-        } else {
-          goto handle_unusual;
-        }
-        if (input->ExpectTag(16)) goto parse_cityID;
-        break;
-      }
-
-      // optional .jsbn.protoc.CityID cityID = 2;
-      case 2: {
-        if (tag == 16) {
-         parse_cityID:
-          int value;
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
-                 input, &value)));
-          if (::jsbn::protoc::CityID_IsValid(value)) {
-            set_cityid(static_cast< ::jsbn::protoc::CityID >(value));
-          } else {
-            unknown_fields_stream.WriteVarint32(tag);
-            unknown_fields_stream.WriteVarint32(value);
-          }
-        } else {
-          goto handle_unusual;
-        }
-        if (input->ExpectTag(29)) goto parse_result;
-        break;
-      }
-
-      // required fixed32 result = 3;
-      case 3: {
-        if (tag == 29) {
-         parse_result:
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_FIXED32>(
-                 input, &result_)));
-          set_has_result();
-        } else {
-          goto handle_unusual;
-        }
-        if (input->ExpectTag(34)) goto parse_error_description;
-        break;
-      }
-
-      // optional string error_description = 4;
-      case 4: {
-        if (tag == 34) {
-         parse_error_description:
-          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
-                input, this->mutable_error_description()));
-        } else {
-          goto handle_unusual;
-        }
-        if (input->ExpectAtEnd()) goto success;
-        break;
-      }
-
-      default: {
-      handle_unusual:
-        if (tag == 0 ||
-            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
-          goto success;
-        }
-        DO_(::google::protobuf::internal::WireFormatLite::SkipField(
-            input, tag, &unknown_fields_stream));
-        break;
-      }
-    }
-  }
-success:
-  // @@protoc_insertion_point(parse_success:jsbn.protoc.RelayRsp)
-  return true;
-failure:
-  // @@protoc_insertion_point(parse_failure:jsbn.protoc.RelayRsp)
-  return false;
-#undef DO_
-}
-
-void RelayRsp::SerializeWithCachedSizes(
-    ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:jsbn.protoc.RelayRsp)
-  // required .jsbn.protoc.ServiceTpye dstSrvType = 1;
-  if (has_dstsrvtype()) {
-    ::google::protobuf::internal::WireFormatLite::WriteEnum(
-      1, this->dstsrvtype(), output);
-  }
-
-  // optional .jsbn.protoc.CityID cityID = 2;
-  if (has_cityid()) {
-    ::google::protobuf::internal::WireFormatLite::WriteEnum(
-      2, this->cityid(), output);
-  }
-
-  // required fixed32 result = 3;
-  if (has_result()) {
-    ::google::protobuf::internal::WireFormatLite::WriteFixed32(3, this->result(), output);
-  }
-
-  // optional string error_description = 4;
-  if (has_error_description()) {
-    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
-      4, this->error_description(), output);
-  }
-
-  output->WriteRaw(unknown_fields().data(),
-                   unknown_fields().size());
-  // @@protoc_insertion_point(serialize_end:jsbn.protoc.RelayRsp)
-}
-
-int RelayRsp::ByteSize() const {
-  int total_size = 0;
-
-  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    // required .jsbn.protoc.ServiceTpye dstSrvType = 1;
-    if (has_dstsrvtype()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::EnumSize(this->dstsrvtype());
-    }
-
-    // optional .jsbn.protoc.CityID cityID = 2;
-    if (has_cityid()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::EnumSize(this->cityid());
-    }
-
-    // required fixed32 result = 3;
-    if (has_result()) {
-      total_size += 1 + 4;
-    }
-
-    // optional string error_description = 4;
-    if (has_error_description()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::StringSize(
-          this->error_description());
-    }
-
-  }
-  total_size += unknown_fields().size();
-
-  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = total_size;
-  GOOGLE_SAFE_CONCURRENT_WRITES_END();
-  return total_size;
-}
-
-void RelayRsp::CheckTypeAndMergeFrom(
-    const ::google::protobuf::MessageLite& from) {
-  MergeFrom(*::google::protobuf::down_cast<const RelayRsp*>(&from));
-}
-
-void RelayRsp::MergeFrom(const RelayRsp& from) {
-  GOOGLE_CHECK_NE(&from, this);
-  if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    if (from.has_dstsrvtype()) {
-      set_dstsrvtype(from.dstsrvtype());
-    }
-    if (from.has_cityid()) {
-      set_cityid(from.cityid());
-    }
-    if (from.has_result()) {
-      set_result(from.result());
-    }
-    if (from.has_error_description()) {
-      set_error_description(from.error_description());
-    }
-  }
-  mutable_unknown_fields()->append(from.unknown_fields());
-}
-
-void RelayRsp::CopyFrom(const RelayRsp& from) {
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-bool RelayRsp::IsInitialized() const {
-  if ((_has_bits_[0] & 0x00000005) != 0x00000005) return false;
-
-  return true;
-}
-
-void RelayRsp::Swap(RelayRsp* other) {
-  if (other != this) {
-    std::swap(dstsrvtype_, other->dstsrvtype_);
-    std::swap(cityid_, other->cityid_);
-    std::swap(result_, other->result_);
-    std::swap(error_description_, other->error_description_);
-    std::swap(_has_bits_[0], other->_has_bits_[0]);
-    _unknown_fields_.swap(other->_unknown_fields_);
-    std::swap(_cached_size_, other->_cached_size_);
-  }
-}
-
-::std::string RelayRsp::GetTypeName() const {
-  return "jsbn.protoc.RelayRsp";
+::std::string DataRelay::GetTypeName() const {
+  return "jsbn.protoc.DataRelay";
 }
 
 
@@ -1134,8 +817,7 @@ const int NetProtocol::kSeqFieldNumber;
 const int NetProtocol::kCommandIDFieldNumber;
 const int NetProtocol::kRegisterReqFieldNumber;
 const int NetProtocol::kRegisterRspFieldNumber;
-const int NetProtocol::kRelayReqFieldNumber;
-const int NetProtocol::kRelayRspFieldNumber;
+const int NetProtocol::kDataRelayFieldNumber;
 #endif  // !_MSC_VER
 
 NetProtocol::NetProtocol()
@@ -1158,16 +840,10 @@ void NetProtocol::InitAsDefaultInstance() {
   registerrsp_ = const_cast< ::jsbn::protoc::RegisterRsp*>(&::jsbn::protoc::RegisterRsp::default_instance());
 #endif
 #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  relayreq_ = const_cast< ::jsbn::protoc::RelayReq*>(
-      ::jsbn::protoc::RelayReq::internal_default_instance());
+  datarelay_ = const_cast< ::jsbn::protoc::DataRelay*>(
+      ::jsbn::protoc::DataRelay::internal_default_instance());
 #else
-  relayreq_ = const_cast< ::jsbn::protoc::RelayReq*>(&::jsbn::protoc::RelayReq::default_instance());
-#endif
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  relayrsp_ = const_cast< ::jsbn::protoc::RelayRsp*>(
-      ::jsbn::protoc::RelayRsp::internal_default_instance());
-#else
-  relayrsp_ = const_cast< ::jsbn::protoc::RelayRsp*>(&::jsbn::protoc::RelayRsp::default_instance());
+  datarelay_ = const_cast< ::jsbn::protoc::DataRelay*>(&::jsbn::protoc::DataRelay::default_instance());
 #endif
 }
 
@@ -1184,8 +860,7 @@ void NetProtocol::SharedCtor() {
   commandid_ = 0;
   registerreq_ = NULL;
   registerrsp_ = NULL;
-  relayreq_ = NULL;
-  relayrsp_ = NULL;
+  datarelay_ = NULL;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -1202,8 +877,7 @@ void NetProtocol::SharedDtor() {
   #endif
     delete registerreq_;
     delete registerrsp_;
-    delete relayreq_;
-    delete relayrsp_;
+    delete datarelay_;
   }
 }
 
@@ -1238,7 +912,7 @@ void NetProtocol::Clear() {
     ::memset(&first, 0, n);                                \
   } while (0)
 
-  if (_has_bits_[0 / 32] & 63) {
+  if (_has_bits_[0 / 32] & 31) {
     ZR_(seq_, commandid_);
     if (has_registerreq()) {
       if (registerreq_ != NULL) registerreq_->::jsbn::protoc::RegisterReq::Clear();
@@ -1246,11 +920,8 @@ void NetProtocol::Clear() {
     if (has_registerrsp()) {
       if (registerrsp_ != NULL) registerrsp_->::jsbn::protoc::RegisterRsp::Clear();
     }
-    if (has_relayreq()) {
-      if (relayreq_ != NULL) relayreq_->::jsbn::protoc::RelayReq::Clear();
-    }
-    if (has_relayrsp()) {
-      if (relayrsp_ != NULL) relayrsp_->::jsbn::protoc::RelayRsp::Clear();
+    if (has_datarelay()) {
+      if (datarelay_ != NULL) datarelay_->::jsbn::protoc::DataRelay::Clear();
     }
   }
 
@@ -1332,29 +1003,16 @@ bool NetProtocol::MergePartialFromCodedStream(
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(42)) goto parse_relayReq;
+        if (input->ExpectTag(42)) goto parse_dataRelay;
         break;
       }
 
-      // optional .jsbn.protoc.RelayReq relayReq = 5;
+      // optional .jsbn.protoc.DataRelay dataRelay = 5;
       case 5: {
         if (tag == 42) {
-         parse_relayReq:
+         parse_dataRelay:
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
-               input, mutable_relayreq()));
-        } else {
-          goto handle_unusual;
-        }
-        if (input->ExpectTag(50)) goto parse_relayRsp;
-        break;
-      }
-
-      // optional .jsbn.protoc.RelayRsp relayRsp = 6;
-      case 6: {
-        if (tag == 50) {
-         parse_relayRsp:
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
-               input, mutable_relayrsp()));
+               input, mutable_datarelay()));
         } else {
           goto handle_unusual;
         }
@@ -1410,16 +1068,10 @@ void NetProtocol::SerializeWithCachedSizes(
       4, this->registerrsp(), output);
   }
 
-  // optional .jsbn.protoc.RelayReq relayReq = 5;
-  if (has_relayreq()) {
+  // optional .jsbn.protoc.DataRelay dataRelay = 5;
+  if (has_datarelay()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      5, this->relayreq(), output);
-  }
-
-  // optional .jsbn.protoc.RelayRsp relayRsp = 6;
-  if (has_relayrsp()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      6, this->relayrsp(), output);
+      5, this->datarelay(), output);
   }
 
   output->WriteRaw(unknown_fields().data(),
@@ -1456,18 +1108,11 @@ int NetProtocol::ByteSize() const {
           this->registerrsp());
     }
 
-    // optional .jsbn.protoc.RelayReq relayReq = 5;
-    if (has_relayreq()) {
+    // optional .jsbn.protoc.DataRelay dataRelay = 5;
+    if (has_datarelay()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-          this->relayreq());
-    }
-
-    // optional .jsbn.protoc.RelayRsp relayRsp = 6;
-    if (has_relayrsp()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-          this->relayrsp());
+          this->datarelay());
     }
 
   }
@@ -1499,11 +1144,8 @@ void NetProtocol::MergeFrom(const NetProtocol& from) {
     if (from.has_registerrsp()) {
       mutable_registerrsp()->::jsbn::protoc::RegisterRsp::MergeFrom(from.registerrsp());
     }
-    if (from.has_relayreq()) {
-      mutable_relayreq()->::jsbn::protoc::RelayReq::MergeFrom(from.relayreq());
-    }
-    if (from.has_relayrsp()) {
-      mutable_relayrsp()->::jsbn::protoc::RelayRsp::MergeFrom(from.relayrsp());
+    if (from.has_datarelay()) {
+      mutable_datarelay()->::jsbn::protoc::DataRelay::MergeFrom(from.datarelay());
     }
   }
   mutable_unknown_fields()->append(from.unknown_fields());
@@ -1524,11 +1166,8 @@ bool NetProtocol::IsInitialized() const {
   if (has_registerrsp()) {
     if (!this->registerrsp().IsInitialized()) return false;
   }
-  if (has_relayreq()) {
-    if (!this->relayreq().IsInitialized()) return false;
-  }
-  if (has_relayrsp()) {
-    if (!this->relayrsp().IsInitialized()) return false;
+  if (has_datarelay()) {
+    if (!this->datarelay().IsInitialized()) return false;
   }
   return true;
 }
@@ -1539,8 +1178,7 @@ void NetProtocol::Swap(NetProtocol* other) {
     std::swap(commandid_, other->commandid_);
     std::swap(registerreq_, other->registerreq_);
     std::swap(registerrsp_, other->registerrsp_);
-    std::swap(relayreq_, other->relayreq_);
-    std::swap(relayrsp_, other->relayrsp_);
+    std::swap(datarelay_, other->datarelay_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     _unknown_fields_.swap(other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);

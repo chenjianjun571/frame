@@ -31,8 +31,7 @@ enum CommandID
     Heart_Beat  = 0x00000000;// 心跳
     Register_Req  = 0x00000001;// 业务服务器注册请求
     Register_Rsp = 0x00010001;// 业务服务器注册应答
-    Relay_Req = 0x00000002;// 数据转发请求
-    Relay_Rsp = 0x00010002;// 数据转发应答
+    Data_Relay = 0x00000002;// 转发命令
 }
 
 // 业务服务器注册请求 bss==>>css
@@ -51,8 +50,8 @@ message RegisterRsp
     optional string error_description = 2;
 }
 
-// 数据转发请求
-message RelayReq
+// 数据转发
+message DataRelay
 {
     // 目的服务器
     required ServiceTpye dstSrvType = 1;
@@ -60,19 +59,6 @@ message RelayReq
     optional CityID cityID = 2;
     // 消息内容
     required string relayMsg = 3;
-}
-
-// 数据转发应答
-message RelayRsp
-{
-    // 目的服务器
-    required ServiceTpye dstSrvType = 1;
-    // 城市ID
-    optional CityID cityID = 2;
-    // 应答结果
-    required fixed32 result = 3;
-    // 应答结果描述
-    optional string error_description = 4;
 }
 
 // 传输通信协议
@@ -87,7 +73,5 @@ message NetProtocol
     // 业务服务器注册应答
     optional RegisterRsp registerRsp = 4;
     // 数据转发请求
-    optional RelayReq relayReq = 5;
-    // 应答结果描述
-    optional RelayRsp relayRsp = 6;
+    optional DataRelay dataRelay = 5;
 }

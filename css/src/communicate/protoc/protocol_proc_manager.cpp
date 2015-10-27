@@ -27,9 +27,9 @@ void delete_recv_page(TProtocolBase* p)
             CObjectAllocator<TRegisterRequest>::get_instance()->free((TRegisterRequest*)p);
             break;
         }
-        case jsbn::protoc::CommandID::Relay_Req:
+        case jsbn::protoc::CommandID::Data_Relay:
         {
-            CObjectAllocator<TRelayRequest>::get_instance()->free((TRelayRequest*)p);
+            CObjectAllocator<TDataRelay>::get_instance()->free((TDataRelay*)p);
             break;
         }
         default:
@@ -73,25 +73,25 @@ sProtocolData_ptr ProtocolProcManager::ParseProtocol(const unsigned char* buf, P
 
             break;
         }
-        case jsbn::protoc::CommandID::Relay_Req:
+        case jsbn::protoc::CommandID::Data_Relay:
         {
-            ptr = sProtocolData_ptr(CObjectAllocator<TRelayRequest>::get_instance()->malloc(), delete_recv_page);
-            ptr->command_id = jsbn::protoc::CommandID::Relay_Req;
+            ptr = sProtocolData_ptr(CObjectAllocator<TDataRelay>::get_instance()->malloc(), delete_recv_page);
+            ptr->command_id = jsbn::protoc::CommandID::Data_Relay;
 
-            TRelayRequest* pData = (TRelayRequest*)ptr.get();
+            TDataRelay* pData = (TDataRelay*)ptr.get();
             pData->clear();
 
-            pData->dst_srv_type = protocol->relayreq().dstsrvtype();
-            if(protocol->relayreq().has_cityid())
+            pData->dst_srv_type = protocol->datarelay().dstsrvtype();
+            if(protocol->datarelay().has_cityid())
             {
-                pData->city_id = protocol->relayreq().cityid();
+                pData->city_id = protocol->datarelay().cityid();
             }
             else
             {
                 pData->city_id = jsbn::protoc::CityID::CID_INIT;
             }
-            assert(protocol->relayreq().relaymsg().length() > sizeof(pData->msg));
-            ::memcpy(pData->msg, protocol->relayreq().relaymsg().c_str(), protocol->relayreq().relaymsg().length());
+            assert(protocol->datarelay().relaymsg().length() > sizeof(pData->msg));
+            ::memcpy(pData->msg, protocol->datarelay().relaymsg().c_str(), protocol->datarelay().relaymsg().length());
 
             break;
         }

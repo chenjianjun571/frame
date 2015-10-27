@@ -31,7 +31,7 @@ bool BusinessManager::Start()
     // 注册业务服务器注册业务
     ProcBase::Register(jsbn::protoc::CommandID::Register_Req, new ProcBssRegister());
     // 注册数据转发业务
-    ProcBase::Register(jsbn::protoc::CommandID::Relay_Req, new ProcRelay());
+    ProcBase::Register(jsbn::protoc::CommandID::Data_Relay, new ProcRelay());
 
     // 启动业务处理线程
     _proc_thread.clear();

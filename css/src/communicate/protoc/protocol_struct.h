@@ -35,8 +35,8 @@ typedef struct stRegisterRequest : public TProtocolBase
 
 }TRegisterRequest;
 
-// 转发
-typedef struct stRelayRequest : public TProtocolBase
+// 数据转发
+typedef struct stDataRelay : public TProtocolBase
 {
     // 目的服务器
     jsbn::protoc::ServiceTpye dst_srv_type;
@@ -51,7 +51,7 @@ typedef struct stRelayRequest : public TProtocolBase
         ::memset(msg, 0x00, sizeof(msg));
     }
 
-}TRelayRequest;
+}TDataRelay;
 
 #endif //__PROTOCOL_STRUCT_H_
 
