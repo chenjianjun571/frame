@@ -92,7 +92,7 @@ int CmsClientManager::SendData(const sSendDataPage_ptr& pSend)
     return FUNC_FAILED;
 }
 
-int CmsClientManager::AddClient(SOCKET fd, PassiveTCPClient* p_client)
+int CmsClientManager::AddClient(unsigned short seq, PassiveTCPClient* p_client)
 {
     WriteLockScoped wls(*_client_mutex);
     if(_cms_client)
@@ -101,18 +101,12 @@ int CmsClientManager::AddClient(SOCKET fd, PassiveTCPClient* p_client)
         return FUNC_FAILED;
     }
 
-    if (!p_client->StartWork(fd, this))
-    {
-        LOG(ERROR)<<"启动客户端失败.";
-        return FUNC_FAILED;
-    }
-
     _cms_client = p_client;
 
     return FUNC_SUCCESS;
 }
 
-void CmsClientManager::DelClient()
+void CmsClientManager::DelClient(unsigned short seq)
 {
     WriteLockScoped wls(*_client_mutex);
     if (_cms_client)
@@ -130,7 +124,7 @@ void CmsClientManager::RecvData(unsigned short seq, const unsigned char* buf, Pa
     if (nullptr == prt)
     {
         LOG(ERROR)<<"协议解析失败，关闭连接.";
-        DelClient();
+        DelClient(seq);
         return;
     }
 
@@ -166,11 +160,11 @@ void CmsClientManager::Event(unsigned short seq, EM_NET_EVENT msg)
     {
         case ENE_CLOSE:
             LOG(ERROR)<<"连接关闭.";
-            DelClient();
+            DelClient(seq);
             break;
         case ENE_HEART_TIMEOUT:
             LOG(ERROR)<<"心跳超时,关闭连接.";
-            DelClient();
+            DelClient(seq);
             break;
         default:
             break;
@@ -191,7 +185,13 @@ void CmsClientManager::Accept(SOCKET fd, struct sockaddr_in* sa)
             break;
         }
 
-        if (AddClient(fd, pPassiveTCPClient) != FUNC_SUCCESS)
+        if (!pPassiveTCPClient->StartWork(fd, this))
+        {
+            LOG(ERROR)<<"启动客户端失败.";
+            return FUNC_FAILED;
+        }
+
+        if (AddClient(seq, pPassiveTCPClient) != FUNC_SUCCESS)
         {
             break;
         }

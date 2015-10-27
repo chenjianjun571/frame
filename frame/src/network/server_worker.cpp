@@ -43,6 +43,11 @@ namespace NAME_SPACE {
     {
         _listen_ip.clear();
     }
+
+    ServerWorker::~ServerWorker()
+    {
+        StopWork();
+    }
     
     bool ServerWorker::StartWork(TCPServerSignal* pTCPServerSignal)
     {
