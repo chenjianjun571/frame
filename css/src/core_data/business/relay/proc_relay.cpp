@@ -42,6 +42,11 @@ void ProcRelay::Process(const sProtocolData_ptr& pMsg)
             CmsClientManager::Instance().SendData(pSend);
             break;
         }
+        case jsbn::protoc::ServiceTpye::ST_CSS:
+        {
+            LOG(INFO)<<"CSS服务器收到转发协议，消息内容["<<pData->msg<<"]";
+            break;
+        }
         default:
         {
             LOG(ERROR)<<"无效的转发服务器类型";
