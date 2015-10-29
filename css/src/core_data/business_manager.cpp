@@ -41,12 +41,13 @@ bool BusinessManager::Start()
             if(nullptr == scp)
             {
                 LOG(ERROR)<<"获取数据库连接失败";
-                return;
+                return false;
             }
 
             mysqlpp::Query query = (*scp)->query();
             query<<"select VIDEO_ID,NAME,REMARK,URL,IS_USED from jsbn_video";
-            LOG(INFO)<<"Query:"<<query.preview();
+            query.store();
+            LOG(INFO)<<"Query:";//<<query.preview();
 
             if (mysqlpp::StoreQueryResult res = query.store())
             {

@@ -92,7 +92,8 @@ sProtocolData_ptr ProtocolProcManager::ParseProtocol(const unsigned char* buf, P
             }
 
             pData->len = protocol->datarelay().relaymsg().length();
-            assert(pData->len > 4096);
+//LOG(INFO)<<"收到转发数据，数据大小:"<<pData->len;
+            //assert(pData->len > 4096);
             ::memcpy(pData->msg, protocol->datarelay().relaymsg().c_str(), pData->len);
 
             break;
