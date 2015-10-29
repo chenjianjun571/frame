@@ -68,7 +68,7 @@ namespace NAME_SPACE {
             return nullptr;
         }
 
-        return std::make_shared<ScopedConnection>(new mysqlpp::ScopedConnection(*_p_db_pool, true));
+        return ScopedConnectionPtr(new mysqlpp::ScopedConnection(*_p_db_pool, true));
     }
     
 }
