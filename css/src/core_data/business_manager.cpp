@@ -40,14 +40,16 @@ bool BusinessManager::Start()
             mysqlpp::Connection* scp = new mysqlpp::Connection();
             mysqlpp::SetCharsetNameOption *charsetOp = new mysqlpp::SetCharsetNameOption("utf8");
             scp->set_option(charsetOp);
-            scp->connect("jsbn",
+            if(!scp->connect("jsbn",
                           "192.168.1.3",
                           "root",
                           "123456",
-                          "3306");
-
-            mysqlpp::Query query(scp->query("select VIDEO_ID,NAME,REMARK,URL,IS_USED from jsbn_video"));
-            if (mysqlpp::StoreQueryResult res = query.store())
+                          3306)){ LOG(INFO)<<":::::::::::连接失败"; }
+            if(scp->ping()) { LOG(INFO)<<"::::::::::::连接成功"; }
+            LOG(INFO)<<"1::::::::::::";
+mysqlpp::Query _query = scp->query("select VIDEO_ID,NAME,REMARK,URL,IS_USED from jsbn_video");            
+            LOG(INFO)<<"2::::::::::::";
+            if (mysqlpp::StoreQueryResult res = _query.store())
             {
                 for (size_t i = 0; i < res.num_rows(); ++i)
                 {
