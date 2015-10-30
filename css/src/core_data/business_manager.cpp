@@ -37,7 +37,8 @@ bool BusinessManager::Start()
     {
         try
         {
-            mysqlpp::ScopedConnection scp = mysqlpp::ScopedConnection(*jsbn::DBOpInstance::Instance()->GetDBPool(), true);
+            jsbn::DBPool* pl = jsbn::DBOpInstance::Instance()->GetDBPool();
+            mysqlpp::ScopedConnection scp = mysqlpp::ScopedConnection(*pl, true);
 
 
             //ScopedConnectionPtr scp = jsbn::DBOpInstance::Instance()->GetConnect();
