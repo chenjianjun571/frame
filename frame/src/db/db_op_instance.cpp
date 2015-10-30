@@ -28,7 +28,8 @@ namespace NAME_SPACE {
                                unsigned short max_con_num,
                                unsigned short db_port) {
         
-        if (_p_db_pool) {
+        if (_p_db_pool)
+        {
             return true;
         }
         
@@ -50,7 +51,8 @@ namespace NAME_SPACE {
     
     void DBOpInstance::Exit() {
         
-        if (!_p_db_pool) {
+        if (!_p_db_pool)
+        {
             return;
         }
         
@@ -60,7 +62,8 @@ namespace NAME_SPACE {
     
     mysqlpp::ScopedConnection* DBOpInstance::GetConnect() {
         
-        if (!_p_db_pool) {
+        if (!_p_db_pool)
+        {
             return nullptr;
         }
 

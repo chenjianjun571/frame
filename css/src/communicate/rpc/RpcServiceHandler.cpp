@@ -29,6 +29,34 @@ void RpcServiceHandler::searchUserInfos(UserInfoSearchResult& _return, const std
     _return.__set_userinfos(userInfos);
 
     LOG(INFO)<<"searchUserInfos被调用"<<query;
+
+    try
+    {
+        mysqlpp::ScopedConnection* pcon = jsbn::DBOpInstance.Instance()->GetConnect();
+        if(nullptr == pcon)
+        {
+            LOG(ERROR)<<"获取数据库连接失败";
+            return;
+        }
+
+        mysqlpp::Query query = conn.query("select VIDEO_ID,NAME,REMARK,URL,IS_USED from jsbn_video");
+        if (mysqlpp::StoreQueryResult res = query.store())
+        {
+            for (size_t i = 0; i < res.num_rows(); ++i)
+            {
+                LOG(INFO)<<res[i];
+            }
+        }
+    }
+    catch(const mysqlpp::BadQuery& e)
+    {
+        LOG(ERROR)<<"检索失败:"<<e.what();
+    }
+    catch (const mysqlpp::Exception& er)
+    {
+        LOG(ERROR)<<"失败:"<<er.what();
+    }
+
 }
 
 void RpcServiceHandler::hello()

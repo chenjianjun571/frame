@@ -12,18 +12,21 @@ namespace NAME_SPACE {
     
     DBPool::DBPool(TDBParameter& var):_db_parameter(var),_con_in_use(0) {}
     
-    DBPool::~DBPool() {
+    DBPool::~DBPool()
+    {
         clear(true);
     }
     
-    void DBPool::release(const mysqlpp::Connection* pc) {
+    void DBPool::release(const mysqlpp::Connection* pc)
+    {
         mysqlpp::ConnectionPool::release(pc);
         --_con_in_use;
     }
     
     mysqlpp::Connection* DBPool::grab() {
         
-        if (_con_in_use > _db_parameter.max_con_num) {
+        if (_con_in_use > _db_parameter.max_con_num)
+        {
             LOG(ERROR)<<"超过数据最大连接数";
             return nullptr;
         }
@@ -32,9 +35,11 @@ namespace NAME_SPACE {
         return mysqlpp::ConnectionPool::grab();
     }
     
-    mysqlpp::Connection* DBPool::safe_grab() {
+    mysqlpp::Connection* DBPool::safe_grab()
+    {
         
-        if (_con_in_use > _db_parameter.max_con_num) {
+        if (_con_in_use > _db_parameter.max_con_num)
+        {
             LOG(ERROR)<<"超过数据最大连接数";
             return nullptr;
         }
@@ -47,13 +52,19 @@ namespace NAME_SPACE {
     {
         mysqlpp::Connection* pCon = new mysqlpp::Connection();
         
-        try {
+        try
+        {
             pCon->connect(_db_parameter.db_name.c_str(),
                           _db_parameter.server_ip.c_str(),
                           _db_parameter.user.c_str(),
                           _db_parameter.password.c_str(),
                           _db_parameter.server_port);
-        } catch (mysqlpp::Exception e) {
+        }
+        catch (mysqlpp::Exception e)
+        {
+            LOG(ERROR)<<"数据库连接异常:"<<e;
+            delete pCon;
+            pCon = nullptr;
         }
         
         return pCon;
@@ -61,7 +72,8 @@ namespace NAME_SPACE {
     
     void DBPool::destroy(mysqlpp::Connection* cp)
     {
-        if (cp) {
+        if (cp)
+        {
             delete cp;
         }
     }
