@@ -37,15 +37,16 @@ bool BusinessManager::Start()
     {
         try
         {
-            ScopedConnectionPtr scp = jsbn::DBOpInstance::Instance()->GetConnect();
-            if(nullptr == scp)
-            {
-                LOG(ERROR)<<"获取数据库连接失败";
-                return false;
-            }
+            mysqlpp::Connection* scp = new mysqlpp::Connection();
+            mysqlpp::SetCharsetNameOption *charsetOp = new mysqlpp::SetCharsetNameOption("utf8");
+            scp->set_option(charsetOp);
+            scp->connect("jsbn",
+                          "192.168.1.3",
+                          "root",
+                          "123456",
+                          "3306");
 
-            mysqlpp::Query query((*(scp.get()))->query("select VIDEO_ID,NAME,REMARK,URL,IS_USED from jsbn_video"));
-            LOG(INFO)<<"::::::::::::";
+            mysqlpp::Query query(scp->query("select VIDEO_ID,NAME,REMARK,URL,IS_USED from jsbn_video"));
             if (mysqlpp::StoreQueryResult res = query.store())
             {
                 for (size_t i = 0; i < res.num_rows(); ++i)
@@ -53,7 +54,24 @@ bool BusinessManager::Start()
                     LOG(INFO)<<res[i];
                 }
             }
-            LOG(INFO)<<"::::::::::::";
+
+//            ScopedConnectionPtr scp = jsbn::DBOpInstance::Instance()->GetConnect();
+//            if(nullptr == scp)
+//            {
+//                LOG(ERROR)<<"获取数据库连接失败";
+//                return false;
+//            }
+
+//            mysqlpp::Query query((*(scp.get()))->query("select VIDEO_ID,NAME,REMARK,URL,IS_USED from jsbn_video"));
+//            LOG(INFO)<<"::::::::::::";
+//            if (mysqlpp::StoreQueryResult res = query.store())
+//            {
+//                for (size_t i = 0; i < res.num_rows(); ++i)
+//                {
+//                    LOG(INFO)<<res[i];
+//                }
+//            }
+//            LOG(INFO)<<"::::::::::::";
         }
         catch(const mysqlpp::BadQuery& e)
         {
