@@ -70,5 +70,10 @@ namespace NAME_SPACE {
 
         return ScopedConnectionPtr(new mysqlpp::ScopedConnection(*_p_db_pool, true));
     }
+
+    DBPool* DBOpInstance::GetDBPool()
+    {
+        return _p_db_pool;
+    }
     
 }

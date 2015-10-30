@@ -37,14 +37,17 @@ bool BusinessManager::Start()
     {
         try
         {
-            ScopedConnectionPtr scp = jsbn::DBOpInstance::Instance()->GetConnect();
-            if(nullptr == scp)
+            mysqlpp::ScopedConnection scp = mysqlpp::ScopedConnection(*jsbn::DBOpInstance::Instance()->GetDBPool(), true);
+
+
+            //ScopedConnectionPtr scp = jsbn::DBOpInstance::Instance()->GetConnect();
+            if(nullptr == *scp)
             {
                 LOG(ERROR)<<"获取数据库连接失败";
                 return false;
             }
 
-            mysqlpp::Query query = (*scp)->query();
+            mysqlpp::Query query = scp->query();
             query<<"select VIDEO_ID,NAME,REMARK,URL,IS_USED from jsbn_video";
             query.store();
             LOG(INFO)<<"Query:";//<<query.preview();
