@@ -33,6 +33,44 @@ bool BusinessManager::Start()
     // 注册数据转发业务
     ProcBase::Register(jsbn::protoc::CommandID::Data_Relay, new ProcRelay());
 
+
+    {
+        try
+        {
+            ScopedConnectionPtr scp = jsbn::DBOpInstance::Instance()->GetConnect();
+            if(nullptr == scp)
+            {
+                LOG(ERROR)<<"获取数据库连接失败";
+                return;
+            }
+
+            mysqlpp::Query query = (*scp)->query();
+            query<<"select VIDEO_ID,NAME,REMARK,URL,IS_USED from jsbn_video";
+            LOG(INFO)<<"Query:"<<query.preview();
+
+            if (mysqlpp::StoreQueryResult res = query.store())
+            {
+                for (size_t i = 0; i < res.num_rows(); ++i)
+                {
+                    LOG(INFO)<<res[i];
+                }
+            }
+        }
+        catch(const mysqlpp::BadQuery& e)
+        {
+            LOG(ERROR)<<"检索失败:"<<e.what();
+        }
+        catch (const mysqlpp::Exception& er)
+        {
+            LOG(ERROR)<<"失败:"<<er.what();
+        }
+        catch (...)
+        {
+            LOG(ERROR)<<"未知错误";
+        }
+    }
+
+
     // 启动业务处理线程
     _proc_thread.clear();
     _run_flg = true;
