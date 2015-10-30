@@ -27,9 +27,7 @@
 #include <event.h>
 #include <event2/listener.h>
 #include <glog/logging.h>
-#include <mysql++/cpool.h>
-#include <mysql++/scopedconnection.h>
-#include <mysql++/connection.h>
+#include <mysql++/mysql++.h>
 
 #include "../system_public_def.h"
 
