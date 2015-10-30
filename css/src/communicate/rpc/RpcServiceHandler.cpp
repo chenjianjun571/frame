@@ -13,6 +13,11 @@ bool RpcServiceHandler::postUserInfo(const UserInfo& userInfo)
                   <<userInfo.cityID<<","
                     <<userInfo.language<<"]";
 
+    Unavailable unavailable;
+    unavailable.message = "这是服务器抛出的异常";
+
+    throw unavailable;
+
     return true;
 }
 
@@ -55,6 +60,10 @@ void RpcServiceHandler::searchUserInfos(UserInfoSearchResult& _return, const std
     catch (const mysqlpp::Exception& er)
     {
         LOG(ERROR)<<"失败:"<<er.what();
+    }
+    catch (...)
+    {
+        LOG(ERROR)<<"未知错误";
     }
 }
 
