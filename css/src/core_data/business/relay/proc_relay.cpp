@@ -34,12 +34,20 @@ void ProcRelay::Process(const sProtocolData_ptr& pMsg)
     {
         case jsbn::protoc::ServiceTpye::ST_BSS:
         {
-            BssClientManager::Instance().SendData(pData->city_id, pSend);
+            if(BssClientManager::Instance().SendData(pData->city_id, pSend) != FUNC_SUCCESS)
+            {
+                LOG(ERROR)<<"转发数据失败,BSS客户端不在线";
+            }
+
             break;
         }
         case jsbn::protoc::ServiceTpye::ST_CMS:
         {
-            CmsClientManager::Instance().SendData(pSend);
+            if(CmsClientManager::Instance().SendData(pSend) != FUNC_SUCCESS)
+            {
+                LOG(ERROR)<<"转发数据失败,CMS客户端不在线";
+            }
+
             break;
         }
         case jsbn::protoc::ServiceTpye::ST_CSS:
