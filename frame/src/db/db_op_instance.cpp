@@ -62,7 +62,8 @@ namespace NAME_SPACE {
     
     mysqlpp::ScopedConnection DBOpInstance::GetConnect()
     {
-        return mysqlpp::ScopedConnection(*_p_db_pool, true);
+        mysqlpp::ScopedConnection cp(*_p_db_pool, true);
+        return cp;
     }
     
 }
