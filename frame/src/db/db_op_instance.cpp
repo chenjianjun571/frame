@@ -26,8 +26,8 @@ namespace NAME_SPACE {
                                std::string db_user,
                                std::string db_passwd,
                                unsigned short max_con_num,
-                               unsigned short db_port) {
-        
+                               unsigned short db_port)
+    {
         if (_p_db_pool)
         {
             return true;
@@ -49,8 +49,8 @@ namespace NAME_SPACE {
         return true;
     }
     
-    void DBOpInstance::Exit() {
-        
+    void DBOpInstance::Exit()
+    {
         if (!_p_db_pool)
         {
             return;
@@ -60,13 +60,8 @@ namespace NAME_SPACE {
         _p_db_pool = nullptr;
     }
     
-    mysqlpp::ScopedConnection DBOpInstance::GetConnect() {
-        
-        if (!_p_db_pool)
-        {
-            return nullptr;
-        }
-
+    mysqlpp::ScopedConnection DBOpInstance::GetConnect()
+    {
         return mysqlpp::ScopedConnection(*_p_db_pool, true);
     }
     
