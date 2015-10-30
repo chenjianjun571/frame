@@ -31,7 +31,7 @@ namespace NAME_SPACE {
         
         void Exit();
         
-        mysqlpp::ScopedConnection* GetConnect();
+        mysqlpp::ScopedConnection GetConnect();
         
     protected:
         DBOpInstance();

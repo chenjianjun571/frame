@@ -60,14 +60,14 @@ namespace NAME_SPACE {
         _p_db_pool = nullptr;
     }
     
-    mysqlpp::ScopedConnection* DBOpInstance::GetConnect() {
+    mysqlpp::ScopedConnection DBOpInstance::GetConnect() {
         
         if (!_p_db_pool)
         {
             return nullptr;
         }
 
-        return new mysqlpp::ScopedConnection(*_p_db_pool, true);
+        return mysqlpp::ScopedConnection(*_p_db_pool, true);
     }
     
 }
