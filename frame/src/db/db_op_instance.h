@@ -12,6 +12,8 @@
 #include "../base/common.h"
 #include <string>
 
+typedef std::shared_ptr<mysqlpp::ScopedConnection> ScopedConnectionPtr;
+
 namespace NAME_SPACE {
     
     class DBPool;
@@ -31,7 +33,7 @@ namespace NAME_SPACE {
         
         void Exit();
         
-        mysqlpp::ScopedConnection GetConnect();
+        ScopedConnectionPtr GetConnect();
         
     protected:
         DBOpInstance();

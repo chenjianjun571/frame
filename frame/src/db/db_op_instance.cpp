@@ -42,7 +42,8 @@ namespace NAME_SPACE {
         parameter.max_con_num = max_con_num;
         
         _p_db_pool = new DBPool(parameter);
-        if (nullptr == _p_db_pool) {
+        if (nullptr == _p_db_pool)
+        {
             return false;
         }
         
@@ -60,10 +61,14 @@ namespace NAME_SPACE {
         _p_db_pool = nullptr;
     }
     
-    mysqlpp::ScopedConnection DBOpInstance::GetConnect()
+    ScopedConnectionPtr DBOpInstance::GetConnect()
     {
-        mysqlpp::ScopedConnection cp(*_p_db_pool, true);
-        return cp;
+        if (!_p_db_pool)
+        {
+            return nullptr;
+        }
+
+        return std::make_shared<ScopedConnection>(new mysqlpp::ScopedConnection(*_p_db_pool, true));
     }
     
 }
