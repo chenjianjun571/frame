@@ -32,7 +32,7 @@ void RpcServiceHandler::searchUserInfos(UserInfoSearchResult& _return, const std
 
     try
     {
-        mysqlpp::ScopedConnection* pcon = jsbn::DBOpInstance::Instance()->GetConnect();
+        mysqlpp::Connection* pcon = jsbn::DBOpInstance::Instance()->GetConnect();
         if(nullptr == pcon)
         {
             LOG(ERROR)<<"获取数据库连接失败";
