@@ -54,6 +54,8 @@ namespace NAME_SPACE {
         
         try
         {
+            mysqlpp::SetCharsetNameOption *charsetOp = new mysqlpp::SetCharsetNameOption("utf8");
+            pCon—>set_option(charsetOp);
             pCon->connect(_db_parameter.db_name.c_str(),
                           _db_parameter.server_ip.c_str(),
                           _db_parameter.user.c_str(),

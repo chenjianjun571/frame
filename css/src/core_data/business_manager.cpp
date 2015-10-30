@@ -34,46 +34,40 @@ bool BusinessManager::Start()
     ProcBase::Register(jsbn::protoc::CommandID::Data_Relay, new ProcRelay());
 
 
-//    {
-//        try
-//        {
-//            jsbn::DBPool* pl = jsbn::DBOpInstance::Instance()->GetDBPool();
-//            mysqlpp::ScopedConnection scp = mysqlpp::ScopedConnection(*pl, true);
+    {
+        try
+        {
+            ScopedConnectionPtr scp = jsbn::DBOpInstance::Instance()->GetConnect();
+            if(nullptr == scp)
+            {
+                LOG(ERROR)<<"获取数据库连接失败";
+                return false;
+            }
 
-
-//            //ScopedConnectionPtr scp = jsbn::DBOpInstance::Instance()->GetConnect();
-//            if(nullptr == *scp)
-//            {
-//                LOG(ERROR)<<"获取数据库连接失败";
-//                return false;
-//            }
-
-//            mysqlpp::Query query = scp->query();
-//            query<<"select VIDEO_ID,NAME,REMARK,URL,IS_USED from jsbn_video";
-//            query.store();
-//            LOG(INFO)<<"Query:";//<<query.preview();
-
-//            if (mysqlpp::StoreQueryResult res = query.store())
-//            {
-//                for (size_t i = 0; i < res.num_rows(); ++i)
-//                {
-//                    LOG(INFO)<<res[i];
-//                }
-//            }
-//        }
-//        catch(const mysqlpp::BadQuery& e)
-//        {
-//            LOG(ERROR)<<"检索失败:"<<e.what();
-//        }
-//        catch (const mysqlpp::Exception& er)
-//        {
-//            LOG(ERROR)<<"失败:"<<er.what();
-//        }
-//        catch (...)
-//        {
-//            LOG(ERROR)<<"未知错误";
-//        }
-//    }
+            mysqlpp::Query query((*(scp.get()))->query("select VIDEO_ID,NAME,REMARK,URL,IS_USED from jsbn_video"));
+            LOG(INFO)<<"::::::::::::";
+            if (mysqlpp::StoreQueryResult res = query.store())
+            {
+                for (size_t i = 0; i < res.num_rows(); ++i)
+                {
+                    LOG(INFO)<<res[i];
+                }
+            }
+            LOG(INFO)<<"::::::::::::";
+        }
+        catch(const mysqlpp::BadQuery& e)
+        {
+            LOG(ERROR)<<"检索失败:"<<e.what();
+        }
+        catch (const mysqlpp::Exception& er)
+        {
+            LOG(ERROR)<<"失败:"<<er.what();
+        }
+        catch (...)
+        {
+            LOG(ERROR)<<"未知错误";
+        }
+    }
 
 
     // 启动业务处理线程

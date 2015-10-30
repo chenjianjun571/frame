@@ -34,7 +34,6 @@ namespace NAME_SPACE {
         void Exit();
         
         ScopedConnectionPtr GetConnect();
-        DBPool* GetDBPool();
         
     protected:
         DBOpInstance();
