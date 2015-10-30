@@ -62,7 +62,7 @@ namespace NAME_SPACE {
         }
         catch (mysqlpp::Exception e)
         {
-            LOG(ERROR)<<"数据库连接异常:"<<e;
+            LOG(ERROR)<<"数据库连接异常:"<<e.what();
             delete pCon;
             pCon = nullptr;
         }
