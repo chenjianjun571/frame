@@ -42,7 +42,7 @@ void RpcServiceHandler::searchUserInfos(UserInfoSearchResult& _return, const std
             if(nullptr == scp)
             {
                 LOG(ERROR)<<"获取数据库连接失败";
-                return false;
+                return;
             }
 
             mysqlpp::Query query((*scp)->query("select VIDEO_ID,NAME,REMARK,URL,IS_USED from jsbn_video"));
