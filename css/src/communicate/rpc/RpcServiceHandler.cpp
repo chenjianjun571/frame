@@ -35,40 +35,41 @@ void RpcServiceHandler::searchUserInfos(UserInfoSearchResult& _return, const std
 
     LOG(INFO)<<"searchUserInfos被调用"<<query;
 
-//    {
-//        try
-//        {
-//            ScopedConnectionPtr scp = jsbn::DBOpInstance::Instance()->GetConnect();
-//            if(nullptr == scp)
-//            {
-//                LOG(ERROR)<<"获取数据库连接失败";
-//                return false;
-//            }
+    {
+        try
+        {
+            ScopedConnectionPtr scp = jsbn::DBOpInstance::Instance()->GetConnect();
+            if(nullptr == scp)
+            {
+                LOG(ERROR)<<"获取数据库连接失败";
+                return false;
+            }
 
-//            mysqlpp::Query query((*scp)->query("select VIDEO_ID,NAME,REMARK,URL,IS_USED from jsbn_video"));
-//            LOG(INFO)<<"::::::::::::";
-//            if (mysqlpp::StoreQueryResult res = query.store())
-//            {
-//                for (size_t i = 0; i < res.num_rows(); ++i)
-//                {
-//                    LOG(INFO)<<res[i];
-//                }
-//            }
-//            LOG(INFO)<<"::::::::::::";
-//        }
-//        catch(const mysqlpp::BadQuery& e)
-//        {
-//            LOG(ERROR)<<"检索失败:"<<e.what();
-//        }
-//        catch (const mysqlpp::Exception& er)
-//        {
-//            LOG(ERROR)<<"失败:"<<er.what();
-//        }
-//        catch (...)
-//        {
-//            LOG(ERROR)<<"未知错误";
-//        }
-//    }
+            mysqlpp::Query query((*scp)->query("select VIDEO_ID,NAME,REMARK,URL,IS_USED from jsbn_video"));
+            LOG(INFO)<<"1::::::::::::";
+            if (mysqlpp::StoreQueryResult res = query.store())
+            {
+                for (size_t i = 0; i < res.num_rows(); ++i)
+                {
+                    LOG(INFO)<<res[i];
+                }
+            }
+            LOG(INFO)<<"2::::::::::::";
+        }
+        catch(const mysqlpp::BadQuery& e)
+        {
+            LOG(ERROR)<<"检索失败:"<<e.what();
+        }
+        catch (const mysqlpp::Exception& er)
+        {
+            LOG(ERROR)<<"失败:"<<er.what();
+        }
+        catch (...)
+        {
+            LOG(ERROR)<<"未知错误";
+        }
+        LOG(INFO)<<"3::::::::::::";
+    }
 }
 
 void RpcServiceHandler::hello()
