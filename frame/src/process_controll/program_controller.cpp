@@ -155,7 +155,7 @@ namespace NAME_SPACE
             }
 
             // 创建进程互斥量
-            m_process_mutex = new(nothrow) ACE_Process_Mutex ((this->m_program_name+"_infox_vv_lj_").c_str());
+            m_process_mutex = new(nothrow) ACE_Process_Mutex ((this->m_program_name+"_infox_jsbn_").c_str());
             if (NULL == m_process_mutex)
             {
                 cout << IDS_NEW_MEMORY_FAILED << endl;
