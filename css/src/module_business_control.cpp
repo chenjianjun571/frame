@@ -59,15 +59,15 @@ void CModuleBusinessControl::cleanup_resource()
 bool CModuleBusinessControl::create_operate_object()
 {
     /********************** 创建并挂接模块的子业务*************************/
-//    // 挂载通讯服务
-//    CommunicateService *comm_service = new(std::nothrow) CommunicateService;
-//    if (nullptr == comm_service) return false;
-//    this->register_operator(comm_service);
+    // 挂载通讯服务
+    CommunicateService *comm_service = new(std::nothrow) CommunicateService;
+    if (nullptr == comm_service) return false;
+    this->register_operator(comm_service);
 
-//    // 数据处理服务
-//    CoreDataService *core_data_service = new(std::nothrow) CoreDataService;
-//    if (nullptr == core_data_service) return false;
-//    this->register_operator(core_data_service);
+    // 数据处理服务
+    CoreDataService *core_data_service = new(std::nothrow) CoreDataService;
+    if (nullptr == core_data_service) return false;
+    this->register_operator(core_data_service);
 
     return true;
 }
