@@ -39,7 +39,7 @@ void RpcServiceHandler::searchUserInfos(UserInfoSearchResult& _return, const std
         try
         {
             ScopedConnectionPtr scp = jsbn::DBOpInstance::Instance()->GetConnect();
-            if(nullptr == scp)
+            if(nullptr == scp && *scp == nullptr)
             {
                 LOG(ERROR)<<"获取数据库连接失败";
                 return;
