@@ -23,8 +23,8 @@ namespace NAME_SPACE {
         --_con_in_use;
     }
     
-    mysqlpp::Connection* DBPool::grab() {
-        
+    mysqlpp::Connection* DBPool::grab()
+    {
         if (_con_in_use > _db_parameter.max_con_num)
         {
             LOG(ERROR)<<"grab:超过数据最大连接数";
@@ -37,7 +37,6 @@ namespace NAME_SPACE {
     
     mysqlpp::Connection* DBPool::safe_grab()
     {
-        
         if (_con_in_use > _db_parameter.max_con_num)
         {
             LOG(ERROR)<<"safe_grab:超过数据最大连接数";
@@ -47,7 +46,7 @@ namespace NAME_SPACE {
         ++_con_in_use;
         return mysqlpp::ConnectionPool::safe_grab();;
     }
-    
+
     mysqlpp::Connection* DBPool::create()
     {
         mysqlpp::Connection* pCon = new mysqlpp::Connection();

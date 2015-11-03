@@ -10,6 +10,7 @@
 #define __DB_OP_INSTANCE_H_
 
 #include "../base/common.h"
+#include "../base/critical_section.h"
 #include <string>
 
 typedef std::shared_ptr<mysqlpp::ScopedConnection> ScopedConnectionPtr;
@@ -41,6 +42,7 @@ namespace NAME_SPACE {
         
     private:
         DBPool* _p_db_pool;
+        CriticalSection _sc;
     };
     
 }

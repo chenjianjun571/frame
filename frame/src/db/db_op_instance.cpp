@@ -68,13 +68,13 @@ namespace NAME_SPACE {
             return nullptr;
         }
 
-        mysqlpp::ScopedConnection* pcn = new mysqlpp::ScopedConnection(*_p_db_pool, true);
-        if (pcn == nullptr || *pcn == nullptr)
+        CriticalSectionScoped auto_sc(&_sc);
+        if (!_p_db_pool->checkUseNumIsOver())
         {
             return nullptr;
         }
 
-        return ScopedConnectionPtr(pcn);
+        return ScopedConnectionPtr(new mysqlpp::ScopedConnection(*_p_db_pool, true));
     }
     
 }

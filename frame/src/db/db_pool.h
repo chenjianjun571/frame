@@ -49,6 +49,9 @@ namespace NAME_SPACE {
         
         // 重写父类的方法
         virtual mysqlpp::Connection* safe_grab();
+
+        // 检测连接数
+        bool checkUseNumIsOver() { return _con_in_use < _db_parameter.max_con_num; }
         
     protected:
         
@@ -68,6 +71,7 @@ namespace NAME_SPACE {
     private:
         // 数据库参数
         TDBParameter _db_parameter;
+
         // 连接使用数
         unsigned short _con_in_use;
     };
