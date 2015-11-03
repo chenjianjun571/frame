@@ -27,7 +27,7 @@ namespace NAME_SPACE {
         
         if (_con_in_use > _db_parameter.max_con_num)
         {
-            LOG(ERROR)<<"超过数据最大连接数";
+            LOG(ERROR)<<"grab:超过数据最大连接数";
             return nullptr;
         }
         
@@ -40,7 +40,7 @@ namespace NAME_SPACE {
         
         if (_con_in_use > _db_parameter.max_con_num)
         {
-            LOG(ERROR)<<"超过数据最大连接数";
+            LOG(ERROR)<<"safe_grab:超过数据最大连接数";
             return nullptr;
         }
 
