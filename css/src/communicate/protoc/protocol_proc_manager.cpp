@@ -76,7 +76,7 @@ sProtocolData_ptr ProtocolProcManager::ParseProtocol(const unsigned char* buf, P
         case jsbn::protoc::CommandID::Data_Relay_Req:
         {
             ptr = sProtocolData_ptr(CObjectAllocator<TDataRelayReq>::get_instance()->malloc(), delete_recv_page);
-            ptr->command_id = jsbn::protoc::CommandID::Data_Relay;
+            ptr->command_id = jsbn::protoc::CommandID::Data_Relay_Req;
 
             TDataRelayReq* pData = (TDataRelayReq*)ptr.get();
             pData->clear();
@@ -104,7 +104,7 @@ sProtocolData_ptr ProtocolProcManager::ParseProtocol(const unsigned char* buf, P
                 pData->dst_city_id = jsbn::protoc::CityID::CID_INIT;
             }
             // 消息内容
-            pData->msg = protocol->datarelay().relaymsg();
+            pData->msg = protocol->datarelayreq().relaymsg();
 
             break;
         }
