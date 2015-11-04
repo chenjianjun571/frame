@@ -256,7 +256,7 @@ void BssClientManager::RecvData(unsigned short seq, const unsigned char* buf, Pa
                     }
                     else
                     {
-                        LOG(DEBUG)<<"转发数据成功,目的服务器:CMS.";
+                        LOG(INFO)<<"转发数据成功,目的服务器:CMS.";
                     }
 
                     break;
