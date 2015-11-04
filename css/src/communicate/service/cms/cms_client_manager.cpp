@@ -180,7 +180,7 @@ void CmsClientManager::RecvData(unsigned short seq, const unsigned char* buf, Pa
                     }
                     else
                     {
-                        LOG(DEBUG)<<"转发数据成功,目的服务器:BSS,CITY_ID:"<<pData->dst_city_id;
+                        LOG(INFO)<<"转发数据成功,目的服务器:BSS,CITY_ID:"<<pData->dst_city_id;
                     }
 
                     break;
