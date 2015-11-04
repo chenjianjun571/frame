@@ -35,7 +35,8 @@ void protobuf_ShutdownFile_protoc_2eproto();
 
 class RegisterReq;
 class RegisterRsp;
-class DataRelay;
+class DataRelayReq;
+class DataRelayRsp;
 class NetProtocol;
 
 enum CityID {
@@ -65,11 +66,12 @@ enum CommandID {
   Heart_Beat = 0,
   Register_Req = 1,
   Register_Rsp = 65537,
-  Data_Relay = 2
+  Data_Relay_Req = 2,
+  Data_Relay_Rsp = 65538
 };
 bool CommandID_IsValid(int value);
 const CommandID CommandID_MIN = Heart_Beat;
-const CommandID CommandID_MAX = Register_Rsp;
+const CommandID CommandID_MAX = Data_Relay_Rsp;
 const int CommandID_ARRAYSIZE = CommandID_MAX + 1;
 
 // ===================================================================
@@ -271,14 +273,14 @@ class RegisterRsp : public ::google::protobuf::MessageLite {
 };
 // -------------------------------------------------------------------
 
-class DataRelay : public ::google::protobuf::MessageLite {
+class DataRelayReq : public ::google::protobuf::MessageLite {
  public:
-  DataRelay();
-  virtual ~DataRelay();
+  DataRelayReq();
+  virtual ~DataRelayReq();
 
-  DataRelay(const DataRelay& from);
+  DataRelayReq(const DataRelayReq& from);
 
-  inline DataRelay& operator=(const DataRelay& from) {
+  inline DataRelayReq& operator=(const DataRelayReq& from) {
     CopyFrom(from);
     return *this;
   }
@@ -291,26 +293,26 @@ class DataRelay : public ::google::protobuf::MessageLite {
     return &_unknown_fields_;
   }
 
-  static const DataRelay& default_instance();
+  static const DataRelayReq& default_instance();
 
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   // Returns the internal default instance pointer. This function can
   // return NULL thus should not be used by the user. This is intended
   // for Protobuf internal code. Please use default_instance() declared
   // above instead.
-  static inline const DataRelay* internal_default_instance() {
+  static inline const DataRelayReq* internal_default_instance() {
     return default_instance_;
   }
   #endif
 
-  void Swap(DataRelay* other);
+  void Swap(DataRelayReq* other);
 
   // implements Message ----------------------------------------------
 
-  DataRelay* New() const;
+  DataRelayReq* New() const;
   void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
-  void CopyFrom(const DataRelay& from);
-  void MergeFrom(const DataRelay& from);
+  void CopyFrom(const DataRelayReq& from);
+  void MergeFrom(const DataRelayReq& from);
   void Clear();
   bool IsInitialized() const;
 
@@ -332,24 +334,31 @@ class DataRelay : public ::google::protobuf::MessageLite {
 
   // accessors -------------------------------------------------------
 
-  // required .jsbn.protoc.ServiceTpye dstSrvType = 1;
+  // required .jsbn.protoc.ServiceTpye srcSrvType = 1;
+  inline bool has_srcsrvtype() const;
+  inline void clear_srcsrvtype();
+  static const int kSrcSrvTypeFieldNumber = 1;
+  inline ::jsbn::protoc::ServiceTpye srcsrvtype() const;
+  inline void set_srcsrvtype(::jsbn::protoc::ServiceTpye value);
+
+  // required .jsbn.protoc.ServiceTpye dstSrvType = 2;
   inline bool has_dstsrvtype() const;
   inline void clear_dstsrvtype();
-  static const int kDstSrvTypeFieldNumber = 1;
+  static const int kDstSrvTypeFieldNumber = 2;
   inline ::jsbn::protoc::ServiceTpye dstsrvtype() const;
   inline void set_dstsrvtype(::jsbn::protoc::ServiceTpye value);
 
-  // optional .jsbn.protoc.CityID cityID = 2;
-  inline bool has_cityid() const;
-  inline void clear_cityid();
-  static const int kCityIDFieldNumber = 2;
-  inline ::jsbn::protoc::CityID cityid() const;
-  inline void set_cityid(::jsbn::protoc::CityID value);
+  // optional .jsbn.protoc.CityID dstCityID = 3;
+  inline bool has_dstcityid() const;
+  inline void clear_dstcityid();
+  static const int kDstCityIDFieldNumber = 3;
+  inline ::jsbn::protoc::CityID dstcityid() const;
+  inline void set_dstcityid(::jsbn::protoc::CityID value);
 
-  // required string relayMsg = 3;
+  // required string relayMsg = 4;
   inline bool has_relaymsg() const;
   inline void clear_relaymsg();
-  static const int kRelayMsgFieldNumber = 3;
+  static const int kRelayMsgFieldNumber = 4;
   inline const ::std::string& relaymsg() const;
   inline void set_relaymsg(const ::std::string& value);
   inline void set_relaymsg(const char* value);
@@ -358,12 +367,14 @@ class DataRelay : public ::google::protobuf::MessageLite {
   inline ::std::string* release_relaymsg();
   inline void set_allocated_relaymsg(::std::string* relaymsg);
 
-  // @@protoc_insertion_point(class_scope:jsbn.protoc.DataRelay)
+  // @@protoc_insertion_point(class_scope:jsbn.protoc.DataRelayReq)
  private:
+  inline void set_has_srcsrvtype();
+  inline void clear_has_srcsrvtype();
   inline void set_has_dstsrvtype();
   inline void clear_has_dstsrvtype();
-  inline void set_has_cityid();
-  inline void clear_has_cityid();
+  inline void set_has_dstcityid();
+  inline void clear_has_dstcityid();
   inline void set_has_relaymsg();
   inline void clear_has_relaymsg();
 
@@ -371,9 +382,10 @@ class DataRelay : public ::google::protobuf::MessageLite {
 
   ::google::protobuf::uint32 _has_bits_[1];
   mutable int _cached_size_;
+  int srcsrvtype_;
   int dstsrvtype_;
-  int cityid_;
   ::std::string* relaymsg_;
+  int dstcityid_;
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   friend void  protobuf_AddDesc_protoc_2eproto_impl();
   #else
@@ -383,7 +395,143 @@ class DataRelay : public ::google::protobuf::MessageLite {
   friend void protobuf_ShutdownFile_protoc_2eproto();
 
   void InitAsDefaultInstance();
-  static DataRelay* default_instance_;
+  static DataRelayReq* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class DataRelayRsp : public ::google::protobuf::MessageLite {
+ public:
+  DataRelayRsp();
+  virtual ~DataRelayRsp();
+
+  DataRelayRsp(const DataRelayRsp& from);
+
+  inline DataRelayRsp& operator=(const DataRelayRsp& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::std::string& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::std::string* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const DataRelayRsp& default_instance();
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  // Returns the internal default instance pointer. This function can
+  // return NULL thus should not be used by the user. This is intended
+  // for Protobuf internal code. Please use default_instance() declared
+  // above instead.
+  static inline const DataRelayRsp* internal_default_instance() {
+    return default_instance_;
+  }
+  #endif
+
+  void Swap(DataRelayRsp* other);
+
+  // implements Message ----------------------------------------------
+
+  DataRelayRsp* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const DataRelayRsp& from);
+  void MergeFrom(const DataRelayRsp& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  void DiscardUnknownFields();
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  ::std::string GetTypeName() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required .jsbn.protoc.ServiceTpye srcSrvType = 1;
+  inline bool has_srcsrvtype() const;
+  inline void clear_srcsrvtype();
+  static const int kSrcSrvTypeFieldNumber = 1;
+  inline ::jsbn::protoc::ServiceTpye srcsrvtype() const;
+  inline void set_srcsrvtype(::jsbn::protoc::ServiceTpye value);
+
+  // required .jsbn.protoc.ServiceTpye dstSrvType = 2;
+  inline bool has_dstsrvtype() const;
+  inline void clear_dstsrvtype();
+  static const int kDstSrvTypeFieldNumber = 2;
+  inline ::jsbn::protoc::ServiceTpye dstsrvtype() const;
+  inline void set_dstsrvtype(::jsbn::protoc::ServiceTpye value);
+
+  // optional .jsbn.protoc.CityID dstCityID = 3;
+  inline bool has_dstcityid() const;
+  inline void clear_dstcityid();
+  static const int kDstCityIDFieldNumber = 3;
+  inline ::jsbn::protoc::CityID dstcityid() const;
+  inline void set_dstcityid(::jsbn::protoc::CityID value);
+
+  // required fixed32 result = 4;
+  inline bool has_result() const;
+  inline void clear_result();
+  static const int kResultFieldNumber = 4;
+  inline ::google::protobuf::uint32 result() const;
+  inline void set_result(::google::protobuf::uint32 value);
+
+  // optional string error_description = 5;
+  inline bool has_error_description() const;
+  inline void clear_error_description();
+  static const int kErrorDescriptionFieldNumber = 5;
+  inline const ::std::string& error_description() const;
+  inline void set_error_description(const ::std::string& value);
+  inline void set_error_description(const char* value);
+  inline void set_error_description(const char* value, size_t size);
+  inline ::std::string* mutable_error_description();
+  inline ::std::string* release_error_description();
+  inline void set_allocated_error_description(::std::string* error_description);
+
+  // @@protoc_insertion_point(class_scope:jsbn.protoc.DataRelayRsp)
+ private:
+  inline void set_has_srcsrvtype();
+  inline void clear_has_srcsrvtype();
+  inline void set_has_dstsrvtype();
+  inline void clear_has_dstsrvtype();
+  inline void set_has_dstcityid();
+  inline void clear_has_dstcityid();
+  inline void set_has_result();
+  inline void clear_has_result();
+  inline void set_has_error_description();
+  inline void clear_has_error_description();
+
+  ::std::string _unknown_fields_;
+
+  ::google::protobuf::uint32 _has_bits_[1];
+  mutable int _cached_size_;
+  int srcsrvtype_;
+  int dstsrvtype_;
+  int dstcityid_;
+  ::google::protobuf::uint32 result_;
+  ::std::string* error_description_;
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  friend void  protobuf_AddDesc_protoc_2eproto_impl();
+  #else
+  friend void  protobuf_AddDesc_protoc_2eproto();
+  #endif
+  friend void protobuf_AssignDesc_protoc_2eproto();
+  friend void protobuf_ShutdownFile_protoc_2eproto();
+
+  void InitAsDefaultInstance();
+  static DataRelayRsp* default_instance_;
 };
 // -------------------------------------------------------------------
 
@@ -480,14 +628,23 @@ class NetProtocol : public ::google::protobuf::MessageLite {
   inline ::jsbn::protoc::RegisterRsp* release_registerrsp();
   inline void set_allocated_registerrsp(::jsbn::protoc::RegisterRsp* registerrsp);
 
-  // optional .jsbn.protoc.DataRelay dataRelay = 5;
-  inline bool has_datarelay() const;
-  inline void clear_datarelay();
-  static const int kDataRelayFieldNumber = 5;
-  inline const ::jsbn::protoc::DataRelay& datarelay() const;
-  inline ::jsbn::protoc::DataRelay* mutable_datarelay();
-  inline ::jsbn::protoc::DataRelay* release_datarelay();
-  inline void set_allocated_datarelay(::jsbn::protoc::DataRelay* datarelay);
+  // optional .jsbn.protoc.DataRelayReq dataRelayReq = 5;
+  inline bool has_datarelayreq() const;
+  inline void clear_datarelayreq();
+  static const int kDataRelayReqFieldNumber = 5;
+  inline const ::jsbn::protoc::DataRelayReq& datarelayreq() const;
+  inline ::jsbn::protoc::DataRelayReq* mutable_datarelayreq();
+  inline ::jsbn::protoc::DataRelayReq* release_datarelayreq();
+  inline void set_allocated_datarelayreq(::jsbn::protoc::DataRelayReq* datarelayreq);
+
+  // optional .jsbn.protoc.DataRelayRsp dataRelayRsp = 6;
+  inline bool has_datarelayrsp() const;
+  inline void clear_datarelayrsp();
+  static const int kDataRelayRspFieldNumber = 6;
+  inline const ::jsbn::protoc::DataRelayRsp& datarelayrsp() const;
+  inline ::jsbn::protoc::DataRelayRsp* mutable_datarelayrsp();
+  inline ::jsbn::protoc::DataRelayRsp* release_datarelayrsp();
+  inline void set_allocated_datarelayrsp(::jsbn::protoc::DataRelayRsp* datarelayrsp);
 
   // @@protoc_insertion_point(class_scope:jsbn.protoc.NetProtocol)
  private:
@@ -499,8 +656,10 @@ class NetProtocol : public ::google::protobuf::MessageLite {
   inline void clear_has_registerreq();
   inline void set_has_registerrsp();
   inline void clear_has_registerrsp();
-  inline void set_has_datarelay();
-  inline void clear_has_datarelay();
+  inline void set_has_datarelayreq();
+  inline void clear_has_datarelayreq();
+  inline void set_has_datarelayrsp();
+  inline void clear_has_datarelayrsp();
 
   ::std::string _unknown_fields_;
 
@@ -510,7 +669,8 @@ class NetProtocol : public ::google::protobuf::MessageLite {
   int commandid_;
   ::jsbn::protoc::RegisterReq* registerreq_;
   ::jsbn::protoc::RegisterRsp* registerrsp_;
-  ::jsbn::protoc::DataRelay* datarelay_;
+  ::jsbn::protoc::DataRelayReq* datarelayreq_;
+  ::jsbn::protoc::DataRelayRsp* datarelayrsp_;
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   friend void  protobuf_AddDesc_protoc_2eproto_impl();
   #else
@@ -660,111 +820,136 @@ inline void RegisterRsp::set_allocated_error_description(::std::string* error_de
 
 // -------------------------------------------------------------------
 
-// DataRelay
+// DataRelayReq
 
-// required .jsbn.protoc.ServiceTpye dstSrvType = 1;
-inline bool DataRelay::has_dstsrvtype() const {
+// required .jsbn.protoc.ServiceTpye srcSrvType = 1;
+inline bool DataRelayReq::has_srcsrvtype() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void DataRelay::set_has_dstsrvtype() {
+inline void DataRelayReq::set_has_srcsrvtype() {
   _has_bits_[0] |= 0x00000001u;
 }
-inline void DataRelay::clear_has_dstsrvtype() {
+inline void DataRelayReq::clear_has_srcsrvtype() {
   _has_bits_[0] &= ~0x00000001u;
 }
-inline void DataRelay::clear_dstsrvtype() {
+inline void DataRelayReq::clear_srcsrvtype() {
+  srcsrvtype_ = -1;
+  clear_has_srcsrvtype();
+}
+inline ::jsbn::protoc::ServiceTpye DataRelayReq::srcsrvtype() const {
+  // @@protoc_insertion_point(field_get:jsbn.protoc.DataRelayReq.srcSrvType)
+  return static_cast< ::jsbn::protoc::ServiceTpye >(srcsrvtype_);
+}
+inline void DataRelayReq::set_srcsrvtype(::jsbn::protoc::ServiceTpye value) {
+  assert(::jsbn::protoc::ServiceTpye_IsValid(value));
+  set_has_srcsrvtype();
+  srcsrvtype_ = value;
+  // @@protoc_insertion_point(field_set:jsbn.protoc.DataRelayReq.srcSrvType)
+}
+
+// required .jsbn.protoc.ServiceTpye dstSrvType = 2;
+inline bool DataRelayReq::has_dstsrvtype() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void DataRelayReq::set_has_dstsrvtype() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void DataRelayReq::clear_has_dstsrvtype() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void DataRelayReq::clear_dstsrvtype() {
   dstsrvtype_ = -1;
   clear_has_dstsrvtype();
 }
-inline ::jsbn::protoc::ServiceTpye DataRelay::dstsrvtype() const {
-  // @@protoc_insertion_point(field_get:jsbn.protoc.DataRelay.dstSrvType)
+inline ::jsbn::protoc::ServiceTpye DataRelayReq::dstsrvtype() const {
+  // @@protoc_insertion_point(field_get:jsbn.protoc.DataRelayReq.dstSrvType)
   return static_cast< ::jsbn::protoc::ServiceTpye >(dstsrvtype_);
 }
-inline void DataRelay::set_dstsrvtype(::jsbn::protoc::ServiceTpye value) {
+inline void DataRelayReq::set_dstsrvtype(::jsbn::protoc::ServiceTpye value) {
   assert(::jsbn::protoc::ServiceTpye_IsValid(value));
   set_has_dstsrvtype();
   dstsrvtype_ = value;
-  // @@protoc_insertion_point(field_set:jsbn.protoc.DataRelay.dstSrvType)
+  // @@protoc_insertion_point(field_set:jsbn.protoc.DataRelayReq.dstSrvType)
 }
 
-// optional .jsbn.protoc.CityID cityID = 2;
-inline bool DataRelay::has_cityid() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
-}
-inline void DataRelay::set_has_cityid() {
-  _has_bits_[0] |= 0x00000002u;
-}
-inline void DataRelay::clear_has_cityid() {
-  _has_bits_[0] &= ~0x00000002u;
-}
-inline void DataRelay::clear_cityid() {
-  cityid_ = -1;
-  clear_has_cityid();
-}
-inline ::jsbn::protoc::CityID DataRelay::cityid() const {
-  // @@protoc_insertion_point(field_get:jsbn.protoc.DataRelay.cityID)
-  return static_cast< ::jsbn::protoc::CityID >(cityid_);
-}
-inline void DataRelay::set_cityid(::jsbn::protoc::CityID value) {
-  assert(::jsbn::protoc::CityID_IsValid(value));
-  set_has_cityid();
-  cityid_ = value;
-  // @@protoc_insertion_point(field_set:jsbn.protoc.DataRelay.cityID)
-}
-
-// required string relayMsg = 3;
-inline bool DataRelay::has_relaymsg() const {
+// optional .jsbn.protoc.CityID dstCityID = 3;
+inline bool DataRelayReq::has_dstcityid() const {
   return (_has_bits_[0] & 0x00000004u) != 0;
 }
-inline void DataRelay::set_has_relaymsg() {
+inline void DataRelayReq::set_has_dstcityid() {
   _has_bits_[0] |= 0x00000004u;
 }
-inline void DataRelay::clear_has_relaymsg() {
+inline void DataRelayReq::clear_has_dstcityid() {
   _has_bits_[0] &= ~0x00000004u;
 }
-inline void DataRelay::clear_relaymsg() {
+inline void DataRelayReq::clear_dstcityid() {
+  dstcityid_ = -1;
+  clear_has_dstcityid();
+}
+inline ::jsbn::protoc::CityID DataRelayReq::dstcityid() const {
+  // @@protoc_insertion_point(field_get:jsbn.protoc.DataRelayReq.dstCityID)
+  return static_cast< ::jsbn::protoc::CityID >(dstcityid_);
+}
+inline void DataRelayReq::set_dstcityid(::jsbn::protoc::CityID value) {
+  assert(::jsbn::protoc::CityID_IsValid(value));
+  set_has_dstcityid();
+  dstcityid_ = value;
+  // @@protoc_insertion_point(field_set:jsbn.protoc.DataRelayReq.dstCityID)
+}
+
+// required string relayMsg = 4;
+inline bool DataRelayReq::has_relaymsg() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+inline void DataRelayReq::set_has_relaymsg() {
+  _has_bits_[0] |= 0x00000008u;
+}
+inline void DataRelayReq::clear_has_relaymsg() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+inline void DataRelayReq::clear_relaymsg() {
   if (relaymsg_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
     relaymsg_->clear();
   }
   clear_has_relaymsg();
 }
-inline const ::std::string& DataRelay::relaymsg() const {
-  // @@protoc_insertion_point(field_get:jsbn.protoc.DataRelay.relayMsg)
+inline const ::std::string& DataRelayReq::relaymsg() const {
+  // @@protoc_insertion_point(field_get:jsbn.protoc.DataRelayReq.relayMsg)
   return *relaymsg_;
 }
-inline void DataRelay::set_relaymsg(const ::std::string& value) {
+inline void DataRelayReq::set_relaymsg(const ::std::string& value) {
   set_has_relaymsg();
   if (relaymsg_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
     relaymsg_ = new ::std::string;
   }
   relaymsg_->assign(value);
-  // @@protoc_insertion_point(field_set:jsbn.protoc.DataRelay.relayMsg)
+  // @@protoc_insertion_point(field_set:jsbn.protoc.DataRelayReq.relayMsg)
 }
-inline void DataRelay::set_relaymsg(const char* value) {
+inline void DataRelayReq::set_relaymsg(const char* value) {
   set_has_relaymsg();
   if (relaymsg_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
     relaymsg_ = new ::std::string;
   }
   relaymsg_->assign(value);
-  // @@protoc_insertion_point(field_set_char:jsbn.protoc.DataRelay.relayMsg)
+  // @@protoc_insertion_point(field_set_char:jsbn.protoc.DataRelayReq.relayMsg)
 }
-inline void DataRelay::set_relaymsg(const char* value, size_t size) {
+inline void DataRelayReq::set_relaymsg(const char* value, size_t size) {
   set_has_relaymsg();
   if (relaymsg_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
     relaymsg_ = new ::std::string;
   }
   relaymsg_->assign(reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_set_pointer:jsbn.protoc.DataRelay.relayMsg)
+  // @@protoc_insertion_point(field_set_pointer:jsbn.protoc.DataRelayReq.relayMsg)
 }
-inline ::std::string* DataRelay::mutable_relaymsg() {
+inline ::std::string* DataRelayReq::mutable_relaymsg() {
   set_has_relaymsg();
   if (relaymsg_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
     relaymsg_ = new ::std::string;
   }
-  // @@protoc_insertion_point(field_mutable:jsbn.protoc.DataRelay.relayMsg)
+  // @@protoc_insertion_point(field_mutable:jsbn.protoc.DataRelayReq.relayMsg)
   return relaymsg_;
 }
-inline ::std::string* DataRelay::release_relaymsg() {
+inline ::std::string* DataRelayReq::release_relaymsg() {
   clear_has_relaymsg();
   if (relaymsg_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
     return NULL;
@@ -774,7 +959,7 @@ inline ::std::string* DataRelay::release_relaymsg() {
     return temp;
   }
 }
-inline void DataRelay::set_allocated_relaymsg(::std::string* relaymsg) {
+inline void DataRelayReq::set_allocated_relaymsg(::std::string* relaymsg) {
   if (relaymsg_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
     delete relaymsg_;
   }
@@ -785,7 +970,186 @@ inline void DataRelay::set_allocated_relaymsg(::std::string* relaymsg) {
     clear_has_relaymsg();
     relaymsg_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   }
-  // @@protoc_insertion_point(field_set_allocated:jsbn.protoc.DataRelay.relayMsg)
+  // @@protoc_insertion_point(field_set_allocated:jsbn.protoc.DataRelayReq.relayMsg)
+}
+
+// -------------------------------------------------------------------
+
+// DataRelayRsp
+
+// required .jsbn.protoc.ServiceTpye srcSrvType = 1;
+inline bool DataRelayRsp::has_srcsrvtype() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void DataRelayRsp::set_has_srcsrvtype() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void DataRelayRsp::clear_has_srcsrvtype() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void DataRelayRsp::clear_srcsrvtype() {
+  srcsrvtype_ = -1;
+  clear_has_srcsrvtype();
+}
+inline ::jsbn::protoc::ServiceTpye DataRelayRsp::srcsrvtype() const {
+  // @@protoc_insertion_point(field_get:jsbn.protoc.DataRelayRsp.srcSrvType)
+  return static_cast< ::jsbn::protoc::ServiceTpye >(srcsrvtype_);
+}
+inline void DataRelayRsp::set_srcsrvtype(::jsbn::protoc::ServiceTpye value) {
+  assert(::jsbn::protoc::ServiceTpye_IsValid(value));
+  set_has_srcsrvtype();
+  srcsrvtype_ = value;
+  // @@protoc_insertion_point(field_set:jsbn.protoc.DataRelayRsp.srcSrvType)
+}
+
+// required .jsbn.protoc.ServiceTpye dstSrvType = 2;
+inline bool DataRelayRsp::has_dstsrvtype() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void DataRelayRsp::set_has_dstsrvtype() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void DataRelayRsp::clear_has_dstsrvtype() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void DataRelayRsp::clear_dstsrvtype() {
+  dstsrvtype_ = -1;
+  clear_has_dstsrvtype();
+}
+inline ::jsbn::protoc::ServiceTpye DataRelayRsp::dstsrvtype() const {
+  // @@protoc_insertion_point(field_get:jsbn.protoc.DataRelayRsp.dstSrvType)
+  return static_cast< ::jsbn::protoc::ServiceTpye >(dstsrvtype_);
+}
+inline void DataRelayRsp::set_dstsrvtype(::jsbn::protoc::ServiceTpye value) {
+  assert(::jsbn::protoc::ServiceTpye_IsValid(value));
+  set_has_dstsrvtype();
+  dstsrvtype_ = value;
+  // @@protoc_insertion_point(field_set:jsbn.protoc.DataRelayRsp.dstSrvType)
+}
+
+// optional .jsbn.protoc.CityID dstCityID = 3;
+inline bool DataRelayRsp::has_dstcityid() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void DataRelayRsp::set_has_dstcityid() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void DataRelayRsp::clear_has_dstcityid() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void DataRelayRsp::clear_dstcityid() {
+  dstcityid_ = -1;
+  clear_has_dstcityid();
+}
+inline ::jsbn::protoc::CityID DataRelayRsp::dstcityid() const {
+  // @@protoc_insertion_point(field_get:jsbn.protoc.DataRelayRsp.dstCityID)
+  return static_cast< ::jsbn::protoc::CityID >(dstcityid_);
+}
+inline void DataRelayRsp::set_dstcityid(::jsbn::protoc::CityID value) {
+  assert(::jsbn::protoc::CityID_IsValid(value));
+  set_has_dstcityid();
+  dstcityid_ = value;
+  // @@protoc_insertion_point(field_set:jsbn.protoc.DataRelayRsp.dstCityID)
+}
+
+// required fixed32 result = 4;
+inline bool DataRelayRsp::has_result() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+inline void DataRelayRsp::set_has_result() {
+  _has_bits_[0] |= 0x00000008u;
+}
+inline void DataRelayRsp::clear_has_result() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+inline void DataRelayRsp::clear_result() {
+  result_ = 0u;
+  clear_has_result();
+}
+inline ::google::protobuf::uint32 DataRelayRsp::result() const {
+  // @@protoc_insertion_point(field_get:jsbn.protoc.DataRelayRsp.result)
+  return result_;
+}
+inline void DataRelayRsp::set_result(::google::protobuf::uint32 value) {
+  set_has_result();
+  result_ = value;
+  // @@protoc_insertion_point(field_set:jsbn.protoc.DataRelayRsp.result)
+}
+
+// optional string error_description = 5;
+inline bool DataRelayRsp::has_error_description() const {
+  return (_has_bits_[0] & 0x00000010u) != 0;
+}
+inline void DataRelayRsp::set_has_error_description() {
+  _has_bits_[0] |= 0x00000010u;
+}
+inline void DataRelayRsp::clear_has_error_description() {
+  _has_bits_[0] &= ~0x00000010u;
+}
+inline void DataRelayRsp::clear_error_description() {
+  if (error_description_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    error_description_->clear();
+  }
+  clear_has_error_description();
+}
+inline const ::std::string& DataRelayRsp::error_description() const {
+  // @@protoc_insertion_point(field_get:jsbn.protoc.DataRelayRsp.error_description)
+  return *error_description_;
+}
+inline void DataRelayRsp::set_error_description(const ::std::string& value) {
+  set_has_error_description();
+  if (error_description_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    error_description_ = new ::std::string;
+  }
+  error_description_->assign(value);
+  // @@protoc_insertion_point(field_set:jsbn.protoc.DataRelayRsp.error_description)
+}
+inline void DataRelayRsp::set_error_description(const char* value) {
+  set_has_error_description();
+  if (error_description_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    error_description_ = new ::std::string;
+  }
+  error_description_->assign(value);
+  // @@protoc_insertion_point(field_set_char:jsbn.protoc.DataRelayRsp.error_description)
+}
+inline void DataRelayRsp::set_error_description(const char* value, size_t size) {
+  set_has_error_description();
+  if (error_description_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    error_description_ = new ::std::string;
+  }
+  error_description_->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:jsbn.protoc.DataRelayRsp.error_description)
+}
+inline ::std::string* DataRelayRsp::mutable_error_description() {
+  set_has_error_description();
+  if (error_description_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    error_description_ = new ::std::string;
+  }
+  // @@protoc_insertion_point(field_mutable:jsbn.protoc.DataRelayRsp.error_description)
+  return error_description_;
+}
+inline ::std::string* DataRelayRsp::release_error_description() {
+  clear_has_error_description();
+  if (error_description_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    return NULL;
+  } else {
+    ::std::string* temp = error_description_;
+    error_description_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+    return temp;
+  }
+}
+inline void DataRelayRsp::set_allocated_error_description(::std::string* error_description) {
+  if (error_description_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    delete error_description_;
+  }
+  if (error_description) {
+    set_has_error_description();
+    error_description_ = error_description;
+  } else {
+    clear_has_error_description();
+    error_description_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  // @@protoc_insertion_point(field_set_allocated:jsbn.protoc.DataRelayRsp.error_description)
 }
 
 // -------------------------------------------------------------------
@@ -931,49 +1295,94 @@ inline void NetProtocol::set_allocated_registerrsp(::jsbn::protoc::RegisterRsp* 
   // @@protoc_insertion_point(field_set_allocated:jsbn.protoc.NetProtocol.registerRsp)
 }
 
-// optional .jsbn.protoc.DataRelay dataRelay = 5;
-inline bool NetProtocol::has_datarelay() const {
+// optional .jsbn.protoc.DataRelayReq dataRelayReq = 5;
+inline bool NetProtocol::has_datarelayreq() const {
   return (_has_bits_[0] & 0x00000010u) != 0;
 }
-inline void NetProtocol::set_has_datarelay() {
+inline void NetProtocol::set_has_datarelayreq() {
   _has_bits_[0] |= 0x00000010u;
 }
-inline void NetProtocol::clear_has_datarelay() {
+inline void NetProtocol::clear_has_datarelayreq() {
   _has_bits_[0] &= ~0x00000010u;
 }
-inline void NetProtocol::clear_datarelay() {
-  if (datarelay_ != NULL) datarelay_->::jsbn::protoc::DataRelay::Clear();
-  clear_has_datarelay();
+inline void NetProtocol::clear_datarelayreq() {
+  if (datarelayreq_ != NULL) datarelayreq_->::jsbn::protoc::DataRelayReq::Clear();
+  clear_has_datarelayreq();
 }
-inline const ::jsbn::protoc::DataRelay& NetProtocol::datarelay() const {
-  // @@protoc_insertion_point(field_get:jsbn.protoc.NetProtocol.dataRelay)
+inline const ::jsbn::protoc::DataRelayReq& NetProtocol::datarelayreq() const {
+  // @@protoc_insertion_point(field_get:jsbn.protoc.NetProtocol.dataRelayReq)
 #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return datarelay_ != NULL ? *datarelay_ : *default_instance().datarelay_;
+  return datarelayreq_ != NULL ? *datarelayreq_ : *default_instance().datarelayreq_;
 #else
-  return datarelay_ != NULL ? *datarelay_ : *default_instance_->datarelay_;
+  return datarelayreq_ != NULL ? *datarelayreq_ : *default_instance_->datarelayreq_;
 #endif
 }
-inline ::jsbn::protoc::DataRelay* NetProtocol::mutable_datarelay() {
-  set_has_datarelay();
-  if (datarelay_ == NULL) datarelay_ = new ::jsbn::protoc::DataRelay;
-  // @@protoc_insertion_point(field_mutable:jsbn.protoc.NetProtocol.dataRelay)
-  return datarelay_;
+inline ::jsbn::protoc::DataRelayReq* NetProtocol::mutable_datarelayreq() {
+  set_has_datarelayreq();
+  if (datarelayreq_ == NULL) datarelayreq_ = new ::jsbn::protoc::DataRelayReq;
+  // @@protoc_insertion_point(field_mutable:jsbn.protoc.NetProtocol.dataRelayReq)
+  return datarelayreq_;
 }
-inline ::jsbn::protoc::DataRelay* NetProtocol::release_datarelay() {
-  clear_has_datarelay();
-  ::jsbn::protoc::DataRelay* temp = datarelay_;
-  datarelay_ = NULL;
+inline ::jsbn::protoc::DataRelayReq* NetProtocol::release_datarelayreq() {
+  clear_has_datarelayreq();
+  ::jsbn::protoc::DataRelayReq* temp = datarelayreq_;
+  datarelayreq_ = NULL;
   return temp;
 }
-inline void NetProtocol::set_allocated_datarelay(::jsbn::protoc::DataRelay* datarelay) {
-  delete datarelay_;
-  datarelay_ = datarelay;
-  if (datarelay) {
-    set_has_datarelay();
+inline void NetProtocol::set_allocated_datarelayreq(::jsbn::protoc::DataRelayReq* datarelayreq) {
+  delete datarelayreq_;
+  datarelayreq_ = datarelayreq;
+  if (datarelayreq) {
+    set_has_datarelayreq();
   } else {
-    clear_has_datarelay();
+    clear_has_datarelayreq();
   }
-  // @@protoc_insertion_point(field_set_allocated:jsbn.protoc.NetProtocol.dataRelay)
+  // @@protoc_insertion_point(field_set_allocated:jsbn.protoc.NetProtocol.dataRelayReq)
+}
+
+// optional .jsbn.protoc.DataRelayRsp dataRelayRsp = 6;
+inline bool NetProtocol::has_datarelayrsp() const {
+  return (_has_bits_[0] & 0x00000020u) != 0;
+}
+inline void NetProtocol::set_has_datarelayrsp() {
+  _has_bits_[0] |= 0x00000020u;
+}
+inline void NetProtocol::clear_has_datarelayrsp() {
+  _has_bits_[0] &= ~0x00000020u;
+}
+inline void NetProtocol::clear_datarelayrsp() {
+  if (datarelayrsp_ != NULL) datarelayrsp_->::jsbn::protoc::DataRelayRsp::Clear();
+  clear_has_datarelayrsp();
+}
+inline const ::jsbn::protoc::DataRelayRsp& NetProtocol::datarelayrsp() const {
+  // @@protoc_insertion_point(field_get:jsbn.protoc.NetProtocol.dataRelayRsp)
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return datarelayrsp_ != NULL ? *datarelayrsp_ : *default_instance().datarelayrsp_;
+#else
+  return datarelayrsp_ != NULL ? *datarelayrsp_ : *default_instance_->datarelayrsp_;
+#endif
+}
+inline ::jsbn::protoc::DataRelayRsp* NetProtocol::mutable_datarelayrsp() {
+  set_has_datarelayrsp();
+  if (datarelayrsp_ == NULL) datarelayrsp_ = new ::jsbn::protoc::DataRelayRsp;
+  // @@protoc_insertion_point(field_mutable:jsbn.protoc.NetProtocol.dataRelayRsp)
+  return datarelayrsp_;
+}
+inline ::jsbn::protoc::DataRelayRsp* NetProtocol::release_datarelayrsp() {
+  clear_has_datarelayrsp();
+  ::jsbn::protoc::DataRelayRsp* temp = datarelayrsp_;
+  datarelayrsp_ = NULL;
+  return temp;
+}
+inline void NetProtocol::set_allocated_datarelayrsp(::jsbn::protoc::DataRelayRsp* datarelayrsp) {
+  delete datarelayrsp_;
+  datarelayrsp_ = datarelayrsp;
+  if (datarelayrsp) {
+    set_has_datarelayrsp();
+  } else {
+    clear_has_datarelayrsp();
+  }
+  // @@protoc_insertion_point(field_set_allocated:jsbn.protoc.NetProtocol.dataRelayRsp)
 }
 
 

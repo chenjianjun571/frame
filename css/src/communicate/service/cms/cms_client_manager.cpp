@@ -14,6 +14,7 @@
 #include "module_config_collection.h"
 #include "../../protoc/protocol_proc_manager.h"
 #include "../../../module_data_center.h"
+#include "../bss/bss_client_manager.h"
 
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -140,6 +141,56 @@ void CmsClientManager::RecvData(unsigned short seq, const unsigned char* buf, Pa
             pSend->Copy(buf, len);
 
             SendData(pSend);
+
+            return;
+        }
+        case jsbn::protoc::CommandID::Data_Relay_Req:// 数据转发请求
+        {
+            TDataRelayReq* pData = (TDataRelayReq*)prt.get();
+            sSendDataPage_ptr pSend = MallocStructFactory::Instance().get_send_page();
+            pSend->sock_handle = prt->sock_handle;
+            pSend->Copy(pData->msg.c_str(), pData->msg.length());
+
+            switch (pData->dst_srv_type)
+            {
+                case jsbn::protoc::ServiceTpye::ST_BSS:
+                {
+                    if(BssClientManager::Instance().SendData(pData->dst_city_id, pSend) != FUNC_SUCCESS)
+                    {
+                        LOG(ERROR)<<"转发数据失败,BSS客户端不在线";
+
+                        std::string response;
+                        jsbn::protoc::NetProtocol pc;
+
+                        // 转发应答
+                        pc.set_commandid(jsbn::protoc::CommandID::Data_Relay_Rsp);
+                        pc.mutable_datarelayrsp()->set_srcsrvtype(pData->src_srv_type);
+                        pc.mutable_datarelayrsp()->set_dstsrvtype(pData->dst_srv_type);
+                        pc.mutable_datarelayrsp()->set_dstcityid(pData->dst_city_id);
+                        pc.mutable_datarelayrsp()->set_result(-1);
+                        pc.mutable_datarelayrsp()->set_error_description("转发数据失败,CMS客户端不在线");
+
+                        pc.SerializeToString(&response);
+
+                        sSendDataPage_ptr pSend = MallocStructFactory::Instance().get_send_page();
+                        pSend->sock_handle = prt->sock_handle;
+                        pSend->Copy(response.c_str(), response.length());
+
+                        SendData(pSend);
+                    }
+                    else
+                    {
+                        LOG(DEBUG)<<"转发数据成功,目的服务器:BSS,CITY_ID:"<<pData->dst_city_id;
+                    }
+
+                    break;
+                }
+                default:
+                {
+                    LOG(ERROR)<<"CMS无效的转发服务器类型.["<<pData->dst_srv_type<<"]";
+                    break;
+                }
+            }
 
             return;
         }

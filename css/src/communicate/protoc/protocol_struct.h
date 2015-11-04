@@ -22,6 +22,8 @@ typedef struct stProtocolBase
     /// 消息ID
     jsbn::protoc::CommandID command_id;
     /// 连接序号
+    unsigned int seq;
+    /// 句柄
     unsigned short sock_handle;
 
 }TProtocolBase;
@@ -35,26 +37,25 @@ typedef struct stRegisterRequest : public TProtocolBase
 
 }TRegisterRequest;
 
-// 数据转发
-typedef struct stDataRelay : public TProtocolBase
+// 数据转发请求
+typedef struct stDataRelayReq : public TProtocolBase
 {
+    // 源服务器
+    jsbn::protoc::ServiceTpye src_srv_type;
     // 目的服务器
     jsbn::protoc::ServiceTpye dst_srv_type;
-    // 城市ID
-    jsbn::protoc::CityID city_id;
+    // 目的城市ID
+    jsbn::protoc::CityID dst_city_id;
     // 消息内容
-    char msg[4096];
-    // 消息内容长度
-    size_t len;
+    std::string msg;
 
     void clear()
     {
-        city_id = jsbn::protoc::CityID::CID_INIT;
-        ::memset(msg, 0x00, sizeof(msg));
-        len = 0;
+        msg.clear();
+        dst_city_id = jsbn::protoc::CityID::CID_INIT;
     }
 
-}TDataRelay;
+}TDataRelayReq;
 
 #endif //__PROTOCOL_STRUCT_H_
 

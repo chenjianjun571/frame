@@ -27,9 +27,9 @@ void delete_recv_page(TProtocolBase* p)
             CObjectAllocator<TRegisterRequest>::get_instance()->free((TRegisterRequest*)p);
             break;
         }
-        case jsbn::protoc::CommandID::Data_Relay:
+        case jsbn::protoc::CommandID::Data_Relay_Req:
         {
-            CObjectAllocator<TDataRelay>::get_instance()->free((TDataRelay*)p);
+            CObjectAllocator<TDataRelayReq>::get_instance()->free((TDataRelayReq*)p);
             break;
         }
         default:
@@ -73,28 +73,38 @@ sProtocolData_ptr ProtocolProcManager::ParseProtocol(const unsigned char* buf, P
 
             break;
         }
-        case jsbn::protoc::CommandID::Data_Relay:
+        case jsbn::protoc::CommandID::Data_Relay_Req:
         {
-            ptr = sProtocolData_ptr(CObjectAllocator<TDataRelay>::get_instance()->malloc(), delete_recv_page);
+            ptr = sProtocolData_ptr(CObjectAllocator<TDataRelayReq>::get_instance()->malloc(), delete_recv_page);
             ptr->command_id = jsbn::protoc::CommandID::Data_Relay;
 
-            TDataRelay* pData = (TDataRelay*)ptr.get();
+            TDataRelayReq* pData = (TDataRelayReq*)ptr.get();
             pData->clear();
 
-            pData->dst_srv_type = protocol->datarelay().dstsrvtype();
-            if(protocol->datarelay().has_cityid())
+            // seq
+            if(protocol->has_seq())
             {
-                pData->city_id = protocol->datarelay().cityid();
+                pData->seq = protocol->seq();
             }
             else
             {
-                pData->city_id = jsbn::protoc::CityID::CID_INIT;
+                pData->seq = 0;
             }
-
-            pData->len = protocol->datarelay().relaymsg().length();
-//LOG(INFO)<<"收到转发数据，数据大小:"<<pData->len;
-            //assert(pData->len > 4096);
-            ::memcpy(pData->msg, protocol->datarelay().relaymsg().c_str(), pData->len);
+            // 源服务器类型
+            pData->src_srv_type = protocol->datarelayreq().srcsrvtype();
+            // 目的服务器类型
+            pData->dst_srv_type = protocol->datarelayreq().dstsrvtype();
+            // 目的服务器分站ID（城市ID）
+            if(protocol->datarelayreq().has_dstcityid())
+            {
+                pData->dst_city_id = protocol->datarelayreq().dstcityid();
+            }
+            else
+            {
+                pData->dst_city_id = jsbn::protoc::CityID::CID_INIT;
+            }
+            // 消息内容
+            pData->msg = protocol->datarelay().relaymsg();
 
             break;
         }

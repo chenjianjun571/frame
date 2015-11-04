@@ -31,7 +31,8 @@ enum CommandID
     Heart_Beat  = 0x00000000;// 心跳
     Register_Req  = 0x00000001;// 业务服务器注册请求
     Register_Rsp = 0x00010001;// 业务服务器注册应答
-    Data_Relay = 0x00000002;// 转发命令
+    Data_Relay_Req = 0x00000002;// 数据转发请求
+    Data_Relay_Rsp = 0x00010002;// 数据转发应答
 }
 
 // 业务服务器注册请求 bss==>>css
@@ -50,15 +51,34 @@ message RegisterRsp
     optional string error_description = 2;
 }
 
-// 数据转发
-message DataRelay
+// 数据转发请求 bss==>>css==>>cms cms==>>css==>>bss
+// css在转发的时候只会转发relayMsg的内容，relayMsg的内容规范css不会关心，由源和目的服务器协商协议
+message DataRelayReq
 {
+    // 源服务器
+    required ServiceTpye srcSrvType = 1;
     // 目的服务器
-    required ServiceTpye dstSrvType = 1;
-    // 城市ID
-    optional CityID cityID = 2;
+    required ServiceTpye dstSrvType = 2;
+    // 目的城市ID 目的服务器是BSS的时候需要带上分站ID(城市ID)
+    optional CityID dstCityID = 3;
     // 消息内容
-    required string relayMsg = 3;
+    required string relayMsg = 4;
+}
+
+// 数据转发应答 css==>>cms css==>>bss
+// 只用于css对发起转发的服务器应答，其他服务器的转发应答请走转发协议
+message DataRelayRsp
+{
+    // 源服务器（请求里面的源服务器）
+    required ServiceTpye srcSrvType = 1;
+    // 目的服务器（请求里面的目的服务器）
+    required ServiceTpye dstSrvType = 2;
+    // 目的城市ID 目的服务器是BSS的时候需要带上分站ID(城市ID)（请求里面的目的城市ID）
+    optional CityID dstCityID = 3;
+    // 应答结果
+    required fixed32 result = 4;
+    // 应答结果描述
+    optional string error_description = 5;
 }
 
 // 传输通信协议
@@ -73,5 +93,7 @@ message NetProtocol
     // 业务服务器注册应答
     optional RegisterRsp registerRsp = 4;
     // 数据转发请求
-    optional DataRelay dataRelay = 5;
+    optional DataRelayReq dataRelayReq = 5;
+    // 数据转发应答
+    optional DataRelayRsp dataRelayRsp = 6;
 }
