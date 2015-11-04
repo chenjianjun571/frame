@@ -225,7 +225,7 @@ void BssClientManager::RecvData(unsigned short seq, const unsigned char* buf, Pa
             TDataRelayReq* pData = (TDataRelayReq*)prt.get();
             sSendDataPage_ptr pSend = MallocStructFactory::Instance().get_send_page();
             pSend->sock_handle = prt->sock_handle;
-            pSend->Copy(pData->msg.c_str(), pData->msg.length());
+            pSend->Copy(buf, len);
 
             switch (pData->dst_srv_type)
             {
