@@ -58,15 +58,15 @@ void RpcServiceHandler::searchUserInfos(UserInfoSearchResult& _return, const std
 
 
 
-LOG(INFO)<<"1::::::::::::";
-            mysqlpp::Query query = (*scp)->query("select VIDEO_ID,NAME,REMARK,URL,IS_USED from jsbn_video");
-            std::vector<stock> res;
-            query.storein(res);
-            std::vector<stock>::iterator it;
-            for (it = res.begin(); it != res.end(); ++it) {
-                LOG(INFO)<<*it;
-            }
-LOG(INFO)<<"2::::::::::::";
+//LOG(INFO)<<"1::::::::::::";
+//            mysqlpp::Query query = (*scp)->query("select VIDEO_ID,NAME,REMARK,URL,IS_USED from jsbn_video");
+//            std::vector<stock> res;
+//            query.storein(res);
+//            std::vector<stock>::iterator it;
+//            for (it = res.begin(); it != res.end(); ++it) {
+//                LOG(INFO)<<*it;
+//            }
+//LOG(INFO)<<"2::::::::::::";
         }
         catch(const mysqlpp::BadQuery& e)
         {
