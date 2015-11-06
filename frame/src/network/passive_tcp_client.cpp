@@ -30,7 +30,7 @@ namespace NAME_SPACE {
         do
         {
             nbytes = EVBUFFER_LENGTH(bev->input);
-	    if (nbytes < kPacketLenSize)
+            if (nbytes < kPacketLenSize)
             {
                 return;
             }
