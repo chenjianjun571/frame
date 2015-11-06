@@ -103,8 +103,8 @@ sProtocolData_ptr ProtocolProcManager::ParseProtocol(const unsigned char* buf, P
             {
                 pData->dst_city_id = jsbn::protoc::CityID::CID_INIT;
             }
-            // 消息内容
-            pData->msg = protocol->datarelayreq().relaymsg();
+            // TODO:消息内容 这里不需要解析消息内容
+            //pData->msg = protocol->datarelayreq().relaymsg();
 
             break;
         }
