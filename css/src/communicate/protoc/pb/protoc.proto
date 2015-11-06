@@ -61,8 +61,10 @@ message DataRelayReq
     required ServiceTpye dstSrvType = 2;
     // 目的城市ID 目的服务器是BSS的时候需要带上分站ID(城市ID)
     optional CityID dstCityID = 3;
-    // 消息内容
-    required string relayMsg = 4;
+    // 消息内容(消息string)
+    optional string relayMsgStr = 4;
+    // 消息内容(消息字节流)
+    optional bytes relayMsgBytes = 5;
 }
 
 // 数据转发应答 css==>>cms css==>>bss

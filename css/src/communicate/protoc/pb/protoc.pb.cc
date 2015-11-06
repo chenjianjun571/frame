@@ -539,7 +539,8 @@ void RegisterRsp::Swap(RegisterRsp* other) {
 const int DataRelayReq::kSrcSrvTypeFieldNumber;
 const int DataRelayReq::kDstSrvTypeFieldNumber;
 const int DataRelayReq::kDstCityIDFieldNumber;
-const int DataRelayReq::kRelayMsgFieldNumber;
+const int DataRelayReq::kRelayMsgStrFieldNumber;
+const int DataRelayReq::kRelayMsgBytesFieldNumber;
 #endif  // !_MSC_VER
 
 DataRelayReq::DataRelayReq()
@@ -564,7 +565,8 @@ void DataRelayReq::SharedCtor() {
   srcsrvtype_ = -1;
   dstsrvtype_ = -1;
   dstcityid_ = -1;
-  relaymsg_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  relaymsgstr_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  relaymsgbytes_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -574,8 +576,11 @@ DataRelayReq::~DataRelayReq() {
 }
 
 void DataRelayReq::SharedDtor() {
-  if (relaymsg_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    delete relaymsg_;
+  if (relaymsgstr_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    delete relaymsgstr_;
+  }
+  if (relaymsgbytes_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    delete relaymsgbytes_;
   }
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   if (this != &default_instance()) {
@@ -606,13 +611,18 @@ DataRelayReq* DataRelayReq::New() const {
 }
 
 void DataRelayReq::Clear() {
-  if (_has_bits_[0 / 32] & 15) {
+  if (_has_bits_[0 / 32] & 31) {
     srcsrvtype_ = -1;
     dstsrvtype_ = -1;
     dstcityid_ = -1;
-    if (has_relaymsg()) {
-      if (relaymsg_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-        relaymsg_->clear();
+    if (has_relaymsgstr()) {
+      if (relaymsgstr_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+        relaymsgstr_->clear();
+      }
+    }
+    if (has_relaymsgbytes()) {
+      if (relaymsgbytes_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+        relaymsgbytes_->clear();
       }
     }
   }
@@ -692,16 +702,29 @@ bool DataRelayReq::MergePartialFromCodedStream(
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(34)) goto parse_relayMsg;
+        if (input->ExpectTag(34)) goto parse_relayMsgStr;
         break;
       }
 
-      // required string relayMsg = 4;
+      // optional string relayMsgStr = 4;
       case 4: {
         if (tag == 34) {
-         parse_relayMsg:
+         parse_relayMsgStr:
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
-                input, this->mutable_relaymsg()));
+                input, this->mutable_relaymsgstr()));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(42)) goto parse_relayMsgBytes;
+        break;
+      }
+
+      // optional bytes relayMsgBytes = 5;
+      case 5: {
+        if (tag == 42) {
+         parse_relayMsgBytes:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+                input, this->mutable_relaymsgbytes()));
         } else {
           goto handle_unusual;
         }
@@ -752,10 +775,16 @@ void DataRelayReq::SerializeWithCachedSizes(
       3, this->dstcityid(), output);
   }
 
-  // required string relayMsg = 4;
-  if (has_relaymsg()) {
+  // optional string relayMsgStr = 4;
+  if (has_relaymsgstr()) {
     ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
-      4, this->relaymsg(), output);
+      4, this->relaymsgstr(), output);
+  }
+
+  // optional bytes relayMsgBytes = 5;
+  if (has_relaymsgbytes()) {
+    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+      5, this->relaymsgbytes(), output);
   }
 
   output->WriteRaw(unknown_fields().data(),
@@ -785,11 +814,18 @@ int DataRelayReq::ByteSize() const {
         ::google::protobuf::internal::WireFormatLite::EnumSize(this->dstcityid());
     }
 
-    // required string relayMsg = 4;
-    if (has_relaymsg()) {
+    // optional string relayMsgStr = 4;
+    if (has_relaymsgstr()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::StringSize(
-          this->relaymsg());
+          this->relaymsgstr());
+    }
+
+    // optional bytes relayMsgBytes = 5;
+    if (has_relaymsgbytes()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::BytesSize(
+          this->relaymsgbytes());
     }
 
   }
@@ -818,8 +854,11 @@ void DataRelayReq::MergeFrom(const DataRelayReq& from) {
     if (from.has_dstcityid()) {
       set_dstcityid(from.dstcityid());
     }
-    if (from.has_relaymsg()) {
-      set_relaymsg(from.relaymsg());
+    if (from.has_relaymsgstr()) {
+      set_relaymsgstr(from.relaymsgstr());
+    }
+    if (from.has_relaymsgbytes()) {
+      set_relaymsgbytes(from.relaymsgbytes());
     }
   }
   mutable_unknown_fields()->append(from.unknown_fields());
@@ -832,7 +871,7 @@ void DataRelayReq::CopyFrom(const DataRelayReq& from) {
 }
 
 bool DataRelayReq::IsInitialized() const {
-  if ((_has_bits_[0] & 0x0000000b) != 0x0000000b) return false;
+  if ((_has_bits_[0] & 0x00000003) != 0x00000003) return false;
 
   return true;
 }
@@ -842,7 +881,8 @@ void DataRelayReq::Swap(DataRelayReq* other) {
     std::swap(srcsrvtype_, other->srcsrvtype_);
     std::swap(dstsrvtype_, other->dstsrvtype_);
     std::swap(dstcityid_, other->dstcityid_);
-    std::swap(relaymsg_, other->relaymsg_);
+    std::swap(relaymsgstr_, other->relaymsgstr_);
+    std::swap(relaymsgbytes_, other->relaymsgbytes_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     _unknown_fields_.swap(other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);

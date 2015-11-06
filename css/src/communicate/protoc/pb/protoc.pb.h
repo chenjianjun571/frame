@@ -355,17 +355,29 @@ class DataRelayReq : public ::google::protobuf::MessageLite {
   inline ::jsbn::protoc::CityID dstcityid() const;
   inline void set_dstcityid(::jsbn::protoc::CityID value);
 
-  // required string relayMsg = 4;
-  inline bool has_relaymsg() const;
-  inline void clear_relaymsg();
-  static const int kRelayMsgFieldNumber = 4;
-  inline const ::std::string& relaymsg() const;
-  inline void set_relaymsg(const ::std::string& value);
-  inline void set_relaymsg(const char* value);
-  inline void set_relaymsg(const char* value, size_t size);
-  inline ::std::string* mutable_relaymsg();
-  inline ::std::string* release_relaymsg();
-  inline void set_allocated_relaymsg(::std::string* relaymsg);
+  // optional string relayMsgStr = 4;
+  inline bool has_relaymsgstr() const;
+  inline void clear_relaymsgstr();
+  static const int kRelayMsgStrFieldNumber = 4;
+  inline const ::std::string& relaymsgstr() const;
+  inline void set_relaymsgstr(const ::std::string& value);
+  inline void set_relaymsgstr(const char* value);
+  inline void set_relaymsgstr(const char* value, size_t size);
+  inline ::std::string* mutable_relaymsgstr();
+  inline ::std::string* release_relaymsgstr();
+  inline void set_allocated_relaymsgstr(::std::string* relaymsgstr);
+
+  // optional bytes relayMsgBytes = 5;
+  inline bool has_relaymsgbytes() const;
+  inline void clear_relaymsgbytes();
+  static const int kRelayMsgBytesFieldNumber = 5;
+  inline const ::std::string& relaymsgbytes() const;
+  inline void set_relaymsgbytes(const ::std::string& value);
+  inline void set_relaymsgbytes(const char* value);
+  inline void set_relaymsgbytes(const void* value, size_t size);
+  inline ::std::string* mutable_relaymsgbytes();
+  inline ::std::string* release_relaymsgbytes();
+  inline void set_allocated_relaymsgbytes(::std::string* relaymsgbytes);
 
   // @@protoc_insertion_point(class_scope:jsbn.protoc.DataRelayReq)
  private:
@@ -375,8 +387,10 @@ class DataRelayReq : public ::google::protobuf::MessageLite {
   inline void clear_has_dstsrvtype();
   inline void set_has_dstcityid();
   inline void clear_has_dstcityid();
-  inline void set_has_relaymsg();
-  inline void clear_has_relaymsg();
+  inline void set_has_relaymsgstr();
+  inline void clear_has_relaymsgstr();
+  inline void set_has_relaymsgbytes();
+  inline void clear_has_relaymsgbytes();
 
   ::std::string _unknown_fields_;
 
@@ -384,7 +398,8 @@ class DataRelayReq : public ::google::protobuf::MessageLite {
   mutable int _cached_size_;
   int srcsrvtype_;
   int dstsrvtype_;
-  ::std::string* relaymsg_;
+  ::std::string* relaymsgstr_;
+  ::std::string* relaymsgbytes_;
   int dstcityid_;
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   friend void  protobuf_AddDesc_protoc_2eproto_impl();
@@ -897,80 +912,156 @@ inline void DataRelayReq::set_dstcityid(::jsbn::protoc::CityID value) {
   // @@protoc_insertion_point(field_set:jsbn.protoc.DataRelayReq.dstCityID)
 }
 
-// required string relayMsg = 4;
-inline bool DataRelayReq::has_relaymsg() const {
+// optional string relayMsgStr = 4;
+inline bool DataRelayReq::has_relaymsgstr() const {
   return (_has_bits_[0] & 0x00000008u) != 0;
 }
-inline void DataRelayReq::set_has_relaymsg() {
+inline void DataRelayReq::set_has_relaymsgstr() {
   _has_bits_[0] |= 0x00000008u;
 }
-inline void DataRelayReq::clear_has_relaymsg() {
+inline void DataRelayReq::clear_has_relaymsgstr() {
   _has_bits_[0] &= ~0x00000008u;
 }
-inline void DataRelayReq::clear_relaymsg() {
-  if (relaymsg_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    relaymsg_->clear();
+inline void DataRelayReq::clear_relaymsgstr() {
+  if (relaymsgstr_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    relaymsgstr_->clear();
   }
-  clear_has_relaymsg();
+  clear_has_relaymsgstr();
 }
-inline const ::std::string& DataRelayReq::relaymsg() const {
-  // @@protoc_insertion_point(field_get:jsbn.protoc.DataRelayReq.relayMsg)
-  return *relaymsg_;
+inline const ::std::string& DataRelayReq::relaymsgstr() const {
+  // @@protoc_insertion_point(field_get:jsbn.protoc.DataRelayReq.relayMsgStr)
+  return *relaymsgstr_;
 }
-inline void DataRelayReq::set_relaymsg(const ::std::string& value) {
-  set_has_relaymsg();
-  if (relaymsg_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    relaymsg_ = new ::std::string;
+inline void DataRelayReq::set_relaymsgstr(const ::std::string& value) {
+  set_has_relaymsgstr();
+  if (relaymsgstr_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    relaymsgstr_ = new ::std::string;
   }
-  relaymsg_->assign(value);
-  // @@protoc_insertion_point(field_set:jsbn.protoc.DataRelayReq.relayMsg)
+  relaymsgstr_->assign(value);
+  // @@protoc_insertion_point(field_set:jsbn.protoc.DataRelayReq.relayMsgStr)
 }
-inline void DataRelayReq::set_relaymsg(const char* value) {
-  set_has_relaymsg();
-  if (relaymsg_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    relaymsg_ = new ::std::string;
+inline void DataRelayReq::set_relaymsgstr(const char* value) {
+  set_has_relaymsgstr();
+  if (relaymsgstr_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    relaymsgstr_ = new ::std::string;
   }
-  relaymsg_->assign(value);
-  // @@protoc_insertion_point(field_set_char:jsbn.protoc.DataRelayReq.relayMsg)
+  relaymsgstr_->assign(value);
+  // @@protoc_insertion_point(field_set_char:jsbn.protoc.DataRelayReq.relayMsgStr)
 }
-inline void DataRelayReq::set_relaymsg(const char* value, size_t size) {
-  set_has_relaymsg();
-  if (relaymsg_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    relaymsg_ = new ::std::string;
+inline void DataRelayReq::set_relaymsgstr(const char* value, size_t size) {
+  set_has_relaymsgstr();
+  if (relaymsgstr_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    relaymsgstr_ = new ::std::string;
   }
-  relaymsg_->assign(reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_set_pointer:jsbn.protoc.DataRelayReq.relayMsg)
+  relaymsgstr_->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:jsbn.protoc.DataRelayReq.relayMsgStr)
 }
-inline ::std::string* DataRelayReq::mutable_relaymsg() {
-  set_has_relaymsg();
-  if (relaymsg_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    relaymsg_ = new ::std::string;
+inline ::std::string* DataRelayReq::mutable_relaymsgstr() {
+  set_has_relaymsgstr();
+  if (relaymsgstr_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    relaymsgstr_ = new ::std::string;
   }
-  // @@protoc_insertion_point(field_mutable:jsbn.protoc.DataRelayReq.relayMsg)
-  return relaymsg_;
+  // @@protoc_insertion_point(field_mutable:jsbn.protoc.DataRelayReq.relayMsgStr)
+  return relaymsgstr_;
 }
-inline ::std::string* DataRelayReq::release_relaymsg() {
-  clear_has_relaymsg();
-  if (relaymsg_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+inline ::std::string* DataRelayReq::release_relaymsgstr() {
+  clear_has_relaymsgstr();
+  if (relaymsgstr_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
     return NULL;
   } else {
-    ::std::string* temp = relaymsg_;
-    relaymsg_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+    ::std::string* temp = relaymsgstr_;
+    relaymsgstr_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
     return temp;
   }
 }
-inline void DataRelayReq::set_allocated_relaymsg(::std::string* relaymsg) {
-  if (relaymsg_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    delete relaymsg_;
+inline void DataRelayReq::set_allocated_relaymsgstr(::std::string* relaymsgstr) {
+  if (relaymsgstr_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    delete relaymsgstr_;
   }
-  if (relaymsg) {
-    set_has_relaymsg();
-    relaymsg_ = relaymsg;
+  if (relaymsgstr) {
+    set_has_relaymsgstr();
+    relaymsgstr_ = relaymsgstr;
   } else {
-    clear_has_relaymsg();
-    relaymsg_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+    clear_has_relaymsgstr();
+    relaymsgstr_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   }
-  // @@protoc_insertion_point(field_set_allocated:jsbn.protoc.DataRelayReq.relayMsg)
+  // @@protoc_insertion_point(field_set_allocated:jsbn.protoc.DataRelayReq.relayMsgStr)
+}
+
+// optional bytes relayMsgBytes = 5;
+inline bool DataRelayReq::has_relaymsgbytes() const {
+  return (_has_bits_[0] & 0x00000010u) != 0;
+}
+inline void DataRelayReq::set_has_relaymsgbytes() {
+  _has_bits_[0] |= 0x00000010u;
+}
+inline void DataRelayReq::clear_has_relaymsgbytes() {
+  _has_bits_[0] &= ~0x00000010u;
+}
+inline void DataRelayReq::clear_relaymsgbytes() {
+  if (relaymsgbytes_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    relaymsgbytes_->clear();
+  }
+  clear_has_relaymsgbytes();
+}
+inline const ::std::string& DataRelayReq::relaymsgbytes() const {
+  // @@protoc_insertion_point(field_get:jsbn.protoc.DataRelayReq.relayMsgBytes)
+  return *relaymsgbytes_;
+}
+inline void DataRelayReq::set_relaymsgbytes(const ::std::string& value) {
+  set_has_relaymsgbytes();
+  if (relaymsgbytes_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    relaymsgbytes_ = new ::std::string;
+  }
+  relaymsgbytes_->assign(value);
+  // @@protoc_insertion_point(field_set:jsbn.protoc.DataRelayReq.relayMsgBytes)
+}
+inline void DataRelayReq::set_relaymsgbytes(const char* value) {
+  set_has_relaymsgbytes();
+  if (relaymsgbytes_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    relaymsgbytes_ = new ::std::string;
+  }
+  relaymsgbytes_->assign(value);
+  // @@protoc_insertion_point(field_set_char:jsbn.protoc.DataRelayReq.relayMsgBytes)
+}
+inline void DataRelayReq::set_relaymsgbytes(const void* value, size_t size) {
+  set_has_relaymsgbytes();
+  if (relaymsgbytes_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    relaymsgbytes_ = new ::std::string;
+  }
+  relaymsgbytes_->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:jsbn.protoc.DataRelayReq.relayMsgBytes)
+}
+inline ::std::string* DataRelayReq::mutable_relaymsgbytes() {
+  set_has_relaymsgbytes();
+  if (relaymsgbytes_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    relaymsgbytes_ = new ::std::string;
+  }
+  // @@protoc_insertion_point(field_mutable:jsbn.protoc.DataRelayReq.relayMsgBytes)
+  return relaymsgbytes_;
+}
+inline ::std::string* DataRelayReq::release_relaymsgbytes() {
+  clear_has_relaymsgbytes();
+  if (relaymsgbytes_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    return NULL;
+  } else {
+    ::std::string* temp = relaymsgbytes_;
+    relaymsgbytes_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+    return temp;
+  }
+}
+inline void DataRelayReq::set_allocated_relaymsgbytes(::std::string* relaymsgbytes) {
+  if (relaymsgbytes_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    delete relaymsgbytes_;
+  }
+  if (relaymsgbytes) {
+    set_has_relaymsgbytes();
+    relaymsgbytes_ = relaymsgbytes;
+  } else {
+    clear_has_relaymsgbytes();
+    relaymsgbytes_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  // @@protoc_insertion_point(field_set_allocated:jsbn.protoc.DataRelayReq.relayMsgBytes)
 }
 
 // -------------------------------------------------------------------
