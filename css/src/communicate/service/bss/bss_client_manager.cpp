@@ -15,6 +15,7 @@
 #include "../../protoc/protocol_proc_manager.h"
 #include "../../../module_data_center.h"
 #include "../cms/cms_client_manager.h"
+#include "../sms/sms_client_manager.h"
 
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -257,6 +258,38 @@ void BssClientManager::RecvData(unsigned short seq, const unsigned char* buf, Pa
                     else
                     {
                         LOG(INFO)<<"转发数据成功,目的服务器:CMS.";
+                    }
+
+                    break;
+                }
+                case jsbn::protoc::ServiceTpye::ST_SMS:
+                {
+                    if(SmsClientManager::Instance().SendData(pSend) != FUNC_SUCCESS)
+                    {
+                        LOG(ERROR)<<"转发数据失败,SMS客户端不在线";
+
+                        std::string response;
+                        jsbn::protoc::NetProtocol pc;
+
+                        // 转发应答
+                        pc.set_commandid(jsbn::protoc::CommandID::Data_Relay_Rsp);
+                        pc.mutable_datarelayrsp()->set_srcsrvtype(pData->src_srv_type);
+                        pc.mutable_datarelayrsp()->set_dstsrvtype(pData->dst_srv_type);
+                        pc.mutable_datarelayrsp()->set_dstcityid(pData->dst_city_id);
+                        pc.mutable_datarelayrsp()->set_result(-1);
+                        pc.mutable_datarelayrsp()->set_error_description("转发数据失败,SMS客户端不在线");
+
+                        pc.SerializeToString(&response);
+
+                        sSendDataPage_ptr pSend = MallocStructFactory::Instance().get_send_page();
+                        pSend->sock_handle = prt->sock_handle;
+                        pSend->Copy(response.c_str(), response.length());
+
+                        SendData(pSend);
+                    }
+                    else
+                    {
+                        LOG(INFO)<<"转发数据成功,目的服务器:SMS.";
                     }
 
                     break;

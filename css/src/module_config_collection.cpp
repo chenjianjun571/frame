@@ -161,7 +161,25 @@ int CModuleConfigCollection::load_module_file_config (CIniFile &ini_reader)
         return FUNC_FAILED;
     }
 
+    if (FUNC_SUCCESS != load_int_item(ini_reader,
+                                      "SMS_SVR_INFO",
+                                      "SMS_SVR_PORT",
+                                      m_srv_config.sms_service_listen_port,
+                                      1024,
+                                      65523))
+    {
+        return FUNC_FAILED;
+    }
 
+    if (FUNC_SUCCESS != load_int_item(ini_reader,
+                                      "SMS_SVR_INFO",
+                                      "SMS_HEARTBEAT_TIME",
+                                      m_srv_config.sms_service_heartbeat_detection,
+                                      5,
+                                      6000))
+    {
+        return FUNC_FAILED;
+    }
 
 
 
