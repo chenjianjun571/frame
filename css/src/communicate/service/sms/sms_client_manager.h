@@ -6,12 +6,12 @@
 /// @attention
 /// @Author         chenjianjun
 /// @Version        0.1
-/// @Date           2015年10月13日
+/// @Date           2015年11月7日
 /// @Description
 /// @History
 ///************************************************************
-#ifndef __CMS_CLIENT_MANAGER_H_
-#define __CMS_CLIENT_MANAGER_H_
+#ifndef __SMS_CLIENT_MANAGER_H_
+#define __SMS_CLIENT_MANAGER_H_
 
 #include "module_const_def.h"
 #include "../communicate.h"
