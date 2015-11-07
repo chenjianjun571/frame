@@ -13,7 +13,7 @@
 #include "communicate_service.h"
 #include "./service/bss/bss_client_manager.h"
 #include "./service/cms/cms_client_manager.h"
-#define "./service/sms/sms_client_manager.h"
+#include "./service/sms/sms_client_manager.h"
 
 bool CommunicateService::start_operation()
 {
