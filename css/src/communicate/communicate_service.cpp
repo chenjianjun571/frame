@@ -19,27 +19,31 @@ bool CommunicateService::start_operation()
 {
     if (BssClientManager::Instance().Start() != FUNC_SUCCESS)
     {
-        LOG(ERROR)<<"业务服务器模块启动失败";
+        LOG(ERROR)<<"BSS服务器模块启动失败";
         return false;
     }
+    LOG(ERROR)<<"BSS服务器模块启动成功";
 
     if (CmsClientManager::Instance().Start() != FUNC_SUCCESS)
     {
         LOG(ERROR)<<"CMS服务器模块启动失败";
         return false;
     }
+    LOG(ERROR)<<"CMS服务器模块启动成功";
 
     if (SmsClientManager::Instance().Start() != FUNC_SUCCESS)
     {
         LOG(ERROR)<<"SMS服务器模块启动失败";
         return false;
     }
+    LOG(ERROR)<<"SMS服务器模块启动成功";
 
     if (_mRpcStubService.Start() != FUNC_SUCCESS)
     {
-        LOG(ERROR)<<"RPC服务器模块启动失败";
+        LOG(ERROR)<<"RPC模块启动失败";
         return false;
     }
+    LOG(ERROR)<<"RPC模块启动成功";
 
     return true;
 }
