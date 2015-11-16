@@ -25,10 +25,10 @@ void RpcServiceHandler::searchUserInfos(UserInfoSearchResult& _return, const std
 {
     UserInfoList userInfos;
 
-    for(int i = 0; i < 3000; ++i)
+    for(int i = 0; i < 30000; ++i)
     {
         UserInfo userInfo;
-        userInfo.userId = 123456;
+        userInfo.userId = i;
         userInfo.userName = "我是服务器";
         userInfo.language = "chian";
         userInfo.cityID = CityID::type::CID_CQ;
