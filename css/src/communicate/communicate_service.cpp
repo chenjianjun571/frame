@@ -22,28 +22,28 @@ bool CommunicateService::start_operation()
         LOG(ERROR)<<"BSS服务器模块启动失败";
         return false;
     }
-    LOG(ERROR)<<"BSS服务器模块启动成功";
+    LOG(INFO)<<"BSS服务器模块启动成功";
 
     if (CmsClientManager::Instance().Start() != FUNC_SUCCESS)
     {
         LOG(ERROR)<<"CMS服务器模块启动失败";
         return false;
     }
-    LOG(ERROR)<<"CMS服务器模块启动成功";
+    LOG(INFO)<<"CMS服务器模块启动成功";
 
     if (SmsClientManager::Instance().Start() != FUNC_SUCCESS)
     {
         LOG(ERROR)<<"SMS服务器模块启动失败";
         return false;
     }
-    LOG(ERROR)<<"SMS服务器模块启动成功";
+    LOG(INFO)<<"SMS服务器模块启动成功";
 
     if (_mRpcStubService.Start() != FUNC_SUCCESS)
     {
         LOG(ERROR)<<"RPC模块启动失败";
         return false;
     }
-    LOG(ERROR)<<"RPC模块启动成功";
+    LOG(INFO)<<"RPC模块启动成功";
 
     return true;
 }
