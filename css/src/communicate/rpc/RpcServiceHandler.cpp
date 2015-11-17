@@ -43,15 +43,14 @@ void RpcServiceHandler::searchUserInfos(UserInfoSearchResult& _return, const std
     {
         try
         {
-//            ScopedConnectionPtr scp = jsbn::DBOpInstance::Instance()->GetConnect();
-//            if(nullptr == scp)
-//            {
-//                LOG(ERROR)<<"获取数据库连接失败";
-//                return;
-//            }
-            ScopedConnectionPtr scp = nullptr;
+            ScopedConnectionPtr scp = jsbn::DBOpInstance::Instance()->GetConnect();
+            if(nullptr == scp)
+            {
+                LOG(ERROR)<<"获取数据库连接失败";
+                return;
+            }
+
             mysqlpp::Query query((*scp)->query("select VIDEO_ID,NAME,REMARK,URL,IS_USED from jsbn_video"));
-            LOG(INFO)<<"1::::::::::::";
             if (mysqlpp::StoreQueryResult res = query.store())
             {
                 for (size_t i = 0; i < res.num_rows(); ++i)
@@ -59,19 +58,6 @@ void RpcServiceHandler::searchUserInfos(UserInfoSearchResult& _return, const std
                     LOG(INFO)<<res[i];
                 }
             }
-            LOG(INFO)<<"2::::::::::::";
-
-
-
-//LOG(INFO)<<"1::::::::::::";
-//            mysqlpp::Query query = (*scp)->query("select VIDEO_ID,NAME,REMARK,URL,IS_USED from jsbn_video");
-//            std::vector<stock> res;
-//            query.storein(res);
-//            std::vector<stock>::iterator it;
-//            for (it = res.begin(); it != res.end(); ++it) {
-//                LOG(INFO)<<*it;
-//            }
-//LOG(INFO)<<"2::::::::::::";
         }
         catch(const mysqlpp::BadQuery& e)
         {

@@ -94,6 +94,7 @@ namespace NAME_SPACE
             case SIGXCPU:
             case SIGXFSZ:
             {
+                LOG(ERROR)<<"捕捉到信号:"<<signum;
                 this->m_sig_handler->remove_handler(signum);
                 raise(signum);
             }
