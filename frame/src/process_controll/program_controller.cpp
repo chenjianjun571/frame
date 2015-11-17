@@ -660,9 +660,10 @@ LOG(ERROR)<<"1111111.";
                         // 等待业务进程退出
                         if (ACE_OS::waitpid( pid, NULL, 0) != pid )
                         {
+LOG(ERROR)<<"1111112.";
                             return 1;
                         }
-
+LOG(ERROR)<<"1111113.";
                         child_result = this->child_process_monitor( pid );
 
                         if ( child_result == true )
@@ -670,7 +671,7 @@ LOG(ERROR)<<"1111111.";
                             ACE_OS::sleep(2);
                             continue;
                         }
-
+LOG(ERROR)<<"1111114.";
                         return 0;
                     }
                     else
