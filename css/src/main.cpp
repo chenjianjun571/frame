@@ -99,7 +99,7 @@ int main(int argc, char* argv[])
     // 设置日志模块
     google::InitGoogleLogging(argv[0]);
     FLAGS_colorlogtostderr=true;
-    FLAGS_log_dir = "./log";
+    GLOG_log_dir="./log";
 //    google::SetLogDestination(google::INFO,"info_");
 //    google::SetLogDestination(google::WARNING,"warning_");
 //    google::SetLogDestination(google::ERROR,"error_");
