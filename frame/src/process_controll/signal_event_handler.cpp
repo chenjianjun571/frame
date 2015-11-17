@@ -83,7 +83,7 @@ namespace NAME_SPACE
             }
             // 处理ABRT信号
             case SIGABRT:
-            case SIGSEGV:
+//            case SIGSEGV:
             case SIGBUS:
             case SIGEMT:
             case SIGQUIT:

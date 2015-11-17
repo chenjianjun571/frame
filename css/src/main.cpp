@@ -99,15 +99,13 @@ int main(int argc, char* argv[])
     // 设置日志模块
     google::InitGoogleLogging(argv[0]);
     FLAGS_colorlogtostderr=true;
-    GLOG_log_dir="./log";
-//    google::SetLogDestination(google::INFO,"info_");
-//    google::SetLogDestination(google::WARNING,"warning_");
-//    google::SetLogDestination(google::ERROR,"error_");
-//    google::SetLogDestination(google::FATAL,"fatal_");
+    google::SetLogDestination(google::INFO,"log/info_");
+    google::SetLogDestination(google::WARNING,"log/warning_");
+    google::SetLogDestination(google::ERROR,"log/error_");
+    google::SetLogDestination(google::FATAL,"log/fatal_");
     FLAGS_stderrthreshold=google::INFO;// 输出到标准输出的时候大于 INFO 级别的都输出
     FLAGS_logbufsecs =0;// 实时输出日志
     FLAGS_max_log_size =20;// 最大日志大小（MB）
-
     // 默认捕捉 SIGSEGV 信号信息输出会输出到 stderr，可以通过下面的方法自定义输出方式
     google::InstallFailureSignalHandler();
     google::InstallFailureWriter(&SignalHandle::handle);
