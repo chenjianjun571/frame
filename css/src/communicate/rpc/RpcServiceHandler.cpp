@@ -43,23 +43,24 @@ void RpcServiceHandler::searchUserInfos(UserInfoSearchResult& _return, const std
     {
         try
         {
-            ScopedConnectionPtr scp = jsbn::DBOpInstance::Instance()->GetConnect();
-            if(nullptr == scp)
-            {
-                LOG(ERROR)<<"获取数据库连接失败";
-                return;
-            }
-
-//            mysqlpp::Query query((*scp)->query("select VIDEO_ID,NAME,REMARK,URL,IS_USED from jsbn_video"));
-//            LOG(INFO)<<"1::::::::::::";
-//            if (mysqlpp::StoreQueryResult res = query.store())
+//            ScopedConnectionPtr scp = jsbn::DBOpInstance::Instance()->GetConnect();
+//            if(nullptr == scp)
 //            {
-//                for (size_t i = 0; i < res.num_rows(); ++i)
-//                {
-//                    LOG(INFO)<<res[i];
-//                }
+//                LOG(ERROR)<<"获取数据库连接失败";
+//                return;
 //            }
-//            LOG(INFO)<<"2::::::::::::";
+            ScopedConnectionPtr scp = nullptr;
+
+            mysqlpp::Query query((*scp)->query("select VIDEO_ID,NAME,REMARK,URL,IS_USED from jsbn_video"));
+            LOG(INFO)<<"1::::::::::::";
+            if (mysqlpp::StoreQueryResult res = query.store())
+            {
+                for (size_t i = 0; i < res.num_rows(); ++i)
+                {
+                    LOG(INFO)<<res[i];
+                }
+            }
+            LOG(INFO)<<"2::::::::::::";
 
 
 
