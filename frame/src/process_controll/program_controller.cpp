@@ -750,7 +750,7 @@ namespace NAME_SPACE
 
             raise(SIGTERM);
 
-            LOG(INFO)<<"系统关闭成功.";
+            LOG(INFO)<<"系统已关闭.";
 
             return(FUNC_SUCCESS);
         }
@@ -1355,17 +1355,17 @@ namespace NAME_SPACE
                 share_memory_manager->set_startup_time(0);
             }
 
+            LOG(INFO)<<IDS_PROMPT_SYSTEM_SHUTDOWNSUCCESS;
+
             //删除程序dat文件
             ACE_OS::sleep(ACE_Time_Value(3));
-
             ACE_OS::unlink(back_store_file);
-
             char temp_cmd[1024] = {0};
             unsigned int sigkey = ACE::crc32(ACE::basename(back_store_file,ACE_DIRECTORY_SEPARATOR_CHAR));
             snprintf(temp_cmd, 1024, "ipcs -s | grep %x | awk '{print $2}' | xargs ipcrm -s", sigkey);
             system(temp_cmd);
 
-            LOG(INFO)<<IDS_PROMPT_SYSTEM_SHUTDOWNSUCCESS;
+            cout << IDS_PROMPT_SYSTEM_SHUTDOWNSUCCESS << endl;
 
             return 0;
         }
