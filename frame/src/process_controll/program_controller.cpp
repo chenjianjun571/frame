@@ -1355,47 +1355,7 @@ namespace NAME_SPACE
                 share_memory_manager->set_startup_time(0);
             }
 
-
-            ACE_TCHAR log_time_str[20];
-
-            time_t log_time = ACE_OS::time(NULL);
-
-            //修改为localtime_r
-            tm ptime;
-            ACE_OS::localtime_r( &log_time, &ptime);
-
-            ACE_OS::strftime( log_time_str, 20, "%Y-%m-%d %H:%M:%S", &ptime );
-
-            ACE_TCHAR log_content_str[1024]; //日志内容
-
-            ACE_OS::memset( log_content_str, 0,sizeof(log_content_str) );
-
-            ACE_OS::snprintf( log_content_str, sizeof(log_content_str),
-                "[%s] %s\n", log_time_str,
-                IDS_PROMPT_SYSTEM_SHUTDOWNSUCCESS);
-
-            char cFile[256]={0};
-
-            strcpy(cFile,"logs/");
-
-            strcat(cFile,this->m_program_name.c_str());
-
-            strcat(cFile, "/run/R");
-
-            strcat(cFile, this->m_program_name.c_str());
-
-            strcat(cFile, ".log");
-
-            FILE *fp = fopen(cFile,"a+w");
-
-            if (!fp)
-            {
-                return -1;
-            }
-
-            fwrite(log_content_str,strlen(log_content_str),1,fp);
-
-            fclose(fp);
+            LOG(INFO)<<IDS_PROMPT_SYSTEM_SHUTDOWNSUCCESS;
 
             //删除程序dat文件
             ACE_OS::sleep(ACE_Time_Value(3));
