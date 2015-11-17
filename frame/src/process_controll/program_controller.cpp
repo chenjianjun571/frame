@@ -656,7 +656,7 @@ namespace NAME_SPACE
 
                     if ( pid != 0 )
                     {
-
+LOG(ERROR)<<"1111111.";
                         // 等待业务进程退出
                         if (ACE_OS::waitpid( pid, NULL, 0) != pid )
                         {
@@ -675,6 +675,7 @@ namespace NAME_SPACE
                     }
                     else
                     {
+LOG(ERROR)<<"2222222.";
                         // 运行系统核心服务的子进程
                         // 进入以下的核心业务代码的处理
                         this->create_share_memory();
