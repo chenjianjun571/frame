@@ -1355,8 +1355,6 @@ namespace NAME_SPACE
                 share_memory_manager->set_startup_time(0);
             }
 
-            LOG(INFO)<<IDS_PROMPT_SYSTEM_SHUTDOWNSUCCESS;
-
             //删除程序dat文件
             ACE_OS::sleep(ACE_Time_Value(3));
 
@@ -1367,7 +1365,7 @@ namespace NAME_SPACE
             snprintf(temp_cmd, 1024, "ipcs -s | grep %x | awk '{print $2}' | xargs ipcrm -s", sigkey);
             system(temp_cmd);
 
-            cout << IDS_PROMPT_SYSTEM_SHUTDOWNSUCCESS << endl;
+            LOG(INFO)<<IDS_PROMPT_SYSTEM_SHUTDOWNSUCCESS;
 
             return 0;
         }
