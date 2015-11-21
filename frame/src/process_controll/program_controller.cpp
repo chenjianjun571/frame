@@ -845,8 +845,6 @@ namespace NAME_SPACE
                 }
             }
 
-            LOG(INFO)<<"系统关闭成功";
-
             return 0;
         }
 
@@ -1357,8 +1355,6 @@ namespace NAME_SPACE
 
                 share_memory_manager->set_startup_time(0);
             }
-
-            LOG(INFO)<<IDS_PROMPT_SYSTEM_SHUTDOWNSUCCESS;
 
             //删除程序dat文件
             ACE_OS::sleep(ACE_Time_Value(3));
