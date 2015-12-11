@@ -99,7 +99,7 @@ int SmsClientManager::AddClient(unsigned short seq, PassiveTCPClient* p_client)
     WriteLockScoped wls(*_client_mutex);
     if(_sms_client)
     {
-        LOG(ERROR)<<"已经有CMS客户端存在，不接收新的CMS客户端";
+        LOG(ERROR)<<"已经有SMS客户端存在，不接收新的SMS客户端";
         return FUNC_FAILED;
     }
 
@@ -169,7 +169,7 @@ void SmsClientManager::RecvData(unsigned short seq, const unsigned char* buf, Pa
                         pc.mutable_datarelayrsp()->set_dstsrvtype(pData->dst_srv_type);
                         pc.mutable_datarelayrsp()->set_dstcityid(pData->dst_city_id);
                         pc.mutable_datarelayrsp()->set_result(-1);
-                        pc.mutable_datarelayrsp()->set_error_description("转发数据失败,CMS客户端不在线");
+                        pc.mutable_datarelayrsp()->set_error_description("转发数据失败,BSS客户端不在线");
 
                         pc.SerializeToString(&response);
 
@@ -220,7 +220,7 @@ void SmsClientManager::RecvData(unsigned short seq, const unsigned char* buf, Pa
                 }
                 default:
                 {
-                    LOG(ERROR)<<"CMS无效的转发服务器类型.["<<pData->dst_srv_type<<"]";
+                    LOG(ERROR)<<"SMS无效的转发服务器类型.["<<pData->dst_srv_type<<"]";
                     break;
                 }
             }
@@ -280,7 +280,7 @@ void SmsClientManager::Accept(SOCKET fd, struct sockaddr_in* sa)
             break;
         }
 
-        LOG(INFO)<<"收到CMS客户端连接:"<<inet_ntoa(sa->sin_addr)<<":"<<ntohs(sa->sin_port);
+        LOG(INFO)<<"收到SMS客户端连接:"<<inet_ntoa(sa->sin_addr)<<":"<<ntohs(sa->sin_port);
 
         return;
 
